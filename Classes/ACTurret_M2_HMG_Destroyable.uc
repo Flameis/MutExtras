@@ -1,11 +1,7 @@
 //===============================================================================
-// ROTurret_DShK_HMG_Destroyable
+// ACTurret_M2_HMG_Destroyable
 //===============================================================================
 // Destroyable (and dynamically placed) version of DShK HMG deployed on a Tripod
-//===============================================================================
-// Rising Storm 2: Vietnam Source
-// Copyright (C) 2018 Tripwire Interactive LLC
-// - Callum Coombes @ Antimatter Games
 //===============================================================================
 class ACTurret_M2_HMG_Destroyable extends ROTurret_M2_HMG
 	placeable;

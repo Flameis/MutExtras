@@ -181,7 +181,7 @@ simulated function ReplaceRoles(bool bAITRoles)
 		{
         	//Gotta make the array length right.
         	ROMI.SouthernRoles.length = 9;
-        	ROMI.NorthernRoles.length = 8;
+        	ROMI.NorthernRoles.length = 9;
 
         	//Infinite roles
         	ROMI.SouthernRoles[0].Count = 255;
@@ -202,6 +202,7 @@ simulated function ReplaceRoles(bool bAITRoles)
         	ROMI.NorthernRoles[5].Count = 255;
         	ROMI.NorthernRoles[6].Count = 9;
         	ROMI.NorthernRoles[7].Count = 255;
+        	ROMI.NorthernRoles[8].Count = 255;
 
         	//Replace the roles
         	if (ROMI.SouthernForce == SFOR_USArmy)
@@ -276,6 +277,7 @@ simulated function ReplaceRoles(bool bAITRoles)
 
 			ROMI.SouthernRoles[8].RoleInfoClass = class'ACRoleInfoTankCrewSouth';
 			ROMI.NorthernRoles[7].RoleInfoClass = class'ACRoleInfoTankCrewNorth';
+			ROMI.NorthernRoles[8].RoleInfoClass = class'ACRoleInfoPilotNorth';
 
 			if (FoundPilot)
 			{
