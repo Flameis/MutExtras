@@ -17,7 +17,7 @@ var array<Byte> 		    HitNum;
 var array<String> 	        HitVicName;
 
 var config array<String>    PlayerRankAndUnit;
-var config Bool             bLoadGOM3, bLoadGOM4, bLoadWW, bAITRoles, bNewTankPhys;
+var config Bool             bAITRoles;
 
 simulated function PreBeginPlay()
 {
@@ -178,13 +178,6 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
     {
         case "SALUTE":
             ACPlayerReplicationInfo(PC.PlayerReplicationInfo).bNeedsSalute = true;
-            break;
-
-        case "SWITCHTANKPHYS":
-            if (!bNewTankPhys)
-                bNewTankPhys=true;
-            else
-                bNewTankPhys=false;
             break;
 
         case "CHANGERANK":

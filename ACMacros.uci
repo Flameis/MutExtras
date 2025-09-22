@@ -11,17 +11,6 @@
 `define ACCI_TransportPilot     10
 `define ACCI_None               11
 
-`define WI_PPS		80
-`define WI_KAR98	81
-`define WI_M38		82
-`define WI_NAGANT	84
-`define WI_RPG2		86
-`define WI_BOWIE	87
-`define WI_K50M		88
-`define WI_M2A17	89
-`define WI_M7		90
-`define WI_SATCHEL	92
-
 `define TOTALROLECOUNT_NORTH 8
 `define TOTALROLECOUNT_SOUTH 11
 
