@@ -14,7 +14,7 @@ defaultproperties
 {
 	WeaponContentClass(0)="ROGameContent.ROWeap_XM21Scoped_Rifle_Content"
 	// WeaponContentClass(1)="ROGameContent.ROWeap_XM21Scoped_Rifle_Level2"
-	WeaponContentClass(1)="MutExtrasTB.ACWeap_XM21Scoped_Rifle_Suppressed"
+	WeaponContentClass(1)="MutExtras.ACWeap_XM21Scoped_Rifle_Suppressed"
 
 	RoleSelectionImage(0)=Texture2D'VN_UI_Textures.WeaponTex.US_Weap_XM21_SniperRifle'
 	RoleSelectionImage(1)=Texture2D'VN_UI_Textures.WeaponTex.US_Weap_XM21_Suppressed'

@@ -97,7 +97,7 @@ defaultproperties
 		FOV=70
 	End Object
 
-	WeaponContentClass(0)="MutExtrasTB.ACHolster"
+	WeaponContentClass(0)="MutExtras.ACHolster"
 
 	WeaponClassType=ROWCT_HandGun
 	Category=ROIC_Secondary

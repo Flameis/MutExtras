@@ -3,7 +3,7 @@ class ACWeap_MG34_LMG extends ROWeap_MG34_LMG
 
 DefaultProperties
 {
-    WeaponContentClass(0)="MutExtrasTB.ACWeap_MG34_LMG_Content"
+    WeaponContentClass(0)="MutExtras.ACWeap_MG34_LMG_Content"
 
     bDebugWeapon=False
 

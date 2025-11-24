@@ -19,10 +19,10 @@ DefaultProperties
 
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
-					PrimaryWeapons=(class'MutExtrasTB.ACWeap_AK47_AssaultRifle_MACVSOG',class'MutExtrasTB.ACWeap_M3A1_SMG_MACVSOG',class'MutExtrasTB.ACWeap_M1A1_SMG_MACVSOG'),
+					PrimaryWeapons=(class'MutExtras.ACWeap_AK47_AssaultRifle_MACVSOG',class'MutExtras.ACWeap_M3A1_SMG_MACVSOG',class'MutExtras.ACWeap_M1A1_SMG_MACVSOG'),
 					SecondaryWeapons=(class'ROGame.ROWeap_BHP_Pistol',class'ROGame.ROWeap_M1911_Pistol'),
 					// Other items
-					OtherItems=(class'ROGame.ROItem_BinocularsUS',class'MutExtrasTB.ACWeap_M8_Smoke_Quad_MACVSOG',class'ROGame.ROWeap_M61_GrenadeDouble',class'ROGame.ROWeap_M18_Claymore',class'ROGame.ROWeap_MD82_Mine'),
+					OtherItems=(class'ROGame.ROItem_BinocularsUS',class'MutExtras.ACWeap_M8_Smoke_Quad_MACVSOG',class'ROGame.ROWeap_M61_GrenadeDouble',class'ROGame.ROWeap_M18_Claymore',class'ROGame.ROWeap_MD82_Mine'),
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_scout'

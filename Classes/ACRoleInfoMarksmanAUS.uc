@@ -19,7 +19,7 @@ DefaultProperties
 
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
-					PrimaryWeapons=(class'ROGame.ROWeap_M40Scoped_Rifle', class'ROGame.ROWeap_M1DGarand_SniperRifle', class'MutExtrasTB.ACWeap_XM21Scoped_Rifle'),
+					PrimaryWeapons=(class'ROGame.ROWeap_M40Scoped_Rifle', class'ROGame.ROWeap_M1DGarand_SniperRifle', class'MutExtras.ACWeap_XM21Scoped_Rifle'),
 					SecondaryWeapons=(class'ROGame.ROWeap_BHP_Pistol',class'ROGame.ROWeap_M1911_Pistol',class'ROGame.ROWeap_M1917_Pistol'),
 					OtherItems=(class'ROGame.ROWeap_M61_GrenadeSingle',class'ROGame.ROWeap_M18_ClaymoreSingle',class'ROGame.ROItem_BinocularsUS')
 	)}

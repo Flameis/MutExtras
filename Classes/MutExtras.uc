@@ -181,7 +181,7 @@ function LoadObjects()
 
     //`log ("[MutExtras LoadObjects]");
     // Dynamically load the settings object and add it to shared content references
-    ROMI.SharedContentReferences.AddItem(class<Settings>(DynamicLoadObject("MutExtrasTB.MutExtrasSettings", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Settings>(DynamicLoadObject("MutExtras.MutExtrasSettings", class'Class')));
 }
 
 function PrivateMessage(PlayerController receiver, coerce string msg)
@@ -613,6 +613,6 @@ function bool IsWW2There()
 
 DefaultProperties
 {
-    RORICSouth=(LevelContentClasses=("MutExtrasTB.ACPawnSouth"))
-    RORICNorth=(LevelContentClasses=("MutExtrasTB.ACPawnNorth"))
+    RORICSouth=(LevelContentClasses=("MutExtras.ACPawnSouth"))
+    RORICNorth=(LevelContentClasses=("MutExtras.ACPawnNorth"))
 }

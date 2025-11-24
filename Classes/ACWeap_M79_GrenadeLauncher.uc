@@ -12,12 +12,12 @@ class ACWeap_M79_GrenadeLauncher extends ROWeap_M79_GrenadeLauncher
 	  
 defaultproperties
 {
-	WeaponContentClass(0)="MutExtrasTB.ACWeap_M79_GrenadeLauncher_Content" // HE Only
+	WeaponContentClass(0)="MutExtras.ACWeap_M79_GrenadeLauncher_Content" // HE Only
 
 	AmmoContentClassStart=1
 	// Class below here are available only through selecting alternative ammo loadouts
-	WeaponContentClass(1)="MutExtrasTB.ACWeap_M79_GrenadeLauncher_Level2" // HE + Buckshot
-	WeaponContentClass(2)="MutExtrasTB.ACWeap_M79_GrenadeLauncher_Level3"	// HE + Smoke
+	WeaponContentClass(1)="MutExtras.ACWeap_M79_GrenadeLauncher_Level2" // HE + Buckshot
+	WeaponContentClass(2)="MutExtras.ACWeap_M79_GrenadeLauncher_Level3"	// HE + Smoke
 	RoleSelectionImage(0)=Texture2D'VN_UI_Textures.WeaponTex.US_Weap_M79_GrenadeLauncher'
 	RoleSelectionImage(1)=Texture2D'VN_UI_Textures.WeaponTex.US_Weap_M79_GrenadeLauncher'
 	RoleSelectionImage(2)=Texture2D'VN_UI_Textures.WeaponTex.US_Weap_M79_GrenadeLauncher'

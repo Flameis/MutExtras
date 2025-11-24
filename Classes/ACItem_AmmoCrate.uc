@@ -272,7 +272,7 @@ simulated function AlertPlacingTime(float PlacingTime)
 
 DefaultProperties
 {
-	WeaponContentClass(0)="MutExtrasTB.ACItem_AmmoCrate_Content"
+	WeaponContentClass(0)="MutExtras.ACItem_AmmoCrate_Content"
 	RoleSelectionImage(0)=Texture2D'VN_UI_Textures.menu.ProfileStats.class_icon_large_mg'
 
 	WeaponIdleAnims(0)=Placeable_idle

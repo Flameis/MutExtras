@@ -21,7 +21,7 @@ DefaultProperties
 					PrimaryWeapons=(class'ROGame.ROWeap_F1_SMG',class'ROGame.ROWeap_Owen_SMG',class'ROGame.ROWeap_M37_Shotgun'),
 					SecondaryWeapons=(class'ROGame.ROWeap_BHP_Pistol'),
 					// Other items
-					OtherItems=(class'ROGame.ROWeap_M8_Smoke',class'MutExtrasTB.ACWeap_M18_Claymore_Quad',class'ROGame.ROWeap_M61_GrenadeSingle'),
+					OtherItems=(class'ROGame.ROWeap_M8_Smoke',class'MutExtras.ACWeap_M18_Claymore_Quad',class'ROGame.ROWeap_M61_GrenadeSingle'),
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_scout'

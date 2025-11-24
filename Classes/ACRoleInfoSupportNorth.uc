@@ -13,7 +13,7 @@ DefaultProperties
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'ROGame.ROWeap_SKS_Rifle',class'ROGame.ROWeap_MAS49_Rifle'),
 					SecondaryWeapons=(class'ROGame.ROWeap_TT33_Pistol',class'ROGame.ROWeap_PM_Pistol'),
-					OtherItems=(class'ROGame.ROWeap_RDG1_Smoke',class'MutExtrasTB.ACItem_VCAmmoCrate',class'ROGame.ROItem_Binoculars'),
+					OtherItems=(class'ROGame.ROWeap_RDG1_Smoke',class'MutExtras.ACItem_VCAmmoCrate',class'ROGame.ROItem_Binoculars'),
 					OtherItemsStartIndexForPrimary=(0, 0),
 					NumOtherItemsForPrimary=(0, 0)
 		)}

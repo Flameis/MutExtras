@@ -38,7 +38,7 @@ DefaultProperties
 		bSyncActorLocationToRootRigidBody=true
 	End Object
 
-	AttachmentClass=class'MutExtrasTB.ACWeapAttach_VietSatchel'
+	AttachmentClass=class'MutExtras.ACWeapAttach_VietSatchel'
 
 	ArmsAnimSet=AnimSet'MutExtrasTBPkg.Satchel.WP_SatchelHands'
 }

@@ -12,7 +12,7 @@ class ACAmmo_1143x23_CIWS extends ROAmmunition
 
 defaultproperties
 {
-    CompatibleWeaponClasses(0)=class'MutExtrasTB.ACWeap_CIWS'
+    CompatibleWeaponClasses(0)=class'MutExtras.ACWeap_CIWS'
 
     InitialAmount=1000000
 	Weight=0.8

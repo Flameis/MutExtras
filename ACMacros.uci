@@ -16,5 +16,5 @@
 
 // `define RELEASE
 
-`define getNF class'MutExtrasTB'.static.GetNorthernForce()
-`define getSF class'MutExtrasTB'.static.GetSouthernForce()
+`define getNF class'MutExtras'.static.GetNorthernForce()
+`define getSF class'MutExtras'.static.GetSouthernForce()

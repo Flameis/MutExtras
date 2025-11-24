@@ -13,7 +13,7 @@ DefaultProperties
 
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
-					PrimaryWeapons=(class'MutExtrasTB.ROWeap_XM177E1_Carbine_MACVSOG', class'MutExtrasTB.ACWeap_M79_GrenadeLauncher'),
+					PrimaryWeapons=(class'MutExtras.ROWeap_XM177E1_Carbine_MACVSOG', class'MutExtras.ACWeap_M79_GrenadeLauncher'),
 					// Secondary Weapons
 					SecondaryWeapons=(class'ROGame.ROWeap_BHP_Pistol', class'ROGame.ROWeap_M1911_Pistol'),
 					// Other Items

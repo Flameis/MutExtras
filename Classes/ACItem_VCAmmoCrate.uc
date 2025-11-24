@@ -11,7 +11,7 @@ class ACItem_VCAmmoCrate extends ACItem_AmmoCrate;
 
 DefaultProperties
 {
-	WeaponContentClass(0)="MutExtrasTB.ACItem_VCAmmoCrate_Content"
+	WeaponContentClass(0)="MutExtras.ACItem_VCAmmoCrate_Content"
 	
 	RoleSelectionImage(0)=Texture2D'VN_UI_Textures.menu.ProfileStats.class_icon_large_mg' //TODO: Give me a proper one soon!
 

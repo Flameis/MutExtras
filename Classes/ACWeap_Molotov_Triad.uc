@@ -11,5 +11,5 @@ class ACWeap_Molotov_Triad extends ROWeap_Molotov;
 
 DefaultProperties
 {
-	WeaponContentClass(0)="MutExtrasTB.ACWeap_Molotov_Triad_Content"
+	WeaponContentClass(0)="MutExtras.ACWeap_Molotov_Triad_Content"
 }

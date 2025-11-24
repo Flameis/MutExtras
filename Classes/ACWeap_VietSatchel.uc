@@ -12,7 +12,7 @@ class ACWeap_VietSatchel extends ROSatchelChargeWeapon
 
 defaultproperties
 {
-	WeaponContentClass(0)="MutExtrasTB.ACWeap_VietSatchel_Content"
+	WeaponContentClass(0)="MutExtras.ACWeap_VietSatchel_Content"
 	RoleSelectionImage(0)=Texture'ui_textures.Textures.sov_wp_f1nade'
 	InvIndex=INDEX_NONE
 	PlayerViewOffset=(X=1,Y=5,Z=-2)

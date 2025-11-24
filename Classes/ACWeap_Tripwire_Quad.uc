@@ -11,7 +11,7 @@ class ACWeap_Tripwire_Quad extends ROWeap_TripwireTrap;
 
 DefaultProperties
 {
-	WeaponContentClass(0)="MutExtrasTB.ACWeap_Tripwire_Quad_Content"
+	WeaponContentClass(0)="MutExtras.ACWeap_Tripwire_Quad_Content"
 	MaxAmmoCount=4
 	InitialNumPrimaryMags=4
 	MaxNumPrimaryMags=4

@@ -8,7 +8,7 @@ DefaultProperties
 {
 	InitialNumPrimaryMags=4
 	MaxAmmoCount=4
-	WeaponContentClass(0)="MutExtrasTB.ACWeap_M18_Claymore_Quad_Content"
+	WeaponContentClass(0)="MutExtras.ACWeap_M18_Claymore_Quad_Content"
 	PlantedChargeClass=class'ACM18ClaymoreMine'
 
 	WeaponProjectiles(0)=class'ACM18ClaymoreMine'
