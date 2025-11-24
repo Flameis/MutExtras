@@ -14,5 +14,7 @@
 `define TOTALROLECOUNT_NORTH 8
 `define TOTALROLECOUNT_SOUTH 11
 
+// `define RELEASE
+
 `define getNF class'MutExtrasTB'.static.GetNorthernForce()
 `define getSF class'MutExtrasTB'.static.GetSouthernForce()

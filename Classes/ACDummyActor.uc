@@ -1,6 +1,6 @@
 class ACDummyActor extends Actor;
 
-simulated function ReplaceRoles(bool WW, bool GOM)
+simulated function ReplaceRoles(bool WW2, bool WW, bool GOM)
 {
     local ROMapInfo ROMI;
     local RORoleCount SRC, NRC;
@@ -40,8 +40,39 @@ simulated function ReplaceRoles(bool WW, bool GOM)
         ROMI.SouthernRoles.additem(SRC);
     }
 
+    if (WW2 == true)
+    {
+        /* for (I=0; I < ROMI.NorthernRoles.length; I++)
+        {
+            if (instr(ROMI.NorthernRoles[I].RoleInfoClass.Name, "Tank",, true) != -1)
+            {
+                bFoundNTank = true;
+                // `log ("[MutExtras Debug] Found NTank");
+                break;
+            }
+        }
+        for (I=0; I < ROMI.SouthernRoles.length; I++)
+        {
+            if (instr(ROMI.SouthernRoles[I].RoleInfoClass.Name, "Tank",, true) != -1)
+            {
+                bFoundSTank = true;
+                // `log ("[MutExtras Debug] Found STank");
+                break;
+            }
+        }
 
-	if (WW == true)
+        if (!bFoundNTank)
+        {
+            NRC.RoleInfoClass = class'ACRoleInfoTankCrewFinnish';
+            ROMI.NorthernRoles.additem(NRC);
+        }
+        if (!bFoundSTank)
+        {
+            SRC.RoleInfoClass = ROMI.default.SouthernRoles[7].RoleInfoClass;
+            ROMI.SouthernRoles.additem(SRC);
+        } */
+    }
+    else if (WW == true)
     {
         for (I=0; I < ROMI.NorthernRoles.length; I++)
         {
@@ -95,71 +126,7 @@ simulated function ReplaceRoles(bool WW, bool GOM)
     }
 }
 
-reliable client function ClientReplaceRoles(bool WW, bool GOM)
+reliable client function ClientReplaceRoles(bool WW2, bool WW, bool GOM)
 {
-    ReplaceRoles(WW, GOM);
+    ReplaceRoles(WW2, WW, GOM);
 }
-
-/* simulated function InfiniteRoles()
-{
-    local ROMapInfo               ROMI;
-    local RORoleCount   NorthRoleCount, SouthRoleCount;
-    local int           I;
-    local bool          bFoundNTank, bFoundSTank;
-
-    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
-
-    if (IsWWThere())
-    {
-        for (I=0; I < ROMI.NorthernRoles.length; I++)
-        {
-            if (instr(ROMI.NorthernRoles[I].RoleInfoClass.Name, "Tank",, true) != -1)
-            {
-                bFoundNTank = true;
-                // `log ("[MutExtras Debug] Found NTank");
-                break;
-            }
-        }
-        for (I=0; I < ROMI.SouthernRoles.length; I++)
-        {
-            if (instr(ROMI.SouthernRoles[I].RoleInfoClass.Name, "Tank",, true) != -1)
-            {
-                bFoundSTank = true;
-                // `log ("[MutExtras Debug] Found STank");
-                break;
-            }
-        }
-
-        if (!bFoundNTank)
-        {
-            NorthRoleCount.RoleInfoClass = class'ACRoleInfoTankCrewFinnish';
-            ROMI.NorthernRoles.additem(NorthRoleCount);
-        }
-        if (!bFoundSTank)
-        {
-            NorthRoleCount.RoleInfoClass = ROMI.default.SouthernRoles[7].RoleInfoClass;
-            ROMI.SouthernRoles.additem(SouthRoleCount);
-        }
-    }
-
-    else if (ISMutThere("GOM"))
-    {
-        NorthRoleCount.RoleInfoClass = class'ACRoleInfoTankCrewNorth';
-        ROMI.NorthernRoles.additem(NorthRoleCount);
-
-        SouthRoleCount.RoleInfoClass = class'ACRoleInfoTankCrewSouth';
-        ROMI.SouthernRoles.additem(SouthRoleCount);
-    }
-
-    if (bInfiniteRoles)
-    {
-        for (i = 0; i < ROMI.SouthernRoles.length; i++)
-        {
-            ROMI.SouthernRoles[i].Count = 255;
-        }    
-        for (i = 0; i < ROMI.NorthernRoles.length; i++)
-        {
-            ROMI.NorthernRoles[i].Count = 255;
-        }
-    }
-} */
