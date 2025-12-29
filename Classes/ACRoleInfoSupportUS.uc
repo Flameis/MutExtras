@@ -11,12 +11,9 @@ DefaultProperties
 
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
-					PrimaryWeapons=(class'ROGame.ROWeap_M16A1_AssaultRifle',class'ROGame.ROWeap_M14_Rifle'),
-					SecondaryWeapons=(class'ROGame.ROWeap_M1911_Pistol',class'ROGame.ROWeap_M1917_Pistol'),
+					PrimaryWeapons=(class'ROGame.ROWeap_XM177E1_Carbine', class'ROGame.ROWeap_M14_Rifle'),
 					// Other items
-					OtherItems=(class'ROGame.ROWeap_M8_Smoke',class'MutExtras.ACItem_USAmmoCrate',class'ROGame.ROItem_BinocularsUS'),
-					OtherItemsStartIndexForPrimary=(0, 0),
-					NumOtherItemsForPrimary=(0, 0)
+					OtherItems=(class'ROGame.ROWeap_M61_Grenade', class'ROGame.ROWeap_M8_Smoke',class'MutExtras.ACItem_USAmmoCrate'),
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_radioman'

@@ -8,7 +8,7 @@
 // - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
 // Edited for the 29th by Reimer, Published by Scovel
 //=============================================================================
-class ACRoleInfoMachineGunnerAUS extends ACRoleInfoMachineGunnerUS
+class ACRoleInfoMachineGunnerAUS extends ACRoleInfoSouthernInfantryAus
 	HideDropDown;
 
 DefaultProperties
@@ -20,8 +20,7 @@ DefaultProperties
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'ROGame.ROWeap_L2A1_LMG',class'ROGame.ROWeap_M60_GPMG'),
-					SecondaryWeapons=(class'ROGame.ROWeap_BHP_Pistol'),
-					OtherItems=(class'ROGame.ROWeap_M61_GrenadeDouble',class'ROGame.ROItem_BinocularsUS'),
+					OtherItems=(class'ROGame.ROWeap_M61_Grenade', class'ROGame.ROWeap_M8_SmokeSingle'),
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_mg'

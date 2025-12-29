@@ -21,7 +21,7 @@ DefaultProperties
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'ROGame.ROWeap_AK47_AssaultRifle'),
-					SecondaryWeapons=(class'ROGame.ROWeap_TT33_Pistol',class'ROGame.ROWeap_PM_Pistol'),					
+					SecondaryWeapons=(class'ROGame.ROWeap_TT33_Pistol', class'ROGame.ROWeap_PM_Pistol'),					
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_combatpilot'

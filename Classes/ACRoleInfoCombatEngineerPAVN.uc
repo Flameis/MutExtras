@@ -11,11 +11,10 @@ DefaultProperties
 	
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
-					PrimaryWeapons=(class'ROGame.ROWeap_IZH43_Shotgun',class'ROGame.ROWeap_SKS_Rifle',class'ROGame.ROWeap_AK47_AssaultRifle',class'ROGame.ROWeap_MAS49_Rifle_Grenade'),
-					SecondaryWeapons=(class'ROGame.ROWeap_TT33_Pistol',class'ROGame.ROWeap_PM_Pistol'),
+					PrimaryWeapons=(class'ROGame.ROWeap_IZH43_Shotgun',class'ROGame.ROWeap_SKS_Rifle',class'ROGame.ROWeap_MAS49_Rifle_Grenade'),
 					OtherItems=(class'MutExtras.ACWeap_RPG7_RocketLauncher',class'MutExtras.ACWeap_VietSatchel'),
-					OtherItemsStartIndexForPrimary=(0, 0, 0, 0),
-					NumOtherItemsForPrimary=(0, 0, 0, 255),
+					OtherItemsStartIndexForPrimary=(0, 0, 1),
+					NumOtherItemsForPrimary=(0, 0, 1),
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_sapper'

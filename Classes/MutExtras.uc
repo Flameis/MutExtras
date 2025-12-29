@@ -153,26 +153,13 @@ auto state StartUp
     // Schedule object loading and periodic checks
     SetTimer(1, false, 'LoadObjects');
     //SetTimer(10, false, 'CheckLoaded');
-    SetTimer(2, true, 'timer2'); // Periodically check vehicle teams
-    SetTimer(10, true); // Periodically modify volumes
+    SetTimer(10, true, 'timer2'); // Periodically check vehicle teams
+    SetTimer(10, true, 'timer'); // Periodically modify volumes
 }
 
 // ====================================================
 // Content Loading
 // ====================================================
-function CheckLoaded()
-{
-    local ROMapInfo               ROMI;
-    local int i;
-    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
-
-    // Log all shared content references for debugging
-    for (i=0; i<ROMI.SharedContentReferences.length; i++)
-    {
-        `log ("[MutExtras CheckLoaded] SharedContentReferences = "$ROMI.SharedContentReferences[i]);
-    }
-}
-
 function LoadObjects()
 {
     local ROMapInfo               ROMI;
@@ -477,7 +464,7 @@ simulated function NameExists(ROVehicleBase VehBase)
 		    HitNum[I] += 1;
             /* PrivateMessage(PlayerController(ROV.Seats[0].StoragePawn.Controller), "You have "$MaxHitsForVic-HitNum[I]$" hits left before your vehicle is blown up!");
             PrivateMessage(PlayerController(ROV.Seats[1].StoragePawn.Controller), "You have "$MaxHitsForVic-HitNum[I]$" hits left before your vehicle is blown up!"); */
-            `log ("[MutExtras Debug] Hitvicname "$HitVicName[I]$" has "$MaxHitsForVic-HitNum[I]$" hits remaining");
+            // `log ("[MutExtras Debug] Hitvicname "$HitVicName[I]$" has "$MaxHitsForVic-HitNum[I]$" hits remaining");
     
             // Blow up vehicle if max hits reached
             if (HitNum[I] >= MaxHitsForVic)
@@ -489,7 +476,7 @@ simulated function NameExists(ROVehicleBase VehBase)
                 HitVicName.removeitem(HitVicName[I]);
                 HitNum.removeitem(HitNum[I]);
 		    }            
-            else {`log ("[MutExtras Debug] DAMAGE TEST SUCCESFUL ON "$vehbase.name$" Vehicle health = "$vehbase.Health$" Hit #"$HitNum[I]);}
+            // else {`log ("[MutExtras Debug] DAMAGE TEST SUCCESFUL ON "$vehbase.name$" Vehicle health = "$vehbase.Health$" Hit #"$HitNum[I]);}
 		
         break;
 		}
@@ -502,8 +489,8 @@ simulated function NameExists(ROVehicleBase VehBase)
 	    HitNum.additem(byte(1));
         /* PrivateMessage(PlayerController(ROV.Seats[0].StoragePawn.Controller), "You have "$MaxHitsForVic-1$" hits left before your vehicle is blown up!");
         PrivateMessage(PlayerController(ROV.Seats[1].StoragePawn.Controller), "You have "$MaxHitsForVic-1$" hits left before your vehicle is blown up!"); */
-        `log ("[MutExtras Debug] Hitvicname "$HitVicName[I]$" has "$MaxHitsForVic-HitNum[I]$" hits remaining");
-	    `log (vehbase.name$" doesn't exist on the array, adding it");
+        // `log ("[MutExtras Debug] Hitvicname "$HitVicName[I]$" has "$MaxHitsForVic-HitNum[I]$" hits remaining");
+	    // `log (vehbase.name$" doesn't exist on the array, adding it");
 	}
 }
 

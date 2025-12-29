@@ -12,4 +12,10 @@ class ACRoleInfoNorthernInfantry extends RORoleInfoNorthernInfantry
 
 DefaultProperties
 {
+	Items[RORIGM_Default]={(
+					// SECONDARY : DEFAULTS
+					SecondaryWeapons=(class'ROGame.ROWeap_TT33_Pistol',class'ROGame.ROWeap_PM_Pistol'),
+					// Squad Leader Items
+					SquadLeaderItems=(class'ROGame.ROItem_Binoculars',class'ROGame.ROItem_TunnelTool')
+		)}
 }

@@ -12,4 +12,10 @@ class ACRoleInfoSouthernInfantry extends RORoleInfoSouthernInfantry
 
 DefaultProperties
 {
+	Items[RORIGM_Default]={(
+					// SECONDARY : DEFAULTS
+					SecondaryWeapons=(class'ROGame.ROWeap_M1911_Pistol',class'ROGame.ROWeap_M1917_Pistol'),
+					// Squad Leader Items
+					SquadLeaderItems=(class'ROGame.ROItem_BinocularsUS',class'ROGame.ROWeap_M18_SignalSmoke')
+		)}
 }

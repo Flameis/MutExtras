@@ -20,9 +20,8 @@ defaultproperties
 	
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
-					PrimaryWeapons=(class'ROGame.ROWeap_AK47_AssaultRifle',class'ROGame.ROWeap_SKS_Rifle',class'ROGame.ROWeap_M1_Carbine',class'ROGame.ROWeap_MN9130_Rifle',class'ROGame.ROWeap_MAS49_Rifle'),
-					SecondaryWeapons=(class'ROGame.ROWeap_TT33_Pistol',class'ROGame.ROWeap_PM_Pistol'),
-					OtherItems=(class'ROGame.ROWeap_Type67_Grenade',class'ROGame.ROWeap_PunjiTrap',class'ROItem_Binoculars')
+					PrimaryWeapons=(class'ROGame.ROWeap_AK47_AssaultRifle_NLF', class'ROGame.ROWeap_SKS_Rifle', class'ROGame.ROWeap_M1_Carbine', class'ROGame.ROWeap_MN9130_Rifle', class'ROGame.ROWeap_MAS49_Rifle'),
+					OtherItems=(class'ROGame.ROWeap_Type67_Grenade', class'ROGame.ROWeap_RDG1_Smoke', class'ROGame.ROWeap_PunjiTrap')
 		)}
 
 		
