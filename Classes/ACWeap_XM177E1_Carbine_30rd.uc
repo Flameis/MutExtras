@@ -1,16 +1,15 @@
 //=============================================================================
-// ROWeap_M8_Smoke
+// ROWeap_XM177E1_Carbine_30rd
 //=============================================================================
-// Weapon class for the American M8 Smoke Grenade
+// Content for CAR-15 Commando (XM177E1) Carbine - 30 round mags
 //=============================================================================
 // Rising Storm 2: Vietnam Source
-// Copyright (C) 2014 Tripwire Interactive LLC
-// - Nate Steger @ Antimatter Games LTD
+// Copyright (C) 2018 Tripwire Interactive LLC
+// - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
 //=============================================================================
-class ACWeap_M8_Smoke_Quad_MACVSOG extends ROWeap_M8_Smoke
-	abstract;
+class ACWeap_XM177E1_Carbine_30rd extends ROGameContent.ROWeap_XM177E1_Carbine_30rd;
 
-defaultproperties
+DefaultProperties
 {
-	InitialNumPrimaryMags=4
+	InitialNumPrimaryMags=7
 }

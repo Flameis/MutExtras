@@ -16,10 +16,7 @@ var bool                    bisVanilla;
 var array<Byte> 		    HitNum;
 var array<String> 	        HitVicName;
 
-var config array<String>    PlayerRankAndUnit;
-// var config array<String>    DefaultPlayerRankAndUnit;
-var config array<String>    ModSearchNames;
-var config Bool             bAITRoles;
+var config Bool             bAITRoles, bMACVSOGRoles;
 
 // ====================================================
 // Initialization
@@ -98,8 +95,8 @@ simulated function NotifyLogin(Controller NewPlayer)
         {
             ACPC.ReplacePawnHandler();
             ACPC.ClientReplacePawnHandler();
-            ACPC.ReplaceRoles(bAITRoles);
-            ACPC.ClientReplaceRoles(bAITRoles);
+            ACPC.ReplaceRoles(bAITRoles, bMACVSOGRoles);
+            ACPC.ClientReplaceRoles(bAITRoles, bMACVSOGRoles);
             ACPC.ReplaceInventoryManager();
             ACPC.ClientReplaceInventoryManager();
 
@@ -567,36 +564,6 @@ function bool IsWW2There()
     }
     return false;
 }
-
-
-/* function bool AreModsThere()
-{
-	local Mutator mut;
-    local string ModName, MapName;
-    
-    // Look for the mod by checking the mutator list
-    mut = ROGameInfo(WorldInfo.Game).BaseMutator;
-    foreach ModSearchNames(ModName)
-    {
-        // Look for the mod by checking the map name
-        MapName = class'Engine'.static.GetCurrentWorldInfo().GetMapName(true);
-        if ((InStr(MapName, ModName,, true) != -1))
-        {
-            return true;
-        }
-
-        // Look for the mod by checking the mutator list
-        for (mut = ROGameInfo(WorldInfo.Game).BaseMutator; mut != none; mut = mut.NextMutator)
-        {
-            // `log("[MutExtras] IsMutThere test "$string(mut.name));
-            if(InStr(string(mut.name), ModName,,true) != -1) 
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-} */
 
 DefaultProperties
 {

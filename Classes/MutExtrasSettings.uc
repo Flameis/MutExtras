@@ -10,6 +10,9 @@ function InitMutSettings()
 	//Bool
 	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bAITRoles", ".", "_")), int(class'MutExtras'.default.bAITRoles));}
 	else{self.SetIntPropertyByName(name(Repl("bAITRoles", ".", "_")), int(MutExtras(self.myMut).bAITRoles));};
+
+	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), int(class'MutExtras'.default.bMACVSOGRoles));}
+	else{self.SetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), int(MutExtras(self.myMut).bMACVSOGRoles));};
 }
 
 /**
@@ -23,6 +26,9 @@ function SaveMutSettings()
 	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bAITRoles", ".", "_")), tempValue); class'MutExtras'.default.bAITRoles = (self.tempValue != 0);}
 	else {self.GetIntPropertyByName(name(Repl("bAITRoles", ".", "_")), tempValue); MutExtras(self.myMut).bAITRoles  = (self.tempValue != 0);}
 
+	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), tempValue); class'MutExtras'.default.bMACVSOGRoles = (self.tempValue != 0);}
+	else {self.GetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), tempValue); MutExtras(self.myMut).bMACVSOGRoles  = (self.tempValue != 0);}
+
 	if (self.myMut != None)
 		self.myMut.SaveConfig();
 	else
@@ -35,6 +41,8 @@ defaultproperties
     SettingsGroups(0)=(GroupID="Settings",pMin=1000,pMax=1100,lMin=0,lMax=0)
 
 	Properties.Add((PropertyId=1000,Data=(Type=SDT_Int32,Value1=0)))
+	Properties.Add((PropertyId=1001,Data=(Type=SDT_Int32,Value1=0)))
 
 	PropertyMappings.Add((Id=1000,Name="bAITRoles"))
+	PropertyMappings.Add((Id=1001,Name="bMACVSOGRoles"))
 }

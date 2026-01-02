@@ -9,44 +9,8 @@
 // - Many modifications to use faction-based menshes, animations, etc. -Nate
 //============================================================================
 
-class ACItem_AmmoCrate extends ROItemPlaceable
+class ACItem_AmmoCrate extends ROItem_PlaceableAmmoCrate
 	abstract;
-
-var class<ROPlaceableAmmoResupply>	AmmoCrateClass; 				// Spawning Class Reference
-var class<ROPlaceableAmmoResupplyCrate>	PhysicalAmmoCrateClass;		// Preview Mesh Reference
-
-// A proxy constructor item placed in the world. Generally, this is spawned and used to play an animation for the thing "deploying" in the world such as an ammo box with it's lid sliding open. -Nate
-var class<ROConstructorProxy> 			ClassConstructorProxy;
-var ROConstructorProxy 					ConstructorProxy;
-
-var byte 				TeamIdx;				// Team index of the planter. This will be used to check other players before resupplying them.
-
-var(Animations) name IdleClosedAnim;
-var(Animations) name IdleOpenAnim;
-var(Animations) name OpenCrateAnim;
-
-var	int			CooldownRemaining;				// Used for HUD messaging
-
-var int 		MinDistFromOtherAmmoCrates; 	// Distance we need to be from other crates in order to be able to plant successfully.
-var int 		MinDistFromOtherAmmoCratesSq; 	// Same as above but squared for distance checking.
-
-simulated function PostBeginPlay()
-{
-
-	if ( PhysicalAmmoCrateClass != none )
-	{
-		ReferenceSkeletalMesh = PhysicalAmmoCrateClass.default.CrateMesh.SkeletalMesh;
-	}
-	else
-	{
-		WarnInternal("No or Invalid 'PhysicalAmmoCrateClass' set in 'ROItem_AmmoCrate'");
-	}
-
-	MinDistFromOtherAmmoCratesSq = MinDistFromOtherAmmoCrates * MinDistFromOtherAmmoCrates;
-	super.PostBeginPlay();
-}
-
-simulated exec function IronSights(){}
 
 simulated function BeginFire(Byte FireModeNum)
 {
@@ -79,7 +43,7 @@ simulated function bool CanPlace(optional bool bIsInitialCheck = true)
 	ROPC = ROPlayerController(Instigator.Controller);
 
 	// If this material physically doesn't support it or we've already got one in the world, bail.
-	if(!Super.CanPlace() || ROPC.NumPlacedAmmoCrates > 0)
+	if(!Super(ROItemPlaceable).CanPlace() || ROPC.NumPlacedAmmoCrates > 0)
 	{
 		return false;
 	}
@@ -100,7 +64,7 @@ simulated function bool CanPlace(optional bool bIsInitialCheck = true)
 		LimitedVerticalAngle = FMin(VerticalAngle, 46 * DegToRad);
 	}
 
-	if (LimitedVerticalAngle < VerticalAngle && VerticalAngle < 120 * DegToRad) // Limit vertical angle to 120à¸¢à¸š
+	if (LimitedVerticalAngle < VerticalAngle && VerticalAngle < 120 * DegToRad) // Limit vertical angle to 120º
 	{
 		TraceStart = Instigator.GetPawnViewLocation();
 		TraceEnd = TraceStart + ViewDirection * (TraceLength * TraceBuff * 1.2f);
@@ -113,7 +77,7 @@ simulated function bool CanPlace(optional bool bIsInitialCheck = true)
 
 			if(ROTI != None)
 			{
-				for(i = 0; i < 10	; i++)
+				for(i = 0; i < `MAX_SQUADS; i++)
 				{
 					// Bypassing the "Squad" check for now because potentially we could have a couple combat engineers/sappers in our squad. -Nate
 					if(/*i != MySquad
@@ -163,170 +127,15 @@ simulated function bool CanPlace(optional bool bIsInitialCheck = true)
 	return false;
 }
 
-// OVERRRIDDEN to use our version of CanPlace which checks for disnace to other ammo crates.
-simulated event Tick(float DeltaTime)
-{
-	if ( Instigator.IsLocallyControlled() ) // Only do these checks on the controlling client, nowhere else
-	{
-		if (IsInState('Active') && !IsInState('PlacingItem'))
-		{
-			bLastCheckSuccessful = CanPlace() && CanPhysicallyPlace();
-
-			if(!bLastCheckWasHardFail)
-			{
-				ShowPreviewMesh();
-				UpdatePreviewMesh();
-			}
-			else
-			{
-				HidePreviewMesh();
-			}
-		}
-		else
-		{
-			bLastCheckSuccessful = false;
-			bLastCheckWasHardFail = true;
-			HidePreviewMesh();
-		}
-	}
-
-	// Call ROWeapon's super so we can bypass the parent class' version of the checks which would turn on the preview mesh unnecessarily.
-	Super(ROweapon).Tick(DeltaTime);
-}
-
-simulated function StartPlacingItem()
-{
-	GotoState('PlacingItem');
-
-	// Now try to spawn our proxy constructor and kick off it's "constructing" animation.
-	if(Role == ROLE_Authority)
-	{
-		if(ConstructorProxy != None)
-		{
-			ConstructorProxy.Destroyed();
-			ConstructorProxy = None;
-		}
-
-		ConstructorProxy = Spawn(ClassConstructorProxy, self, , PlaceLoc, PlaceRot);
-
-		if(ConstructorProxy != none)
-		{
-			// This will play the animation at the rate from the animation or just play it at a default if it can't get that for some reason.
-			ConstructorProxy.PlayConstructingAnimation();
-		}
-	}
-}
-
-simulated function SpawnPlaceable()
-{
-	// Destory our constructor proxy.
-	if(ConstructorProxy != None)
-	{
-		ConstructorProxy.Destroy();
-		ConstructorProxy = None;
-	}
-
-	Super.SpawnPlaceable();
-}
-
-
-function bool DoActualSpawn()
-{
-	local ROPlaceableAmmoResupply ROPAR;
-	local Controller ConOwner;
-	local ROPlayerController ROPC;
-
-	ConOwner = (Instigator != none) ? Instigator.Controller : none;
-
-	ROPAR = Spawn(AmmoCrateClass, ConOwner,, PlaceLoc, PlaceRot);
-
-	if ( ROPAR != none )
-	{
-		ROPC = ROPlayerController(ConOwner);
-
-		if(ROPC != None)
-		{
-			ROPC.AddPlacedAmmoCrate(ROPAR);
-		}
-
-		if(Instigator != None && Instigator.InvManager != None)
-		{
-			Instigator.InvManager.RemoveFromInventory(self);
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
-simulated function AlertPlacingTime(float PlacingTime)
-{
-	if ( Role == ROLE_Authority )
-	{
-	   	// Show the progress bar
-	   	if ( ROPawn(Instigator) != none )
-	  		ROPawn(Instigator).StartDeployAmmoCrate(PlacingTime);
-	}
-}
 
 DefaultProperties
 {
 	WeaponContentClass(0)="MutExtras.ACItem_AmmoCrate_Content"
 	RoleSelectionImage(0)=Texture2D'VN_UI_Textures.menu.ProfileStats.class_icon_large_mg'
 
-	WeaponIdleAnims(0)=Placeable_idle
-	WeaponIdleAnims(ALTERNATE_FIREMODE)=Placeable_idle
-
-	// Anims
-	WeaponPutDownAnim=Placeable_Putaway
-	WeaponEquipAnim=Placeable_Pullout
-	WeaponDownAnim=Placeable_Down
-	WeaponUpAnim=Placeable_Up
-
-	// Prone Crawl
-	WeaponCrawlingAnims(0)=Placeable_CrawlF
-	WeaponCrawlStartAnim=Placeable_Crawl_into
-	WeaponCrawlEndAnim=Placeable_Crawl_out
-
-	// Sprinting
-	WeaponSprintStartAnim=Placeable_sprint_into
-	WeaponSprintLoopAnim=Placeable_Sprint
-	WeaponSprintEndAnim=Placeable_sprint_out
-
-	// Mantling
-	WeaponMantleOverAnim=Placeable_Mantle
-
-	// Enemy Spotting
-	WeaponSpotEnemyAnim=Placeable_SpotEnemy
-
-	WeaponPlaceAnimCameraAnim=CameraAnim'1stperson_Cameras.Anim.TunnelTool_Dig'
-	WeaponPlaceAnim=Placeable_Open_Crate
-
-	// Melee
-	WeaponMeleeAnims(0)=Placeable_Bash
-	WeaponMeleeHardAnim=Placeable_BashHard
-	MeleePullbackAnim=Placeable_Pullback
-	MeleeHoldAnim=Placeable_Pullback_Hold
-
-	// Crate-specific
-	IdleClosedAnim=Idle_Closed
-	IdleOpenAnim=Idle_Open
-	OpenCrateAnim=Open_Crate
-
-	//bPlacingUsesSingleAnim=true
-
-	PlaceOffset=0
-
-	// Ammo
-	AmmoClass=class'ROAmmo_Placeable_AmmoCrate'
 	Category=ROIC_PlaceableEquipment
-	ROTM_PlacingMessage=ROTMSG_PlaceAmmoCrate
 
 	Weight=8 //KG
-
-	AmmoCrateClass=class'ROGame.ROPlaceableAmmoResupply'
-	PhysicalAmmoCrateClass=class'ROGame.ROPlaceableAmmoResupplyCrate'
 
 	MinDistFromOtherAmmoCrates=50 // 30m = 30 * 50. 30m sq. = 30 * 50 ^ 2
 

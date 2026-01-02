@@ -1,16 +1,19 @@
 //=============================================================================
-// ROWeap_M8_Smoke
+// ROWeap_M60
 //=============================================================================
-// Weapon class for the American M8 Smoke Grenade
+// M60 Machine Gun
 //=============================================================================
 // Rising Storm 2: Vietnam Source
 // Copyright (C) 2014 Tripwire Interactive LLC
 // - Nate Steger @ Antimatter Games LTD
 //=============================================================================
-class ACWeap_M8_Smoke_Quad_MACVSOG extends ROWeap_M8_Smoke
+
+class ACWeap_M60_GPMG_MACVSOG extends ROWeap_M60_GPMG
 	abstract;
 
 defaultproperties
 {
-	InitialNumPrimaryMags=4
+	InitialNumPrimaryMags=4//3
+	MaxNumPrimaryMags=5//4
 }
+

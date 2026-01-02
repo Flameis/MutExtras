@@ -1,16 +1,19 @@
 //=============================================================================
-// ROWeap_M8_Smoke
+// ROWeap_RPD_LMG
 //=============================================================================
-// Weapon class for the American M8 Smoke Grenade
+// RPD bipod mounted light machine gun
 //=============================================================================
 // Rising Storm 2: Vietnam Source
 // Copyright (C) 2014 Tripwire Interactive LLC
-// - Nate Steger @ Antimatter Games LTD
+// - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
+// Modified for MACVSOG Mutator by Sgt. Capwell [29ID]
 //=============================================================================
-class ACWeap_M8_Smoke_Quad_MACVSOG extends ROWeap_M8_Smoke
+class ACWeap_RPD_LMG_MACVSOG extends ROWeap_RPD_LMG
 	abstract;
 
 defaultproperties
 {
-	InitialNumPrimaryMags=4
+	InitialNumPrimaryMags=6
+	NumMagsToResupply=1
+	MaxNumPrimaryMags=8
 }

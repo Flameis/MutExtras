@@ -19,7 +19,7 @@ defaultproperties
 	ShoulderedPosition=(X=3,Y=3.5,Z=-1.0)
 	ShoulderRotation=(Pitch=-300,Yaw=500,Roll=1500)
 	//RoleEncumbranceModifier=0.25
-	FuzeLength=7.0
+	FuzeLength=10.0
 
 	WeaponProjectiles(0)=class'ACSatchelChargeProjectile'
 	WeaponProjectiles(1)=class'ACSatchelChargeProjectile'

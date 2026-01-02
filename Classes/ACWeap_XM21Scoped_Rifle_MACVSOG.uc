@@ -1,16 +1,18 @@
 //=============================================================================
-// ROWeap_M8_Smoke
+// ROWeap_XM21Scoped_Rifle
 //=============================================================================
-// Weapon class for the American M8 Smoke Grenade
+// The XM21 Scoped rifle, featuring the AR TEL autoranging scope system.
 //=============================================================================
 // Rising Storm 2: Vietnam Source
 // Copyright (C) 2014 Tripwire Interactive LLC
-// - Nate Steger @ Antimatter Games LTD
+// - Austin "dibbler67" Ware for Antimatter Games LTD
+// Modified for MACVSOG Mutator by Sgt Capwell [29ID]
 //=============================================================================
-class ACWeap_M8_Smoke_Quad_MACVSOG extends ROWeap_M8_Smoke
+
+class ACWeap_XM21Scoped_Rifle_MACVSOG extends ROWeap_XM21Scoped_Rifle
 	abstract;
 
 defaultproperties
 {
-	InitialNumPrimaryMags=4
+	InitialNumPrimaryMags=6//7
 }

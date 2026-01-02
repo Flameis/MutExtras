@@ -7,7 +7,7 @@ var array<class<RORoleInfo> > ACNorthernRoles;
 var	array<class<RORoleInfo> > ACSouthernRoles;
 
 var config string PlayerRank, PlayerUnit;
-var bool bAIT;
+var bool bAIT, bMACVSOG;
 
 simulated function PreBeginPlay()
 {
@@ -17,7 +17,7 @@ simulated function PreBeginPlay()
     {
     	ReplacePawnHandler();
     	//ClientReplacePawnHandler();
-    	ReplaceRoles(bAIT);
+    	ReplaceRoles(bAIT, bMACVSOG);
     	//ClientReplaceRoles();
     	ReplaceInventoryManager();
     	//ClientReplaceInventoryManager();
@@ -36,7 +36,7 @@ simulated function PostBeginPlay()
 simulated function ReceivedGameClass(class<GameInfo> GameClass)
 {
     super.ReceivedGameClass(GameClass);
-    ReplaceRoles(bAIT);
+    ReplaceRoles(bAIT, bMACVSOG);
     ReplaceInventoryManager();
     ReplacePawnHandler();
 }
@@ -155,7 +155,7 @@ reliable client function ClientReplaceInventoryManager()
     ReplaceInventoryManager();
 }
 
-simulated function ReplaceRoles(bool bAITRoles)
+simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
 {
 	local int 					I;
 	local bool 					FoundPilot;
@@ -164,6 +164,7 @@ simulated function ReplaceRoles(bool bAITRoles)
     ROMI = ROMapInfo(WorldInfo.GetMapInfo());
 
 	bAIT = bAITRoles;
+	bMACVSOG = bMACVSOGRoles;
 
 	if (ROMI != None)
     {
@@ -176,6 +177,34 @@ simulated function ReplaceRoles(bool bAITRoles)
 				break;
             }
         }
+
+		if (bMACVSOGRoles)
+		{
+			//Gotta make the array length right.
+        	ROMI.SouthernRoles.length = 9;
+        	ROMI.NorthernRoles.length = 9;
+
+			//Infinite roles
+			ROMI.SouthernRoles[0].Count = 255;
+			ROMI.SouthernRoles[1].Count = 255;
+			ROMI.SouthernRoles[2].Count = 255;
+			ROMI.SouthernRoles[3].Count = 255;
+			ROMI.SouthernRoles[4].Count = 255;
+			ROMI.SouthernRoles[5].Count = 255;
+			ROMI.SouthernRoles[6].Count = 9;
+			ROMI.SouthernRoles[7].Count = 255;
+			ROMI.SouthernRoles[8].Count = 255;
+
+			ROMI.NorthernRoles[0].Count = 255;
+			ROMI.NorthernRoles[1].Count = 255;
+			ROMI.NorthernRoles[2].Count = 255;
+			ROMI.NorthernRoles[3].Count = 255;
+			ROMI.NorthernRoles[4].Count = 255;
+			ROMI.NorthernRoles[5].Count = 255;
+			ROMI.NorthernRoles[6].Count = 9;
+			ROMI.NorthernRoles[7].Count = 255;
+			ROMI.NorthernRoles[8].Count = 255;
+		}
 
 		if (bAITRoles)
 		{
@@ -204,55 +233,71 @@ simulated function ReplaceRoles(bool bAITRoles)
         	ROMI.NorthernRoles[7].Count = 255;
         	ROMI.NorthernRoles[8].Count = 255;
 
-        	//Replace the roles
-        	if (ROMI.SouthernForce == SFOR_USArmy)
-        	{
-        	    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanUS';
-        	    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightUS';
-        	    ROMI.SouthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerUS';
-        	    ROMI.SouthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerUS';
-        	    ROMI.SouthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperUS';
-        	    ROMI.SouthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportUS';
-        	    ROMI.SouthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderSouth';
-        	    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
-        	}
+			if (bMACVSOGRoles)
+			{
+				//Replace the roles
+				ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanMACVSOG';
+				ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightMACVSOG';
+				ROMI.SouthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerMACVSOG';
+				ROMI.SouthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerMACVSOG';
+				ROMI.SouthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperMACVSOG';
+				ROMI.SouthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportMACVSOG';
+				ROMI.SouthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderSouth';
+				ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
+				ROMI.SouthernRoles[8].RoleInfoClass = class'ACRoleInfoTankCrewSouth';
+			}
+			else
+			{
+        		//Replace the roles
+        		if (ROMI.SouthernForce == SFOR_USArmy)
+        		{
+        		    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanUS';
+        		    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightUS';
+        		    ROMI.SouthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerUS';
+        		    ROMI.SouthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerUS';
+        		    ROMI.SouthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperUS';
+        		    ROMI.SouthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportUS';
+        		    ROMI.SouthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderSouth';
+        		    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
+        		}
 
-        	if (ROMI.SouthernForce == SFOR_USMC)
-        	{
-        	    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanUSMC';
-        	    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightUSMC';
-        	    ROMI.SouthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerUSMC';
-        	    ROMI.SouthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerUS';
-        	    ROMI.SouthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperUSMC';
-        	    ROMI.SouthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportUS';
-        	    ROMI.SouthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderSouth';
-        	    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
-        	}
+        		if (ROMI.SouthernForce == SFOR_USMC)
+        		{
+        		    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanUSMC';
+        		    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightUSMC';
+        		    ROMI.SouthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerUSMC';
+        		    ROMI.SouthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerUS';
+        		    ROMI.SouthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperUSMC';
+        		    ROMI.SouthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportUS';
+        		    ROMI.SouthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderSouth';
+        		    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
+        		}
 
-        	if (ROMI.SouthernForce == SFOR_AusArmy)
-        	{
-        	    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanAUS';
-        	    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightAUS';
-        	    ROMI.SouthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerAUS';
-        	    ROMI.SouthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerAUS';
-        	    ROMI.SouthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperAUS';
-        	    ROMI.SouthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportAUS';
-        	    ROMI.SouthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderSouth';
-        	    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
-        	}
+        		if (ROMI.SouthernForce == SFOR_AusArmy)
+        		{
+        		    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanAUS';
+        		    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightAUS';
+        		    ROMI.SouthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerAUS';
+        		    ROMI.SouthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerAUS';
+        		    ROMI.SouthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperAUS';
+        		    ROMI.SouthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportAUS';
+        		    ROMI.SouthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderSouth';
+        		    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
+        		}
 
-        	if (ROMI.SouthernForce == SFOR_ARVN)
-        	{
-        	    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanARVN';
-        	    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightARVN';
-        	    ROMI.SouthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerARVN';
-        	    ROMI.SouthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerARVN';
-        	    ROMI.SouthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperARVN';
-        	    ROMI.SouthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportUS';
-        	    ROMI.SouthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderSouth';
-        	    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
-        	}
-	
+        		if (ROMI.SouthernForce == SFOR_ARVN)
+        		{
+        		    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanARVN';
+        		    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightARVN';
+        		    ROMI.SouthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerARVN';
+        		    ROMI.SouthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerARVN';
+        		    ROMI.SouthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperARVN';
+        		    ROMI.SouthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportUS';
+        		    ROMI.SouthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderSouth';
+        		    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
+        		}
+			}
+
         	if (ROMI.NorthernForce == NFOR_NVA)
         	{
         	    ROMI.NorthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanPAVN';
@@ -263,7 +308,6 @@ simulated function ReplaceRoles(bool bAITRoles)
         	    ROMI.NorthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportNorth';
         	    ROMI.NorthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderNorth';
         	}
-
         	if (ROMI.NorthernForce == NFOR_NLF)
         	{
         	    ROMI.NorthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanNLF';
@@ -277,7 +321,7 @@ simulated function ReplaceRoles(bool bAITRoles)
 
 			ROMI.SouthernRoles[8].RoleInfoClass = class'ACRoleInfoTankCrewSouth';
 			ROMI.NorthernRoles[7].RoleInfoClass = class'ACRoleInfoTankCrewNorth';
-			ROMI.NorthernRoles[8].RoleInfoClass = class'ACRoleInfoPilotNorth';
+			// ROMI.NorthernRoles[8].RoleInfoClass = class'ACRoleInfoPilotNorth';
 
 			if (FoundPilot)
 			{
@@ -351,9 +395,9 @@ simulated function ReplaceRoles(bool bAITRoles)
     }
 }
 
-reliable client function ClientReplaceRoles(bool bAITRoles)
+reliable client function ClientReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
 {
-    ReplaceRoles(bAITRoles);
+    ReplaceRoles(bAITRoles, bMACVSOGRoles);
 }
 
 function InitialiseCCMs()

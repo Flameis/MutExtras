@@ -1,19 +1,21 @@
 //=============================================================================
-// ROWeap_AK47_AssaultRifle
+// ROWeap_XM177E1_Carbine
 //=============================================================================
-// Derivatives of the AK-47 Assault Rifle. Chinese Type 56-1, Type 56 and Russian AKM
+// CAR-15 Commando (XM177E1) Carbine
 //=============================================================================
 // Rising Storm 2: Vietnam Source
-// Copyright (C) 2014 Tripwire Interactive LLC
-// - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
+// Copyright (C) 2017 Tripwire Interactive LLC
+// - Austin "dibbler67" Ware for Antimatter Games
 //=============================================================================
 // Ammo Count modified by Sgt. Capwell [29ID]
 //=============================================================================
-
-class ACWeap_AK47_AssaultRifle_MACVSOG extends ROWeap_AK47_AssaultRifle
+class ACWeap_XM177E1_Carbine_MACVSOG extends ROWeap_XM177E1_Carbine
 	abstract;
 
 defaultproperties
-{	
-	InitialNumPrimaryMags=7//6
+{
+	WeaponContentClass(0)="MutExtras.ACWeap_XM177E1_Carbine_30rd"
+	RoleSelectionImage(0)=Texture2D'VN_UI_Textures_Three.WeaponTex.AUS_Weap_XM117_30'
 }
+
+
