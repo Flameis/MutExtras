@@ -23,7 +23,7 @@ defaultproperties
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'MutExtras.ACWeap_XM177E1_Carbine_MACVSOG',class'MutExtras.ACWeap_AK47_AssaultRifle_MACVSOG',class'MutExtras.ACWeap_M2_Carbine_MACVSOG'),
 					SecondaryWeapons=(class'ROGame.ROWeap_BHP_Pistol',class'ROGame.ROWeap_M1911_Pistol'),
-					OtherItems=(class'ROGame.ROWeap_M18_SignalSmoke',class'ROGame.ROWeap_M61_GrenadeQuad',class'ROGame.ROWeap_M8_Smoke'),					
+					OtherItems=(class'ROGame.ROWeap_M61_GrenadeQuad',class'ROGame.ROWeap_M8_Smoke',class'ROGame.ROWeap_M18_SignalSmoke'),					
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_grunt'

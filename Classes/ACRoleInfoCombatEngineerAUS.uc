@@ -21,10 +21,10 @@ DefaultProperties
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'ROGame.ROWeap_M16A1_AssaultRifle',class'ROGame.ROWeap_F1_SMG',class'ROGame.ROWeap_M9_Flamethrower',class'MutExtras.ACWeap_M79_GrenadeLauncher'),
 					// Secondary Weapons
-					SecondaryWeapons=(class'ROGame.ROWeap_BHP_Pistol', class'ROGame.ROWeap_Owen_SMG'),
+					SecondaryWeapons=(class'ROGame.ROWeap_Owen_SMG', class'ROGame.ROWeap_BHP_Pistol'),
 					DisableSecondaryForPrimary=(true,true,true,false),
 					// Other Items
-					OtherItems=(class'ROGame.ROWeap_M8_SmokeSingle',class'ROGame.ROWeap_M61_Grenade',class'ROGame.ROWeap_C4_Explosive'),
+					OtherItems=(class'ROGame.ROWeap_M61_Grenade',class'ROGame.ROWeap_M8_SmokeSingle',class'ROGame.ROWeap_C4_Explosive'),
 					OtherItemsStartIndexForPrimary=( 0, 0, 0, 0),
 					NumOtherItemsForPrimary=( 0, 0, 255, 2)
 		)}

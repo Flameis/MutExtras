@@ -20,7 +20,7 @@ DefaultProperties
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'ROGame.ROWeap_M1DGarand_SniperRifle'),
-					OtherItems=(class'ROGame.ROWeap_M61_Grenade', class'ROGame.ROWeap_M18_ClaymoreSingle', class'ROGame.ROWeap_M8_SmokeSingle')
+					OtherItems=(class'ROGame.ROWeap_M61_Grenade', class'ROGame.ROWeap_M8_SmokeSingle', class'ROGame.ROWeap_M18_ClaymoreSingle')
 	)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_sniper'

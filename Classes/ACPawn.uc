@@ -84,6 +84,22 @@ simulated event PostBeginPlay()
 	super.PostBeginPlay();
 }
 
+function CheckInvSizeOverride(ROPlayerReplicationInfo ROPRI)
+{
+	local ROInventoryManager MyInvManager;
+	MyInvManager = ROInventoryManager(InvManager);
+
+	// `log("Checking inventory size override for pawn of roleinfo: " $ ROPRI.RoleInfo);
+	
+	if (ROPRI != none && ROPRI.RoleInfo != none && MyInvManager != none)
+	{
+		if (ROPRI.RoleInfo.default.Items[ROGameReplicationInfo(WorldInfo.GRI).RoleInfoItemsIdx].SecondaryWeapons[0].default.Category == ROIC_Primary)
+		{
+			MyInvManager.CategoryLimits[ROIC_Primary] = 2.0;
+		}
+	}
+}
+
 simulated function CheckIdle()
 {
 	if (Weapon.IsA('ACHolster') && IsZero(Velocity) && !bIsCrouched && !bIsProning)

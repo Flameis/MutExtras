@@ -20,7 +20,7 @@ DefaultProperties
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'ROGame.ROWeap_RPD_LMG', class'ROGame.ROWeap_RP46_LMG'),
-					OtherItems=(class'ROGame.ROWeap_Type67_Grenade', class'ROGame.ROWeap_PunjiTrap', class'ROGame.ROWeap_RDG1_SmokeSingle'),		
+					OtherItems=(class'ROGame.ROWeap_Type67_Grenade', class'ROGame.ROWeap_RDG1_SmokeSingle', class'ROGame.ROWeap_PunjiTrap'),		
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_mg'
