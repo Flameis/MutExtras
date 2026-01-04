@@ -66,7 +66,7 @@ DefaultProperties
 
 	bSingleHandedSprinting=false
 
-	FootstepSounds.Add((MaterialType=EMT_Default,Sound=AkEvent'WW_FOL_US.Play_FS_US_Jog_Dirt')()
+	FootstepSounds.Add((MaterialType=EMT_Default,Sound=AkEvent'WW_FOL_US.Play_FS_US_Jog_Dirt'))
 	FootstepSounds.Add((MaterialType=EMT_Rock,Sound=AkEvent'WW_FOL_US.Play_FS_US_Jog_Gravel'))
 	FootstepSounds.Add((MaterialType=EMT_Dirt,Sound=AkEvent'WW_FOL_US.Play_FS_US_Jog_Dirt'))
 	FootstepSounds.Add((MaterialType=EMT_Metal,Sound=AkEvent'WW_FOL_US.Play_FS_US_Jog_Metal'))

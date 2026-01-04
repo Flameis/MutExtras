@@ -21,7 +21,7 @@ defaultproperties
 	// Single-variant mesh
 	PawnMesh_SV=SkeletalMesh'CHR_VN_NVA.Mesh_Low.NVA_Tunic_Low_Mesh'
 	// First person arms mesh
-	ArmsOnlyMeshFP=SkeletalMesh'CHR_VN_1stP_Hands_Master.Mesh.VN_1stP_VC_Long_Mesh',
+	ArmsOnlyMeshFP=SkeletalMesh'CHR_VN_1stP_Hands_Master.Mesh.VN_1stP_VC_Long_Mesh'
 	HeadgearMesh=SkeletalMesh'CHR_VN_VN_Headgear.Mesh.VN_Headgear_Pith'
 
 	// Third person sockets
