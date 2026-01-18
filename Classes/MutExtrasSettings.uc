@@ -1,4 +1,5 @@
-class MutExtrasSettings extends MutatorSettings;
+class MutExtrasSettings extends MutatorSettings
+	config(MutExtras_Server);
 
 /**
  * @brief Initializes the settings screen for this mutator
