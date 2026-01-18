@@ -21,7 +21,7 @@ defaultproperties
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'ROGame.ROWeap_M1Garand_Rifle'),
-					SecondaryWeapons=(class'ACHolster', class'ROGame.ROWeap_M1911_Pistol'),
+					SecondaryWeapons=(class'ROGame.ROWeap_M1911_Pistol', class'MutExtras.ACHolster'),
 					SquadLeaderItems=()
 		)}
 
