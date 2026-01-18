@@ -40,11 +40,11 @@ For complete weapon and equipment loadouts, see: [Link to role loadouts spreadsh
 
 | Command | Description |
 | :--- | :--- |
-| `mutate changerank <rank>` | Change your rank insignia |
-| `mutate changeunit <unit>` | Change your unit insignia |
+| `mutate changerank <rank>` | Change your rank insignia (e.g., `mutate changerank cpl`) |
+| `mutate changeunit <unit>` | Change your unit insignia (e.g., `mutate changeunit DP2S4`) |
 | `mutate salute` or `*Salute*` in chat | Trigger salute animation |
-| `mutate addbots <count> <team> <true/false>` | Add bots to game |
-| `mutate removebots` | Remove all bots |
-| `mutate setspeed <speed> [all]` | Change movement speed (self or all) |
-| `mutate allammo` | Toggle infinite ammo |
-| `mutate resetmesh` | Reset your character mesh |
+| `mutate addbots <count> <team> <true/false>` | Add bots to game (count, team index 0/1, spawn immediately true/false) |
+| `mutate removebots` | Remove all bots from game |
+| `mutate setspeed <speed> [all]` | Change movement speed multiplier (e.g., `mutate setspeed 2` or `mutate setspeed 1.5 all`) |
+| `mutate allammo` | Toggle infinite ammo for yourself |
+| `mutate resetmesh` | Reset your character mesh if visual glitches occur |
