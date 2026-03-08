@@ -7,7 +7,7 @@
 // Copyright (C) 2016 Tripwire Interactive LLC
 // - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
 //=============================================================================
-class ACRoleInfoRiflemanARVN extends ACRoleInfoRiflemanUS
+class ACRoleInfoRiflemanARVN extends RORoleInfoSouthernInfantry
 	HideDropDown;
 
 defaultproperties

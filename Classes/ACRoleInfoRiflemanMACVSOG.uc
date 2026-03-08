@@ -9,7 +9,7 @@
 // Edited for the 29th by Reimer, Published by Scovel
 // Moddified for MACVSOG Mutator by Sgt. Capwell
 //=============================================================================
-class ACRoleInfoRiflemanMACVSOG extends ACRoleInfoSouthernInfantry
+class ACRoleInfoRiflemanMACVSOG extends RORoleInfoSouthernInfantry
 	HideDropDown;
 
 defaultproperties

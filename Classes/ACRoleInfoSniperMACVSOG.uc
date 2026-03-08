@@ -8,7 +8,7 @@
 // - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
 // Modified for MACVSOG Mutator by Sgt. Capwell [29ID]
 //=============================================================================
-class ACRoleInfoSniperMACVSOG extends ACRoleInfoSouthernInfantry;
+class ACRoleInfoSniperMACVSOG extends RORoleInfoSouthernInfantry;
 
 
 DefaultProperties

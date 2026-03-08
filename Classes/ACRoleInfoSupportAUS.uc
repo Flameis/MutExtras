@@ -1,5 +1,5 @@
 
-class ACRoleInfoSupportAUS extends ACRoleInfoSupportUS;
+class ACRoleInfoSupportAUS extends RORoleInfoSouthernInfantryAus;
 
 DefaultProperties
 {
@@ -12,7 +12,9 @@ DefaultProperties
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'ROGame.ROWeap_M16A1_AssaultRifle',class'ROGame.ROWeap_L1A1_Rifle'),
 					// Other items
-					OtherItems=(class'ROGame.ROWeap_M61_Grenade', class'ROGame.ROWeap_M8_Smoke',class'MutExtras.ACItem_USAmmoCrate'),
+					OtherItems=(class'MutExtras.ACItem_USAmmoCrate', class'ROGame.ROWeap_M61_Grenade', class'ROGame.ROWeap_M8_Smoke'),
+					OtherItemsStartIndexForPrimary=(0, 0, 0),
+					NumOtherItemsForPrimary=(0, 0, 0)
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_radioman'

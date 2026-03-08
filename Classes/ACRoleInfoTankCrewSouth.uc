@@ -8,7 +8,7 @@
 // - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
 // Edited for the 29th by Reimer, Published by Scovel
 //=============================================================================
-class ACRoleInfoTankCrewSouth extends ACRoleInfoSouthernInfantry
+class ACRoleInfoTankCrewSouth extends RORoleInfoSouthernInfantry
 	HideDropDown;
 
 defaultproperties

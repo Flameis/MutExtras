@@ -12,6 +12,21 @@
 class ACItem_AmmoCrate extends ROItem_PlaceableAmmoCrate
 	abstract;
 
+simulated function PostBeginPlay()
+{
+	if ( PhysicalAmmoCrateClass != none )
+	{
+		ReferenceSkeletalMesh = PhysicalAmmoCrateClass.default.CrateMesh.SkeletalMesh;
+	}
+	else
+	{
+		`Warn("No or Invalid 'PhysicalAmmoCrateClass' set in 'ROItem_PlaceableAmmoCrate'");
+	}
+
+	MinDistFromOtherAmmoCratesSq = MinDistFromOtherAmmoCrates * MinDistFromOtherAmmoCrates;
+	super(ROItemPlaceable).PostBeginPlay();
+}
+
 simulated function BeginFire(Byte FireModeNum)
 {
 	// Only default fire mode, please.

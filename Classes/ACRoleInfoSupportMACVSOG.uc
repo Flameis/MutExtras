@@ -9,7 +9,7 @@
 // Edited for the 29th by Reimer, Published by Scovel
 // Moddified for MACVSOG Mutator by Sgt. Capwell
 //=============================================================================
-class ACRoleInfoSupportMACVSOG extends ACRoleInfoSouthernInfantry
+class ACRoleInfoSupportMACVSOG extends RORoleInfoSouthernInfantry
 	HideDropDown;
 
 DefaultProperties
@@ -24,7 +24,9 @@ DefaultProperties
 					// Primary : DEFAULTS
 					PrimaryWeapons=(class'MutExtras.ACWeap_XM177E1_Carbine_MACVSOG',class'MutExtras.ACWeap_AK47_AssaultRifle_MACVSOG',class'MutExtras.ACWeap_M2_Carbine_MACVSOG'),
 					SecondaryWeapons=(class'ROGame.ROWeap_BHP_Pistol',class'ROGame.ROWeap_M1911_Pistol'),
-					OtherItems=(class'ROGame.ROItem_BinocularsUS',class'MutExtras.ACItem_USAmmoCrate',class'ROGame.ROWeap_M18_SignalSmoke',class'ROGame.ROWeap_M61_GrenadeDouble',class'MutExtras.ACWeap_M8_Smoke_Quad_MACVSOG'),					
+					OtherItems=(class'MutExtras.ACItem_USAmmoCrate', class'ROGame.ROItem_BinocularsUS',class'ROGame.ROWeap_M18_SignalSmoke',class'ROGame.ROWeap_M61_GrenadeDouble',class'MutExtras.ACWeap_M8_Smoke_Quad_MACVSOG'),
+					OtherItemsStartIndexForPrimary=(0, 0, 0, 0, 0),
+					NumOtherItemsForPrimary=(0, 0, 0, 0, 0)		
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.menu.class_icon_radioman'

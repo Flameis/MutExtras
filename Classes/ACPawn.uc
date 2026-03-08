@@ -21,7 +21,7 @@ simulated event PreBeginPlay()
 	super.PreBeginPlay();
 }
 
-simulated event PostBeginPlay()
+/* simulated event PostBeginPlay()
 {
 	MyLDecal = PlayerWoundDecalManager.SpawnDecal(
 					MaterialInstanceConstant'MutExtrasTBPkg.Materials.TestMat',			// Decal material
@@ -82,7 +82,7 @@ simulated event PostBeginPlay()
 	`log(Location);
 			
 	super.PostBeginPlay();
-}
+} */
 
 function CheckInvSizeOverride(ROPlayerReplicationInfo ROPRI)
 {

@@ -1,6 +1,6 @@
 // Edited for the 29th by Reimer, published by Scovel
 //=============================================================================
-class ACRoleInfoCombatEngineerPAVN extends ACRoleInfoNorthernInfantry;
+class ACRoleInfoCombatEngineerPAVN extends RORoleInfoNorthernInfantry;
 
 DefaultProperties
 {

@@ -147,7 +147,10 @@ reliable client function ClientReplacePawnHandler()
 
 simulated function ReplaceInventoryManager()
 {
-    ROPawn(Pawn).InventoryManagerClass = class'ACInventoryManager';
+    if (Pawn != None)
+    {
+        ROPawn(Pawn).InventoryManagerClass = class'ACInventoryManager';
+    }
 }
 
 reliable client function ClientReplaceInventoryManager()
@@ -181,6 +184,8 @@ simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
 		if (bMACVSOGRoles)
 		{
 			//Gotta make the array length right.
+			ROMI.NorthernRoles.Length = 0;
+			ROMI.SouthernRoles.Length = 0;
         	ROMI.SouthernRoles.length = 9;
         	ROMI.NorthernRoles.length = 9;
 
@@ -203,14 +208,13 @@ simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
 			ROMI.NorthernRoles[5].Count = 255;
 			ROMI.NorthernRoles[6].Count = 9;
 			ROMI.NorthernRoles[7].Count = 255;
-			ROMI.NorthernRoles[8].Count = 255;
 		}
 
 		if (bAITRoles)
 		{
         	//Gotta make the array length right.
+			ROMI.SouthernRoles.length = 0;
         	ROMI.SouthernRoles.length = 9;
-        	ROMI.NorthernRoles.length = 9;
 
         	//Infinite roles
         	ROMI.SouthernRoles[0].Count = 255;
@@ -221,17 +225,7 @@ simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
         	ROMI.SouthernRoles[5].Count = 255;
         	ROMI.SouthernRoles[6].Count = 9;
         	ROMI.SouthernRoles[7].Count = 255;
-        	ROMI.SouthernRoles[8].Count = 255;
-
-        	ROMI.NorthernRoles[0].Count = 255;
-        	ROMI.NorthernRoles[1].Count = 255;
-        	ROMI.NorthernRoles[2].Count = 255;
-        	ROMI.NorthernRoles[3].Count = 255;
-        	ROMI.NorthernRoles[4].Count = 255;
-        	ROMI.NorthernRoles[5].Count = 255;
-        	ROMI.NorthernRoles[6].Count = 9;
-        	ROMI.NorthernRoles[7].Count = 255;
-        	ROMI.NorthernRoles[8].Count = 255;
+        	ROMI.SouthernRoles[8].Count = 255;	
 
 			if (bMACVSOGRoles)
 			{
@@ -261,7 +255,7 @@ simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
         		    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
         		}
 
-        		if (ROMI.SouthernForce == SFOR_USMC)
+        		else if (ROMI.SouthernForce == SFOR_USMC)
         		{
         		    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanUSMC';
         		    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightUSMC';
@@ -273,7 +267,7 @@ simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
         		    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
         		}
 
-        		if (ROMI.SouthernForce == SFOR_AusArmy)
+        		else if (ROMI.SouthernForce == SFOR_AusArmy)
         		{
         		    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanAUS';
         		    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightAUS';
@@ -285,7 +279,7 @@ simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
         		    ROMI.SouthernRoles[7].RoleInfoClass = class'ACRoleInfoLineup';
         		}
 
-        		if (ROMI.SouthernForce == SFOR_ARVN)
+        		else if (ROMI.SouthernForce == SFOR_ARVN)
         		{
         		    ROMI.SouthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanARVN';
         		    ROMI.SouthernRoles[1].RoleInfoClass = class'ACRoleInfoLightARVN';
@@ -298,6 +292,18 @@ simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
         		}
 			}
 
+			ROMI.NorthernRoles.length = 0;
+        	ROMI.NorthernRoles.length = 8;
+
+			ROMI.NorthernRoles[0].Count = 255;
+        	ROMI.NorthernRoles[1].Count = 255;
+        	ROMI.NorthernRoles[2].Count = 255;
+        	ROMI.NorthernRoles[3].Count = 255;
+        	ROMI.NorthernRoles[4].Count = 255;
+        	ROMI.NorthernRoles[5].Count = 255;
+        	ROMI.NorthernRoles[6].Count = 9;
+        	ROMI.NorthernRoles[7].Count = 255;
+
         	if (ROMI.NorthernForce == NFOR_NVA)
         	{
         	    ROMI.NorthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanPAVN';
@@ -308,7 +314,7 @@ simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
         	    ROMI.NorthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportNorth';
         	    ROMI.NorthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderNorth';
         	}
-        	if (ROMI.NorthernForce == NFOR_NLF)
+        	else if (ROMI.NorthernForce == NFOR_NLF)
         	{
         	    ROMI.NorthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanNLF';
         	    ROMI.NorthernRoles[1].RoleInfoClass = class'ACRoleInfoLightNLF';
@@ -399,6 +405,73 @@ reliable client function ClientReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
 {
     ReplaceRoles(bAITRoles, bMACVSOGRoles);
 }
+
+/* simulated function VerifyAITRoles(bool bAITRoles, bool bMACVSOGRoles)
+{
+    local int I;
+    local bool bNeedsReplace;
+
+    if (!bAITRoles)
+        return;
+
+    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
+    if (ROMI == None)
+        return;
+
+    `log("[MutExtras VerifyAITRoles] Verifying northern roles (Force="$ROMI.NorthernForce$", Count="$ROMI.NorthernRoles.length$")");
+    for (I = 0; I < ROMI.NorthernRoles.length; I++)
+    {
+        if (ROMI.NorthernRoles[I].RoleInfoClass == None)
+        {
+            `log("[MutExtras VerifyAITRoles] NorthernRoles["$I$"] = None - NOT replaced!");
+            bNeedsReplace = true;
+        }
+        else if (InStr(string(ROMI.NorthernRoles[I].RoleInfoClass.Name), "ACRoleInfo",, true) == -1)
+        {
+            `log("[MutExtras VerifyAITRoles] NorthernRoles["$I$"] = "$ROMI.NorthernRoles[I].RoleInfoClass.Name$" - NOT replaced!");
+            bNeedsReplace = true;
+        }
+        else
+        {
+            `log("[MutExtras VerifyAITRoles] NorthernRoles["$I$"] = "$ROMI.NorthernRoles[I].RoleInfoClass.Name$" (OK)");
+        }
+    }
+
+    if (bNeedsReplace)
+    {
+        `log("[MutExtras VerifyAITRoles] Fixing northern AIT roles...");
+        if (ROMI.NorthernForce == NFOR_NVA)
+        {
+            ROMI.NorthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanPAVN';
+            ROMI.NorthernRoles[1].RoleInfoClass = class'ACRoleInfoLightPAVN';
+            ROMI.NorthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerPAVN';
+            ROMI.NorthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerPAVN';
+            ROMI.NorthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperPAVN';
+            ROMI.NorthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportNorth';
+            ROMI.NorthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderNorth';
+        }
+        else if (ROMI.NorthernForce == NFOR_NLF)
+        {
+            ROMI.NorthernRoles[0].RoleInfoClass = class'ACRoleInfoRiflemanNLF';
+            ROMI.NorthernRoles[1].RoleInfoClass = class'ACRoleInfoLightNLF';
+            ROMI.NorthernRoles[2].RoleInfoClass = class'ACRoleInfoMachineGunnerNLF';
+            ROMI.NorthernRoles[3].RoleInfoClass = class'ACRoleInfoCombatEngineerNLF';
+            ROMI.NorthernRoles[4].RoleInfoClass = class'ACRoleInfoSniperNLF';
+            ROMI.NorthernRoles[5].RoleInfoClass = class'ACRoleInfoSupportNorth';
+            ROMI.NorthernRoles[6].RoleInfoClass = class'ACRoleInfoCommanderNorth';
+        }
+        `log("[MutExtras VerifyAITRoles] Northern AIT roles re-applied.");
+    }
+    else
+    {
+        `log("[MutExtras VerifyAITRoles] All northern roles OK.");
+    }
+}
+
+reliable client function ClientVerifyAITRoles(bool bAITRoles, bool bMACVSOGRoles)
+{
+    VerifyAITRoles(bAITRoles, bMACVSOGRoles);
+} */
 
 function InitialiseCCMs()
 {

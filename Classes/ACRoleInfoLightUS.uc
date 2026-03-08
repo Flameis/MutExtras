@@ -1,6 +1,6 @@
 // - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
 //=============================================================================
-class ACRoleInfoLightUS extends ACRoleInfoSouthernInfantry;
+class ACRoleInfoLightUS extends RORoleInfoSouthernInfantry;
 
 DefaultProperties
 {

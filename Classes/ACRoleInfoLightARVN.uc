@@ -1,6 +1,6 @@
 // Edited for the 29th by Reimer, Published by  Scovel
 //=============================================================================
-class ACRoleInfoLightARVN extends ACRoleInfoLightUS;
+class ACRoleInfoLightARVN extends RORoleInfoSouthernInfantry;
 
 DefaultProperties
 {

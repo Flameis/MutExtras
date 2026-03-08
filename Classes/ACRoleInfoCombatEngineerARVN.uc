@@ -1,6 +1,6 @@
 // Edited for the 29th by Reimer, published by Scovel
 //=============================================================================
-class ACRoleInfoCombatEngineerARVN extends ACRoleInfoSouthernInfantry;
+class ACRoleInfoCombatEngineerARVN extends RORoleInfoSouthernInfantry;
 
 DefaultProperties
 {
@@ -14,7 +14,7 @@ DefaultProperties
 					PrimaryWeapons=(class'ROGame.ROWeap_M3A1_SMG',class'ROGame.ROWeap_M37_Shotgun',class'ROGame.ROWeap_M16A1_AssaultRifle',class'ROGame.ROWeap_M2_Carbine',class'ROGame.ROWeap_M9_Flamethrower',class'MutExtras.ACWeap_M79_GrenadeLauncher'),
 					// Other Items
 				OtherItems=(class'ROGame.ROWeap_M61_Grenade',class'ROGame.ROWeap_M8_SmokeSingle',class'ROGame.ROWeap_C4_Explosive'),
-					OtherItemsStartIndexForPrimary=( 0, 0, 0, 0, 0, 2),
+					OtherItemsStartIndexForPrimary=( 0, 0, 0, 0, 0, 1),
 					NumOtherItemsForPrimary=( 0, 0, 0, 0, 255, 1)
 		)}
 

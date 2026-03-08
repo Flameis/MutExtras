@@ -1,6 +1,6 @@
 // Edited for the 29th by Reimer, published by Scovel
 //=============================================================================
-class ACRoleInfoCombatEngineerNLF extends ACRoleInfoNorthernInfantry;
+class ACRoleInfoCombatEngineerNLF extends RORoleInfoNorthernInfantry;
 
 DefaultProperties
 {

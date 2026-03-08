@@ -4,14 +4,19 @@ Extended role systems and custom equipment for specialized gameplay.
 
 ## Configuration
 
-Enable role systems in WebAdmin > Mutator Settings:
+Enable role systems and faction switching in WebAdmin > Mutator Settings:
 
 | Setting | Description |
 | :--- | :--- |
 | `bMACVSOGRoles` | Special operations roles with captured weapons and specialized equipment |
 | `bAITRoles` | Enhanced roles matching 29th ID internal structure |
+| `bUseDefaultFactions` | When disabled, allows custom faction selection for each team |
+| `MyNorthForce` | Select Northern faction: PAVN (0) or NLF (1) |
+| `MySouthForce` | Select Southern faction: USA (0), USMC (1), AUS (2), or ARVN (3) |
 
-Both systems can be enabled simultaneously. Roles appear in role selection menu when enabled.
+Both role systems can be enabled simultaneously. Roles appear in role selection menu when enabled.
+
+Faction switching allows you to customize which faction appears on each team. For example, you can set up ARVN vs NLF matches or USMC vs PAVN scenarios.
 
 ## Role Systems
 

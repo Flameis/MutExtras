@@ -17,6 +17,12 @@ var array<Byte> 		    HitNum;
 var array<String> 	        HitVicName;
 
 var config Bool             bAITRoles, bMACVSOGRoles;
+var config ENorthernForces  MyNorthForce;
+var config ESouthernForces  MySouthForce;
+var config bool             bUseDefaultFactions;
+var config bool             bSmokeForEveryone;
+var config bool             bLightGetGrenade;
+var config bool             bAllAITWeapons;
 
 // ====================================================
 // Initialization
@@ -53,6 +59,8 @@ simulated function PreBeginPlay()
         ROGameInfo(WorldInfo.Game).NorthRoleContentClasses = RORICNorth;
     }
 
+    ModifyVolumes();
+
     super.PreBeginPlay();
 }
 
@@ -65,8 +73,14 @@ function ModifyPlayer(Pawn Other)
     ACPRI = ACPlayerReplicationInfo(Other.PlayerReplicationInfo);
 
     //Make sure the pawns on the server have the rank and unit for the 29th helmet
-	ACPawn(Other).PlayerRank = ACPRI.PlayerRank;
-	ACPawn(Other).PlayerUnit = ACPRI.PlayerUnit;
+    if (ACPRI != None && ACPawn(Other) != None)
+    {
+        ACPawn(Other).PlayerRank = ACPRI.PlayerRank;
+        ACPawn(Other).PlayerUnit = ACPRI.PlayerUnit;
+        
+        // Force helmet update on the client
+        ACPawn(Other).SetUnitAndRank();
+    }
 
     super.ModifyPlayer(Other);
 }
@@ -86,9 +100,17 @@ simulated function NotifyLogin(Controller NewPlayer)
 
     //SetTimer(10, false, 'CheckLoaded');
 
+    `log("bisVanilla "$bisVanilla);
     // If running in vanilla mode, replace standard classes with AC variants
     if (bisVanilla)
     {
+        // Handle faction setup if custom factions are enabled
+        if (!bUseDefaultFactions)
+        {
+            DummyActor.FactionSetup(MyNorthForce, MySouthForce, bAITRoles);
+            DummyActor.ClientFactionSetup(MyNorthForce, MySouthForce, bAITRoles);
+        }
+
         ACPC = ACPlayerController(NewPlayer);
 
         if (ACPC != None)
@@ -97,6 +119,8 @@ simulated function NotifyLogin(Controller NewPlayer)
             ACPC.ClientReplacePawnHandler();
             ACPC.ReplaceRoles(bAITRoles, bMACVSOGRoles);
             ACPC.ClientReplaceRoles(bAITRoles, bMACVSOGRoles);
+            // ACPC.VerifyAITRoles(bAITRoles, bMACVSOGRoles);
+            // ACPC.ClientVerifyAITRoles(bAITRoles, bMACVSOGRoles);
             ACPC.ReplaceInventoryManager();
             ACPC.ClientReplaceInventoryManager();
 
@@ -136,10 +160,10 @@ simulated function NotifyLogout(Controller Exiting)
 // ====================================================
 auto state StartUp
 {
-    function timer()
-    {
-        ModifyVolumes();
-    }
+    // function timer()
+    // {
+    //     ModifyVolumes();
+    // }
 
     function timer2()
     {
@@ -151,7 +175,7 @@ auto state StartUp
     SetTimer(1, false, 'LoadObjects');
     //SetTimer(10, false, 'CheckLoaded');
     SetTimer(10, true, 'timer2'); // Periodically check vehicle teams
-    SetTimer(10, true, 'timer'); // Periodically modify volumes
+    // SetTimer(1, false, 'timer'); // Periodically modify volumes
 }
 
 // ====================================================

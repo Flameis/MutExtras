@@ -1,6 +1,6 @@
 // Edited for the 29th by Reimer, edited by Scovel
 //=============================================================================
-class ACRoleInfoCombatEngineerUS extends ACRoleInfoSouthernInfantry;
+class ACRoleInfoCombatEngineerUS extends RORoleInfoSouthernInfantry;
 
 DefaultProperties
 {
@@ -16,7 +16,7 @@ DefaultProperties
 					// Other Items
 					OtherItems=(class'ROGame.ROWeap_C4_Explosive',class'ROGame.ROWeap_M34_WP', class'ROGame.ROWeap_M8_SmokeSingle',class'ROGame.ROWeap_M61_GrenadeQuad'),
 					OtherItemsStartIndexForPrimary=( 0, 0, 2, 2, 0, 1),
-					NumOtherItemsForPrimary=( 3, 3, 0, 0, 255, 1)
+					NumOtherItemsForPrimary=( 3, 3, 2, 2, 255, 1)
 		)}
 
 	bAllowPistolsInRealism=true

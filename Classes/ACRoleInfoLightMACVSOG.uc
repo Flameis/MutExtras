@@ -9,7 +9,7 @@
 // Edited for the 29th by Reimer, Published by Scovel
 // Moddified for MACVSOG Mutator by Sgt. Capwell
 //=============================================================================
-class ACRoleInfoLightMACVSOG extends ACRoleInfoSouthernInfantry;
+class ACRoleInfoLightMACVSOG extends RORoleInfoSouthernInfantry;
 
 DefaultProperties
 {

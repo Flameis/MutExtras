@@ -8,7 +8,7 @@
 // - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
 // Edited for the 29th by Reimer, Published by Scovel
 //=============================================================================
-class ACRoleInfoRiflemanAUS extends ACRoleInfoSouthernInfantryAus
+class ACRoleInfoRiflemanAUS extends RORoleInfoSouthernInfantryAus
 	HideDropDown;
 
 defaultproperties

@@ -8,6 +8,32 @@ simulated function PostBeginPlay()
     SetTimer(2.0, true, 'FixTankerPilotFlag');
 }
 
+simulated function FactionSetup(ENorthernForces MyNorthForce, ESouthernForces MySouthForce, bool bAITRoles)
+{
+    local ROMapInfo ROMI;
+    
+    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
+    
+    if (ROMI == None)
+        return;
+    
+    `log("[MutExtras Debug] ACDummyActor Setting up factions: North="$MyNorthForce$" South="$MySouthForce);
+    
+    ROMI.NorthernForce = ENorthernForces(min(1, MyNorthForce));
+    ROMI.SouthernForce = ESouthernForces(min(3, MySouthForce));
+
+    if (!bAITRoles)
+    {
+        ROMI.bInitializedRoles = false;
+        ROMI.InitRolesForGametype(WorldInfo.GetGameClass(), 64, false);
+    }
+}
+
+reliable client function ClientFactionSetup(ENorthernForces MyNorthForce, ESouthernForces MySouthForce, bool bAITRoles)
+{
+    FactionSetup(MyNorthForce, MySouthForce, bAITRoles);
+}
+
 simulated function ReplaceRoles(bool WW2, bool WW, bool GOM)
 {
     local ROMapInfo ROMI;
