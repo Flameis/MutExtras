@@ -1,19 +1,13 @@
 //=============================================================================
-// ROWeap_M60
+// ROWeap_M2_Carbine_Content
 //=============================================================================
-// M60 Machine Gun
+// Content for the M2 Carbine
 //=============================================================================
-// Rising Storm 2: Vietnam Source
-// Copyright (C) 2014 Tripwire Interactive LLC
-// - Nate Steger @ Antimatter Games LTD
+// Ammo Count modified by Sgt. Capwell [29ID]
 //=============================================================================
-
-class ACWeap_M60_GPMG_MACVSOG extends ROWeap_M60_GPMG
-	abstract;
+class ACWeap_M2_Carbine_Content extends ROGameContent.ROWeap_M2_Carbine_Content;
 
 defaultproperties
 {
-	WeaponContentClass(0)="MutExtras.ACWeap_M60_GPMG_Content"
-	WeaponContentClass(1)="MutExtras.ACWeap_M60_GPMG_Level2"
+	InitialNumPrimaryMags=7//6
 }
-

@@ -13,7 +13,6 @@ class ACWeap_RPD_LMG_MACVSOG extends ROWeap_RPD_LMG
 
 defaultproperties
 {
-	InitialNumPrimaryMags=6
-	NumMagsToResupply=1
-	MaxNumPrimaryMags=8
+	WeaponContentClass(0)="MutExtras.ACWeap_RPD_LMG_Content"
+	WeaponContentClass(1)="MutExtras.ACWeap_RPD_LMG_200rd"
 }

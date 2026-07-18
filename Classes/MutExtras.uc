@@ -16,6 +16,9 @@ var bool                    bisVanilla;
 var array<Byte> 		    HitNum;
 var array<String> 	        HitVicName;
 
+var bool                    bAmbientFallbackChecked; // whether CheckAmbientSoundNeedsFallback has run yet this level
+var bool                    bAmbientSoundNeedsClientFallback; // true if no client-side trigger reaches the level's AkStartAmbientSound node
+
 var config Bool             bAITRoles, bMACVSOGRoles;
 var config ENorthernForces  MyNorthForce;
 var config ESouthernForces  MySouthForce;
@@ -23,6 +26,7 @@ var config bool             bUseDefaultFactions;
 var config bool             bSmokeForEveryone;
 var config bool             bLightGetGrenade;
 var config bool             bAllAITWeapons;
+var config bool             bEnableAmbientSoundFix;
 
 // ====================================================
 // Initialization
@@ -73,14 +77,14 @@ function ModifyPlayer(Pawn Other)
     ACPRI = ACPlayerReplicationInfo(Other.PlayerReplicationInfo);
 
     //Make sure the pawns on the server have the rank and unit for the 29th helmet
-    if (ACPRI != None && ACPawn(Other) != None)
-    {
-        ACPawn(Other).PlayerRank = ACPRI.PlayerRank;
-        ACPawn(Other).PlayerUnit = ACPRI.PlayerUnit;
+    // if (ACPRI != None && ACPawn(Other) != None)
+    // {
+    ACPawn(Other).PlayerRank = ACPRI.PlayerRank;
+    ACPawn(Other).PlayerUnit = ACPRI.PlayerUnit;
         
-        // Force helmet update on the client
-        ACPawn(Other).SetUnitAndRank();
-    }
+    //     // Force helmet update on the client
+    //     ACPawn(Other).SetUnitAndRank();
+    // }
 
     super.ModifyPlayer(Other);
 }
@@ -98,6 +102,18 @@ simulated function NotifyLogin(Controller NewPlayer)
     DummyActors.AddItem(DummyActor);
     //`log ("[MutExtras LogIn] Spawning "$DummyActor);
 
+    if (bEnableAmbientSoundFix)
+    {
+        if (!bAmbientFallbackChecked)
+        {
+            CheckAmbientSoundNeedsFallback();
+        }
+        if (bAmbientSoundNeedsClientFallback)
+        {
+            DummyActor.ClientTriggerAmbientSound();
+        }
+    }
+
     //SetTimer(10, false, 'CheckLoaded');
 
     `log("bisVanilla "$bisVanilla);
@@ -107,8 +123,8 @@ simulated function NotifyLogin(Controller NewPlayer)
         // Handle faction setup if custom factions are enabled
         if (!bUseDefaultFactions)
         {
-            DummyActor.FactionSetup(MyNorthForce, MySouthForce, bAITRoles);
-            DummyActor.ClientFactionSetup(MyNorthForce, MySouthForce, bAITRoles);
+            DummyActor.FactionSetup(MyNorthForce, MySouthForce, bAITRoles, bMACVSOGRoles);
+            DummyActor.ClientFactionSetup(MyNorthForce, MySouthForce, bAITRoles, bMACVSOGRoles);
         }
 
         ACPC = ACPlayerController(NewPlayer);
@@ -135,6 +151,80 @@ simulated function NotifyLogin(Controller NewPlayer)
     }
 
     super.NotifyLogin(NewPlayer);
+}
+
+// Determines whether the level's AkStartAmbientSound Kismet node(s) are reachable from a
+// bClientSideOnly event. If not (or if none exist to trace), late-joining clients will
+// need ACDummyActor to force "Start All" locally
+function CheckAmbientSoundNeedsFallback()
+{
+    local Sequence GameSeq;
+    local array<SequenceObject> AmbientNodes, AllNodes;
+    local int i;
+
+    bAmbientFallbackChecked = True;
+    bAmbientSoundNeedsClientFallback = False;
+
+    GameSeq = WorldInfo.GetGameSequence();
+    if (GameSeq == None)
+        return;
+
+    GameSeq.FindSeqObjectsByClass(class'SeqAct_AkStartAmbientSound', true, AmbientNodes);
+    if (AmbientNodes.Length == 0)
+        return; // No ambient sound node in the level, nothing to fall back to
+
+    GameSeq.FindSeqObjectsByClass(class'SequenceObject', true, AllNodes);
+
+    for (i = 0; i < AmbientNodes.Length; i++)
+    {
+        if (!IsFedByClientSideEvent(SequenceOp(AmbientNodes[i]), AllNodes))
+        {
+            bAmbientSoundNeedsClientFallback = True;
+            return;
+        }
+    }
+}
+
+// Walks backward through the Kismet graph from TargetOp looking for an upstream bClientSideOnly event
+function bool IsFedByClientSideEvent(SequenceOp TargetOp, array<SequenceObject> AllNodes)
+{
+    local array<SequenceOp> Visited;
+    return IsFedByClientSideEventRecursive(TargetOp, AllNodes, Visited);
+}
+
+function bool IsFedByClientSideEventRecursive(SequenceOp TargetOp, array<SequenceObject> AllNodes, out array<SequenceOp> Visited)
+{
+    local int i, j, k;
+    local SequenceOp Feeder;
+    local SequenceEvent FeederEvent;
+
+    if (Visited.Find(TargetOp) != INDEX_NONE)
+        return False;
+    Visited.AddItem(TargetOp);
+
+    for (i = 0; i < AllNodes.Length; i++)
+    {
+        Feeder = SequenceOp(AllNodes[i]);
+        if (Feeder == None || Feeder == TargetOp)
+            continue;
+
+        for (j = 0; j < Feeder.OutputLinks.Length; j++)
+        {
+            for (k = 0; k < Feeder.OutputLinks[j].Links.Length; k++)
+            {
+                if (Feeder.OutputLinks[j].Links[k].LinkedOp == TargetOp)
+                {
+                    FeederEvent = SequenceEvent(Feeder);
+                    if (FeederEvent != None && FeederEvent.bClientSideOnly)
+                        return True;
+
+                    if (IsFedByClientSideEventRecursive(Feeder, AllNodes, Visited))
+                        return True;
+                }
+            }
+        }
+    }
+    return False;
 }
 
 simulated function NotifyLogout(Controller Exiting)

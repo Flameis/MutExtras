@@ -13,6 +13,7 @@ Enable role systems and faction switching in WebAdmin > Mutator Settings:
 | `bUseDefaultFactions` | When disabled, allows custom faction selection for each team |
 | `MyNorthForce` | Select Northern faction: PAVN (0) or NLF (1) |
 | `MySouthForce` | Select Southern faction: USA (0), USMC (1), AUS (2), or ARVN (3) |
+| `bEnableAmbientSoundFix` | Automatically triggers the map's ambient sound for players who join after it fires, if the level's Kismet doesn't already handle this client-side |
 
 Both role systems can be enabled simultaneously. Roles appear in role selection menu when enabled.
 

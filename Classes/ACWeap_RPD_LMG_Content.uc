@@ -1,19 +1,15 @@
 //=============================================================================
-// ROWeap_M60
+// ROWeap_RPD_LMG_Content
 //=============================================================================
-// M60 Machine Gun
+// Content for the RPD LMG
 //=============================================================================
-// Rising Storm 2: Vietnam Source
-// Copyright (C) 2014 Tripwire Interactive LLC
-// - Nate Steger @ Antimatter Games LTD
+// Modified for MACVSOG Mutator by Sgt. Capwell [29ID]
 //=============================================================================
-
-class ACWeap_M60_GPMG_MACVSOG extends ROWeap_M60_GPMG
-	abstract;
+class ACWeap_RPD_LMG_Content extends ROGameContent.ROWeap_RPD_LMG_Content;
 
 defaultproperties
 {
-	WeaponContentClass(0)="MutExtras.ACWeap_M60_GPMG_Content"
-	WeaponContentClass(1)="MutExtras.ACWeap_M60_GPMG_Level2"
+	InitialNumPrimaryMags=6
+	NumMagsToResupply=1
+	MaxNumPrimaryMags=8
 }
-

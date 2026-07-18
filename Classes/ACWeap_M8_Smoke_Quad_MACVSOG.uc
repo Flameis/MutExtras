@@ -12,5 +12,5 @@ class ACWeap_M8_Smoke_Quad_MACVSOG extends ROWeap_M8_Smoke
 
 defaultproperties
 {
-	InitialNumPrimaryMags=4
+	WeaponContentClass(0)="MutExtras.ACWeap_M8_Smoke_Content"
 }

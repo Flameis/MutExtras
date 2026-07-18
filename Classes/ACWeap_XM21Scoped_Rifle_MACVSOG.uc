@@ -14,5 +14,6 @@ class ACWeap_XM21Scoped_Rifle_MACVSOG extends ROWeap_XM21Scoped_Rifle
 
 defaultproperties
 {
-	InitialNumPrimaryMags=6//7
+	WeaponContentClass(0)="MutExtras.ACWeap_XM21Scoped_Rifle_Content"
+	WeaponContentClass(1)="MutExtras.ACWeap_XM21Scoped_Rifle_Suppressed"
 }

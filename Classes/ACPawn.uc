@@ -3,6 +3,14 @@ class ACpawn extends ROPawn;
 var string 	PlayerRank, PlayerUnit;
 var bool bNeedsIdle, bSaluting, bUBSalute;
 
+// Without replication, only the server (and the owning client, via ModifyPlayer/PossessedBy)
+// ever has the real values, so AttachNewHeadgear() falls back to the "pvt" defaults everywhere else
+replication
+{
+	if (bNetDirty)
+		PlayerRank, PlayerUnit;
+}
+
 var MaterialInstanceConstant 		HeadgearMIC2;
 var MaterialInstanceConstant 		HeadgearMIC3;
 
@@ -209,13 +217,6 @@ function PossessedBy(Controller C, bool bVehicleTransition)
 }
 
 function SetUnitAndRank()
-{
-	PlayerRank = ACPlayerReplicationInfo(Controller.PlayerReplicationInfo).PlayerRank;
-	PlayerUnit = ACPlayerReplicationInfo(Controller.PlayerReplicationInfo).PlayerUnit;
-	ServerSetUnitAndRank();
-}
-
-reliable server function ServerSetUnitAndRank()
 {
 	PlayerRank = ACPlayerReplicationInfo(Controller.PlayerReplicationInfo).PlayerRank;
 	PlayerUnit = ACPlayerReplicationInfo(Controller.PlayerReplicationInfo).PlayerUnit;

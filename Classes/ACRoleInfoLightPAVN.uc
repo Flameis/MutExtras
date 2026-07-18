@@ -2,6 +2,32 @@
 //=============================================================================
 class ACRoleInfoLightPAVN extends RORoleInfoNorthernInfantry;
 
+function bool IsPlantableWeaponPersistant(ROGameReplicationInfo ROGRI)
+{
+	local EROWeaponClassType EROWCT;
+	local class<ROWeapon> ROW;
+
+	EROWCT = GetPlantableWeaponType(ROGRI);
+
+	if ( EROWCT == ROWCT_Equipment )
+	{
+		return false;
+	}
+
+	ROW = GetPlantableWeapon(ROGRI);
+
+	if ( class<ROPlantableTrapWeapon>(ROW) != none )
+	{
+		return class<ROPlantableTrapWeapon>(ROW).default.bIsPersistant;
+	}
+	else if ( class<RORemoteExplosiveWeapon>(ROW) != none )
+	{
+		return class<RORemoteExplosiveWeapon>(ROW).default.bIsPersistant;
+	}
+
+	return false;
+}
+
 DefaultProperties
 {
 	RoleType=RORIT_Scout

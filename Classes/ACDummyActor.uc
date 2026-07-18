@@ -8,30 +8,57 @@ simulated function PostBeginPlay()
     SetTimer(2.0, true, 'FixTankerPilotFlag');
 }
 
-simulated function FactionSetup(ENorthernForces MyNorthForce, ESouthernForces MySouthForce, bool bAITRoles)
+simulated function FactionSetup(ENorthernForces MyNorthForce, ESouthernForces MySouthForce, bool bAITRoles, optional bool bMACVSOGRoles)
 {
     local ROMapInfo ROMI;
-    
+
     ROMI = ROMapInfo(WorldInfo.GetMapInfo());
-    
+
     if (ROMI == None)
         return;
-    
+
     `log("[MutExtras Debug] ACDummyActor Setting up factions: North="$MyNorthForce$" South="$MySouthForce);
-    
+
     ROMI.NorthernForce = ENorthernForces(min(1, MyNorthForce));
     ROMI.SouthernForce = ESouthernForces(min(3, MySouthForce));
 
-    if (!bAITRoles)
+    // MACVSOG roles are a flavor of AIT-style role replacement (handled afterward by
+    // ACPlayerController.ReplaceRoles); skip the generic gametype role init here too,
+    // same as when bAITRoles is set, so it isn't immediately clobbered/redundant.
+    if (!bAITRoles && !bMACVSOGRoles)
     {
         ROMI.bInitializedRoles = false;
         ROMI.InitRolesForGametype(WorldInfo.GetGameClass(), 64, false);
     }
 }
 
-reliable client function ClientFactionSetup(ENorthernForces MyNorthForce, ESouthernForces MySouthForce, bool bAITRoles)
+reliable client function ClientFactionSetup(ENorthernForces MyNorthForce, ESouthernForces MySouthForce, bool bAITRoles, optional bool bMACVSOGRoles)
 {
-    FactionSetup(MyNorthForce, MySouthForce, bAITRoles);
+    FactionSetup(MyNorthForce, MySouthForce, bAITRoles, bMACVSOGRoles);
+}
+
+// Forces the level's AkStartAmbientSound Kismet node(s) to fire their "Start All" input locally.
+// Used as a fallback for players whose client never received the map's own client-side trigger.
+simulated function TriggerAmbientSound()
+{
+    local Sequence GameSeq;
+    local array<SequenceObject> Nodes;
+    local int i;
+
+    GameSeq = WorldInfo.GetGameSequence();
+    if (GameSeq == None)
+        return;
+
+    GameSeq.FindSeqObjectsByClass(class'SeqAct_AkStartAmbientSound', true, Nodes);
+    for (i = 0; i < Nodes.Length; i++)
+    {
+        SequenceOp(Nodes[i]).ForceActivateInput(0); // "Start All"
+    }
+}
+
+reliable client function ClientTriggerAmbientSound()
+{
+    TriggerAmbientSound();
 }
 
 simulated function ReplaceRoles(bool WW2, bool WW, bool GOM)

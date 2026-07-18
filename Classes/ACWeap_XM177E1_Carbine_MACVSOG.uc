@@ -14,8 +14,11 @@ class ACWeap_XM177E1_Carbine_MACVSOG extends ROWeap_XM177E1_Carbine
 
 defaultproperties
 {
-	WeaponContentClass(0)="MutExtras.ACWeap_XM177E1_Carbine_30rd"
-	RoleSelectionImage(0)=Texture2D'VN_UI_Textures_Three.WeaponTex.AUS_Weap_XM117_30'
+	WeaponContentClass(0)="MutExtras.ACWeap_XM177E1_Carbine_20rd"
+	RoleSelectionImage(0)=Texture2D'VN_UI_Textures_Three.WeaponTex.AUS_Weap_XM117'
+
+	WeaponContentClass(1)="MutExtras.ACWeap_XM177E1_Carbine_30rd"
+	RoleSelectionImage(1)=Texture2D'VN_UI_Textures_Three.WeaponTex.AUS_Weap_XM117_30'
 }
 
 

@@ -14,6 +14,6 @@ class ACWeap_M2_Carbine_MACVSOG extends ROWeap_M2_Carbine
 
 defaultproperties
 {
-	InitialNumPrimaryMags=7//6
+	WeaponContentClass(0)="MutExtras.ACWeap_M2_Carbine_Content"
 }
 

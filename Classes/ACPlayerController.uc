@@ -26,6 +26,12 @@ simulated function PreBeginPlay()
 	// SetUnitAndRank(PlayerRank, PlayerUnit);
 }
 
+// Allow team switching at any time
+function SetDisableTeamSwapTimer()
+{
+	return;
+}
+
 simulated function PostBeginPlay()
 {
     super.PostBeginPlay();
@@ -183,31 +189,7 @@ simulated function ReplaceRoles(bool bAITRoles, bool bMACVSOGRoles)
 
 		if (bMACVSOGRoles)
 		{
-			//Gotta make the array length right.
-			ROMI.NorthernRoles.Length = 0;
-			ROMI.SouthernRoles.Length = 0;
-        	ROMI.SouthernRoles.length = 9;
-        	ROMI.NorthernRoles.length = 9;
-
-			//Infinite roles
-			ROMI.SouthernRoles[0].Count = 255;
-			ROMI.SouthernRoles[1].Count = 255;
-			ROMI.SouthernRoles[2].Count = 255;
-			ROMI.SouthernRoles[3].Count = 255;
-			ROMI.SouthernRoles[4].Count = 255;
-			ROMI.SouthernRoles[5].Count = 255;
-			ROMI.SouthernRoles[6].Count = 9;
-			ROMI.SouthernRoles[7].Count = 255;
-			ROMI.SouthernRoles[8].Count = 255;
-
-			ROMI.NorthernRoles[0].Count = 255;
-			ROMI.NorthernRoles[1].Count = 255;
-			ROMI.NorthernRoles[2].Count = 255;
-			ROMI.NorthernRoles[3].Count = 255;
-			ROMI.NorthernRoles[4].Count = 255;
-			ROMI.NorthernRoles[5].Count = 255;
-			ROMI.NorthernRoles[6].Count = 9;
-			ROMI.NorthernRoles[7].Count = 255;
+			bAITRoles = true;
 		}
 
 		if (bAITRoles)

@@ -14,6 +14,8 @@ class ACWeap_AK47_AssaultRifle_MACVSOG extends ROWeap_AK47_AssaultRifle
 	abstract;
 
 defaultproperties
-{	
-	InitialNumPrimaryMags=7//6
+{
+	WeaponContentClass(0)="MutExtras.ACWeap_AK47_AssaultRifle_Type56"
+	WeaponContentClass(1)="MutExtras.ACWeap_AK47_AssaultRifle_Type56_1"
+	WeaponContentClass(2)="MutExtras.ACWeap_AK47_AssaultRifle_AKM"
 }

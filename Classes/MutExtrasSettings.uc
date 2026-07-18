@@ -21,17 +21,20 @@ function InitMutSettings()
 	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bAITRoles", ".", "_")), int(class'MutExtras'.default.bAITRoles));}
 	else{self.SetIntPropertyByName(name(Repl("bAITRoles", ".", "_")), int(MutExtras(self.myMut).bAITRoles));};
 
-	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bSmokeForEveryone", ".", "_")), int(class'MutExtras'.default.bSmokeForEveryone));}
-	else{self.SetIntPropertyByName(name(Repl("bSmokeForEveryone", ".", "_")), int(MutExtras(self.myMut).bSmokeForEveryone));};
+	// if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bSmokeForEveryone", ".", "_")), int(class'MutExtras'.default.bSmokeForEveryone));}
+	// else{self.SetIntPropertyByName(name(Repl("bSmokeForEveryone", ".", "_")), int(MutExtras(self.myMut).bSmokeForEveryone));};
 
-	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bLightGetGrenade", ".", "_")), int(class'MutExtras'.default.bLightGetGrenade));}
-	else{self.SetIntPropertyByName(name(Repl("bLightGetGrenade", ".", "_")), int(MutExtras(self.myMut).bLightGetGrenade));};
+	// if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bLightGetGrenade", ".", "_")), int(class'MutExtras'.default.bLightGetGrenade));}
+	// else{self.SetIntPropertyByName(name(Repl("bLightGetGrenade", ".", "_")), int(MutExtras(self.myMut).bLightGetGrenade));};
 
-	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bAllAITWeapons", ".", "_")), int(class'MutExtras'.default.bAllAITWeapons));}
-	else{self.SetIntPropertyByName(name(Repl("bAllAITWeapons", ".", "_")), int(MutExtras(self.myMut).bAllAITWeapons));};
+	// if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bAllAITWeapons", ".", "_")), int(class'MutExtras'.default.bAllAITWeapons));}
+	// else{self.SetIntPropertyByName(name(Repl("bAllAITWeapons", ".", "_")), int(MutExtras(self.myMut).bAllAITWeapons));};
 
-	// if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), int(class'MutExtras'.default.bMACVSOGRoles));}}
-	// else{self.SetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), int(MutExtras(self.myMut).bMACVSOGRoles));};
+	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bEnableAmbientSoundFix", ".", "_")), int(class'MutExtras'.default.bEnableAmbientSoundFix));}
+	else{self.SetIntPropertyByName(name(Repl("bEnableAmbientSoundFix", ".", "_")), int(MutExtras(self.myMut).bEnableAmbientSoundFix));};
+
+	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), int(class'MutExtras'.default.bMACVSOGRoles));}
+	else{self.SetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), int(MutExtras(self.myMut).bMACVSOGRoles));};
 }
 
 /**
@@ -77,17 +80,20 @@ function SaveMutSettings()
 	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bAITRoles", ".", "_")), tempValue); class'MutExtras'.default.bAITRoles = (self.tempValue != 0);}
 	else {self.GetIntPropertyByName(name(Repl("bAITRoles", ".", "_")), tempValue); MutExtras(self.myMut).bAITRoles  = (self.tempValue != 0);}
 
-	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bSmokeForEveryone", ".", "_")), tempValue); class'MutExtras'.default.bSmokeForEveryone = (self.tempValue != 0);}
-	else {self.GetIntPropertyByName(name(Repl("bSmokeForEveryone", ".", "_")), tempValue); MutExtras(self.myMut).bSmokeForEveryone  = (self.tempValue != 0);}
+	// if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bSmokeForEveryone", ".", "_")), tempValue); class'MutExtras'.default.bSmokeForEveryone = (self.tempValue != 0);}
+	// else {self.GetIntPropertyByName(name(Repl("bSmokeForEveryone", ".", "_")), tempValue); MutExtras(self.myMut).bSmokeForEveryone  = (self.tempValue != 0);}
 
-	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bLightGetGrenade", ".", "_")), tempValue); class'MutExtras'.default.bLightGetGrenade = (self.tempValue != 0);}
-	else {self.GetIntPropertyByName(name(Repl("bLightGetGrenade", ".", "_")), tempValue); MutExtras(self.myMut).bLightGetGrenade  = (self.tempValue != 0);}
+	// if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bLightGetGrenade", ".", "_")), tempValue); class'MutExtras'.default.bLightGetGrenade = (self.tempValue != 0);}
+	// else {self.GetIntPropertyByName(name(Repl("bLightGetGrenade", ".", "_")), tempValue); MutExtras(self.myMut).bLightGetGrenade  = (self.tempValue != 0);}
 
-	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bAllAITWeapons", ".", "_")), tempValue); class'MutExtras'.default.bAllAITWeapons = (self.tempValue != 0);}
-	else {self.GetIntPropertyByName(name(Repl("bAllAITWeapons", ".", "_")), tempValue); MutExtras(self.myMut).bAllAITWeapons  = (self.tempValue != 0);}
+	// if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bAllAITWeapons", ".", "_")), tempValue); class'MutExtras'.default.bAllAITWeapons = (self.tempValue != 0);}
+	// else {self.GetIntPropertyByName(name(Repl("bAllAITWeapons", ".", "_")), tempValue); MutExtras(self.myMut).bAllAITWeapons  = (self.tempValue != 0);}
 
-	// if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bMACVSOGRoles (Not finished)", ".", "_")), tempValue); class'MutExtras'.default.bMACVSOGRoles = (self.tempValue != 0);}
-	// else {self.GetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), tempValue); MutExtras(self.myMut).bMACVSOGRoles  = (self.tempValue != 0);}
+	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bEnableAmbientSoundFix", ".", "_")), tempValue); class'MutExtras'.default.bEnableAmbientSoundFix = (self.tempValue != 0);}
+	else {self.GetIntPropertyByName(name(Repl("bEnableAmbientSoundFix", ".", "_")), tempValue); MutExtras(self.myMut).bEnableAmbientSoundFix  = (self.tempValue != 0);}
+
+	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), tempValue); class'MutExtras'.default.bMACVSOGRoles = (self.tempValue != 0);}
+	else {self.GetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), tempValue); MutExtras(self.myMut).bMACVSOGRoles  = (self.tempValue != 0);}
 
 	if (self.myMut != None)
 		self.myMut.SaveConfig();
@@ -112,6 +118,12 @@ defaultproperties
 	Properties.Add((PropertyId=1003,Data=(Type=SDT_Int32,Value1=0)))
 	PropertyMappings.Add((Id=1003,Name="bAITRoles"))
 
+	Properties.Add((PropertyId=1007,Data=(Type=SDT_Int32,Value1=0)))
+	PropertyMappings.Add((Id=1007,Name="bEnableAmbientSoundFix"))
+
+	Properties.Add((PropertyId=1008,Data=(Type=SDT_Int32,Value1=0)))
+	PropertyMappings.Add((Id=1008,Name="bMACVSOGRoles"))
+
 	// Properties.Add((PropertyId=1004,Data=(Type=SDT_Int32,Value1=0)))
 	// PropertyMappings.Add((Id=1004,Name="bSmokeForEveryone"))
 
@@ -120,7 +132,4 @@ defaultproperties
 
 	// Properties.Add((PropertyId=1006,Data=(Type=SDT_Int32,Value1=0)))
 	// PropertyMappings.Add((Id=1006,Name="bAllAITWeapons"))
-
-	// Properties.Add((PropertyId=1004,Data=(Type=SDT_Int32,Value1=0)))
-	// PropertyMappings.Add((Id=1004,Name="bMACVSOGRoles"))
 }

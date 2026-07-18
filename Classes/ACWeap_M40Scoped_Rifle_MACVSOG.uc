@@ -14,5 +14,5 @@ class ACWeap_M40Scoped_Rifle_MACVSOG extends ROWeap_M40Scoped_Rifle
 
 defaultproperties
 {
-	InitialNumPrimaryMags=18//12
+	WeaponContentClass(0)="MutExtras.ACWeap_M40Scoped_Rifle_Content"
 }

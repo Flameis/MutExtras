@@ -1,19 +1,13 @@
 //=============================================================================
-// ROWeap_M60
+// ROWeap_XM21Scoped_Rifle_Suppressed
 //=============================================================================
-// M60 Machine Gun
+// Content for the XM21 Scoped Rifle (suppressed variant)
 //=============================================================================
-// Rising Storm 2: Vietnam Source
-// Copyright (C) 2014 Tripwire Interactive LLC
-// - Nate Steger @ Antimatter Games LTD
+// Modified for MACVSOG Mutator by Sgt Capwell [29ID]
 //=============================================================================
-
-class ACWeap_M60_GPMG_MACVSOG extends ROWeap_M60_GPMG
-	abstract;
+class ACWeap_XM21Scoped_Rifle_Suppressed extends ROGameContent.ROWeap_XM21Scoped_Rifle_Suppressed;
 
 defaultproperties
 {
-	WeaponContentClass(0)="MutExtras.ACWeap_M60_GPMG_Content"
-	WeaponContentClass(1)="MutExtras.ACWeap_M60_GPMG_Level2"
+	InitialNumPrimaryMags=6//7
 }
-

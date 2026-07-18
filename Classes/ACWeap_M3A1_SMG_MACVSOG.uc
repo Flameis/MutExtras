@@ -12,5 +12,5 @@ class ACWeap_M3A1_SMG_MACVSOG extends ROWeap_M3A1_SMG
 
 defaultproperties
 {
-	InitialNumPrimaryMags=7//6
+	WeaponContentClass(0)="MutExtras.ACWeap_M3A1_SMG_Content"
 }

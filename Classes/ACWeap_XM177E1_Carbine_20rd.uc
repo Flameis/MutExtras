@@ -1,19 +1,13 @@
 //=============================================================================
-// ROWeap_M60
+// ROWeap_XM177E1_Carbine_20rd
 //=============================================================================
-// M60 Machine Gun
+// Content for CAR-15 Commando (XM177E1) Carbine - 20 round mags
 //=============================================================================
-// Rising Storm 2: Vietnam Source
-// Copyright (C) 2014 Tripwire Interactive LLC
-// - Nate Steger @ Antimatter Games LTD
+// Ammo Count modified by Sgt. Capwell [29ID]
 //=============================================================================
-
-class ACWeap_M60_GPMG_MACVSOG extends ROWeap_M60_GPMG
-	abstract;
+class ACWeap_XM177E1_Carbine_20rd extends ROGameContent.ROWeap_XM177E1_Carbine_20rd;
 
 defaultproperties
 {
-	WeaponContentClass(0)="MutExtras.ACWeap_M60_GPMG_Content"
-	WeaponContentClass(1)="MutExtras.ACWeap_M60_GPMG_Level2"
+	InitialNumPrimaryMags=7
 }
-
