@@ -4,11 +4,19 @@ class ACPlayerReplicationInfo extends ROPlayerReplicationInfo
 var repnotify string 	PlayerRank, PlayerUnit;
 var repnotify bool 		bNeedsSalute;
 
+// Replicated position for players who didn't get a native TeamPRIArray slot (team full at 32),
+// used by ACHUDWidgetOverheadMap to still show them on the map. See MutExtras.UpdateOverflowMapLocations
+var vector				OverflowMapLocation;
+
+// What icon ACHUDWidgetOverheadMap should draw for OverflowMapLocation, set by
+// MutExtras.GetOverflowIconType. Values: 0=Infantry, 1=Tank, 2=Transport, 3=Huey, 4=Cobra, 5=Loach, 6=Gunship
+var byte				OverflowIconType;
+
 // Without replication, only the player can see the helmet decals
 replication
 {
 	if (bNetDirty)
-		PlayerRank, PlayerUnit, bNeedsSalute;
+		PlayerRank, PlayerUnit, bNeedsSalute, OverflowMapLocation, OverflowIconType;
 }
 
 simulated event ReplicatedEvent(name VarName)

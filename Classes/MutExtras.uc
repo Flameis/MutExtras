@@ -58,7 +58,8 @@ simulated function PreBeginPlay()
         ROGameInfo(WorldInfo.Game).PlayerControllerClass        = class'ACPlayerController';
         ROGameInfo(WorldInfo.Game).PlayerReplicationInfoClass   = class'ACPlayerReplicationInfo';
         ROGameInfo(WorldInfo.Game).PawnHandlerClass             = class'ACPawnHandler';
-        
+        ROGameInfo(WorldInfo.Game).HUDType                      = class'ACHUD';
+
         ROGameInfo(WorldInfo.Game).SouthRoleContentClasses = RORICSouth;
         ROGameInfo(WorldInfo.Game).NorthRoleContentClasses = RORICNorth;
     }
@@ -266,6 +267,79 @@ auto state StartUp
     //SetTimer(10, false, 'CheckLoaded');
     SetTimer(10, true, 'timer2'); // Periodically check vehicle teams
     // SetTimer(1, false, 'timer'); // Periodically modify volumes
+    SetTimer(0.25, true, 'UpdateOverflowMapLocations'); // Track positions for players who didn't get a native TeamPRIArray slot
+}
+
+// ====================================================
+// Overflow Map Locations
+// ====================================================
+// ROTeamInfo.TeamPRIArray/TeamLocationArray are fixed to MAX_PLAYERS_PER_TEAM (32) slots. Once a
+// team is full, AddToTeam() can't find a free slot, so the 33rd+ player never gets a replicated map
+// position and is invisible on the overhead map. This periodically republishes their location via
+// ACPlayerReplicationInfo.OverflowMapLocation so ACHUDWidgetOverheadMap can draw them separately.
+function UpdateOverflowMapLocations()
+{
+    local Controller C;
+    local ROPlayerReplicationInfo ROPRI;
+    local ACPlayerReplicationInfo ACPRI;
+    local ROTeamInfo ROTI;
+
+    foreach WorldInfo.AllControllers(class'Controller', C)
+    {
+        if (C.PlayerReplicationInfo == None || C.Pawn == None)
+            continue;
+
+        ROPRI = ROPlayerReplicationInfo(C.PlayerReplicationInfo);
+        if (ROPRI == None || ROPRI.bOnlySpectator)
+            continue;
+
+        ROTI = ROTeamInfo(ROPRI.Team);
+        if (ROTI == None)
+            continue;
+
+        // TeamPRIArrayIndex defaults to 0 (not 255) when never assigned a slot, so it can't be
+        // trusted alone - only skip if that slot in the team's roster actually points back to us
+        if ((ROPRI.TeamPRIArrayIndex < ArrayCount(ROTI.TeamPRIArray)) && (ROTI.TeamPRIArray[ROPRI.TeamPRIArrayIndex] == ROPRI))
+            continue;
+
+        ACPRI = ACPlayerReplicationInfo(ROPRI);
+        if (ACPRI != None)
+        {
+            ACPRI.OverflowMapLocation = C.Pawn.Location;
+            ACPRI.OverflowIconType = GetOverflowIconType(C.Pawn, ROTI);
+        }
+    }
+}
+
+// Classifies a player's current Pawn for overhead map icon selection.
+// Values: 0=Infantry, 1=Tank, 2=Transport, 3=Huey, 4=Cobra, 5=Loach, 6=Gunship
+function byte GetOverflowIconType(Pawn P, ROTeamInfo ROTI)
+{
+    local ROVehicleHelicopter Heli;
+
+    if (ROVehicleTank(P) != None)
+        return 1;
+
+    if (ROVehicleTransport(P) != None)
+        return 2;
+
+    Heli = ROVehicleHelicopter(P);
+    if (Heli != None)
+    {
+        switch (ROTI.GetHeliType(Heli))
+        {
+            case VNHT_Huey:
+                return 3;
+            case VNHT_Cobra:
+                return 4;
+            case VNHT_Loach:
+                return 5;
+            case VNHT_Gunship:
+                return 6;
+        }
+    }
+
+    return 0;
 }
 
 // ====================================================
@@ -326,8 +400,10 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
             break;
 
         case "ADDBOTS":
-            // Add bots to the game
-            AddBots(int(Args[1]), int(Args[2]), bool(Args[3]));
+            // Add bots to the game. 5th arg (optional): overflow - force bots onto Args[2]'s team past
+            // MAX_PLAYERS_PER_TEAM (32), ignoring team balance and the server's MaxPlayers cap. For
+            // testing the overhead map overflow fix; requires a specific team (Args[2] != -1).
+            AddBots(int(Args[1]), int(Args[2]), bool(Args[3]), bool(Args[4]));
             `log ("[MutExtras Debug]Added Bots");
             break;
 
@@ -371,7 +447,7 @@ function Salute(PlayerController PC)
 // ====================================================
 // Bot Management
 // ====================================================
-function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd)
+function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd, optional bool bOverflow)
 {
     local ROGameInfo              ROGI;
 	local ROAIController ROBot;
@@ -386,7 +462,10 @@ function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd)
 		return;
 	}
 
-	while ( Num > 0 && ROGI.NumBots + ROGI.NumPlayers < ROGI.MaxPlayers )
+	// bOverflow: for testing the overhead map overflow fix. Skips the MaxPlayers cap below and, for each
+	// bot, forces it onto NewTeam directly (see the SuggestedTeam branch), bypassing team balance entirely
+	// so a team can be deliberately stacked past MAX_PLAYERS_PER_TEAM (32).
+	while ( Num > 0 && (bOverflow || ROGI.NumBots + ROGI.NumPlayers < ROGI.MaxPlayers) )
 	{
 		// Create a new Controller for this Bot
 	    ROBot = Spawn(ROGI.AIControllerClass);
@@ -396,7 +475,11 @@ function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd)
 		ROBot.PlayerReplicationInfo.PlayerID = ROGI.CurrentID++;
 
 		// Suggest a team to put the AI on
-		if ( ROGI.bBalanceTeams || NewTeam == -1 )
+		if ( bOverflow && NewTeam != -1 )
+		{
+			SuggestedTeam = NewTeam;
+		}
+		else if ( ROGI.bBalanceTeams || NewTeam == -1 )
 		{
             // Check team balance and role availability
 			if ( ROGI.GameReplicationInfo.Teams[`AXIS_TEAM_INDEX].Size - ROGI.GameReplicationInfo.Teams[`ALLIES_TEAM_INDEX].Size <= 0
@@ -425,8 +508,16 @@ function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd)
 			return;
 		}
 
-		// Put the new Bot on the Team that needs it
-		ChosenTeam = ROGI.PickTeam(SuggestedTeam, ROBot);
+		// Put the new Bot on the Team that needs it. bOverflow forces the requested team directly,
+		// since PickTeam() would otherwise redirect bots to keep the teams balanced.
+		if ( bOverflow && NewTeam != -1 )
+		{
+			ChosenTeam = SuggestedTeam;
+		}
+		else
+		{
+			ChosenTeam = ROGI.PickTeam(SuggestedTeam, ROBot);
+		}
 		// Set the bot name based on team
 		ROGI.ChangeName(ROBot, ROGI.GetDefaultBotName(ROBot, ChosenTeam, ROTeamInfo(ROGI.GameReplicationInfo.Teams[ChosenTeam]).NumBots + 1), false);
 
@@ -469,7 +560,7 @@ function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd)
 
 		// Note that we've added another Bot
 		if( !bNoForceAdd )
-		ROGI.DesiredPlayerCount++;
+		    ROGI.DesiredPlayerCount++;
 	    ROGI.NumBots++;
 		Num--;
 		ROGI.UpdateGameSettingsCounts();

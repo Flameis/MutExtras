@@ -10,7 +10,7 @@ DefaultProperties
 
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
-					PrimaryWeapons=(class'ROGame.ROWeap_M37_Shotgun',class'ROGame.ROWeap_XM177E1_Carbine',class'ROGame.ROWeap_M1A1_SMG'),
+					PrimaryWeapons=(class'ROGame.ROWeap_M37_Shotgun',class'ROGame.ROWeap_XM177E1_Carbine_Late',class'ROGame.ROWeap_M1A1_SMG'),
 					// Other items
 					OtherItems=(class'ROGame.ROWeap_M61_Grenade',class'ROGame.ROWeap_M8_Smoke',class'MutExtras.ACWeap_M18_Claymore_Quad'),
 		)}
