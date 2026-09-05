@@ -6,7 +6,6 @@ var ROMapInfo                   ROMI;
 var array<class<RORoleInfo> > ACNorthernRoles;
 var	array<class<RORoleInfo> > ACSouthernRoles;
 
-var config string PlayerRank, PlayerUnit;
 var bool bAIT, bMACVSOG;
 
 simulated function PreBeginPlay()
@@ -22,8 +21,6 @@ simulated function PreBeginPlay()
     	ReplaceInventoryManager();
     	//ClientReplaceInventoryManager();
 	}
-
-	// SetUnitAndRank(PlayerRank, PlayerUnit);
 }
 
 // Allow team switching at any time
@@ -111,31 +108,6 @@ exec function MGhost()
 	}
 
 	ClientMessage("You feel ethereal");
-}
-
-reliable client function SetPlayerRank(string NewRank)
-{
-	PlayerRank = NewRank;
-	SetUnitAndRank(PlayerRank, PlayerUnit);
-    SaveConfig();
-}
-
-reliable client function SetPlayerUnit(string NewUnit)
-{
-	PlayerUnit = NewUnit;
-	SetUnitAndRank(PlayerRank, PlayerUnit);
-    SaveConfig();
-}
-
-reliable server function SetUnitAndRank(string Rank, string Unit)
-{
-	ACPlayerReplicationInfo(PlayerReplicationInfo).PlayerRank = Rank;
-	ACPlayerReplicationInfo(PlayerReplicationInfo).PlayerUnit = Unit;
-}
-
-reliable client function SetupUnitAndRank()
-{
-	SetUnitAndRank(PlayerRank, PlayerUnit);
 }
 
 simulated function ReplacePawnHandler()

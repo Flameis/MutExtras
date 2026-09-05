@@ -70,7 +70,6 @@ simulated function ClientInitialize(Controller C)
 	local bool bNewOwner;
 	
 	bNewOwner = (Owner != C);
-	// SetUnitAndRank(PlayerRank, PlayerUnit);
 	Super.ClientInitialize(C);
 	
 	if (bNewOwner)

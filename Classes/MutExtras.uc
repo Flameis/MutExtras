@@ -11,6 +11,7 @@ class MutExtras extends ROMutator
 var RORoleInfoClasses       RORICSouth;
 var RORoleInfoClasses       RORICNorth;
 var array<ACDummyActor>     DummyActors;
+var ACPatchChanger          MyPatchChanger; // Server-side, player-ID-keyed cache for helmet rank/unit patches
 
 var bool                    bisVanilla;
 var array<Byte> 		    HitNum;
@@ -65,6 +66,9 @@ simulated function PreBeginPlay()
     }
 
     ModifyVolumes();
+
+    // Server-side patch cache: values live here, never on the client, keyed by player ID
+    MyPatchChanger = Spawn(class'ACPatchChanger', self);
 
     super.PreBeginPlay();
 }
@@ -141,8 +145,9 @@ simulated function NotifyLogin(Controller NewPlayer)
             ACPC.ReplaceInventoryManager();
             ACPC.ClientReplaceInventoryManager();
 
-            ACPC.SetupUnitAndRank();
-        } 
+            // Apply this player's cached rank/unit patch (server-authoritative, keyed by player ID)
+            MyPatchChanger.InitPatches(ACPC);
+        }
     }
     else
     {
@@ -385,13 +390,13 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
             break;
 
         case "CHANGERANK":
-            // Change player rank
-            ACPlayerController(PC).SetPlayerRank(Args[1]);
+            // Change player rank (server-authoritative, cached per player ID)
+            MyPatchChanger.MutChangeRank(PC, Args[1]);
             break;
 
         case "CHANGEUNIT":
-            // Change player unit
-            ACPlayerController(PC).SetPlayerUnit(Args[1]);
+            // Change player unit (server-authoritative, cached per player ID)
+            MyPatchChanger.MutChangeUnit(PC, Args[1]);
             break;
 
         case "RESETMESH":
