@@ -11,6 +11,7 @@ class MutExtras extends ROMutator
 var RORoleInfoClasses       RORICSouth;
 var RORoleInfoClasses       RORICNorth;
 var array<ACDummyActor>     DummyActors;
+var array<ACSpectatorInfo>  SpectatorInfos; // Server-side, one per player: feeds the spectator overlay
 var ACPatchChanger          MyPatchChanger; // Server-side, player-ID-keyed cache for helmet rank/unit patches
 
 var bool                    bisVanilla;
@@ -28,7 +29,8 @@ var config bool             bSmokeForEveryone;
 var config bool             bLightGetGrenade;
 var config bool             bAllAITWeapons;
 var config bool             bEnableAmbientSoundFix;
-var config bool             bAllowIntroVO; // Set true to keep the round-start commander speech (muted by default)
+var config bool             bAllowIntroVO; // Set true to keep the round-start voice lines (muted by default)
+var config bool             bDisableEnhancedSpectator; // Set true to turn off the spectator overlay (every player on the map, coloured names, head triangles). Negative so it is on by default: a missing ini entry loads as false
 
 // ====================================================
 // Initialization
@@ -71,7 +73,47 @@ simulated function PreBeginPlay()
     // Server-side patch cache: values live here, never on the client, keyed by player ID
     MyPatchChanger = Spawn(class'ACPatchChanger', self);
 
+    // Voice lines at the start of the round: the commander speech is muted per player (NotifyLogin) and the queued
+    // spawn-in chatter is dropped here.
+    if (!bAllowIntroVO)
+        SetTimer(0.25, true, 'RemoveSpawnChatter');
+
+    if (!bDisableEnhancedSpectator)
+        SetTimer(0.25, true, 'RefreshSpectatorInfos');
+
     super.PreBeginPlay();
+}
+
+// Pushes the current player positions to every spectator's overlay (ACSpectatorInfo), which ignores non-spectators
+function RefreshSpectatorInfos()
+{
+    local int i;
+
+    for (i = SpectatorInfos.Length - 1; i >= 0; i--)
+    {
+        if (SpectatorInfos[i] == None || SpectatorInfos[i].bDeleteMe)
+            SpectatorInfos.Remove(i, 1);
+        else
+            SpectatorInfos[i].Refresh();
+    }
+}
+
+// Drops queued spawn-in voice lines (SpawnAttacking/Defending/FireFight/Neutral) before they are broadcast
+function RemoveSpawnChatter()
+{
+    local ROGameInfo ROGI;
+    local int i, Index;
+
+    ROGI = ROGameInfo(WorldInfo.Game);
+    if (ROGI == None)
+        return;
+
+    for (i = ROGI.DelayedBattleChatterEvents.Length - 1; i >= 0; i--)
+    {
+        Index = ROGI.DelayedBattleChatterEvents[i].VoiceComIndex;
+        if ((Index >= 100 && Index <= 105) || (Index >= 222 && Index <= 224) || Index == 281)
+            ROGI.DelayedBattleChatterEvents.Remove(i, 1);
+    }
 }
 
 // ====================================================
@@ -106,6 +148,9 @@ simulated function NotifyLogin(Controller NewPlayer)
     // Spawn a dummy actor for each player to handle client-side replication
     DummyActor = Spawn(class'ACDummyActor', NewPlayer);
     DummyActors.AddItem(DummyActor);
+
+    if (!bDisableEnhancedSpectator && PlayerController(NewPlayer) != None)
+        SpectatorInfos.AddItem(Spawn(class'ACSpectatorInfo', NewPlayer));
     //`log ("[MutExtras LogIn] Spawning "$DummyActor);
 
     if (bEnableAmbientSoundFix)
@@ -240,6 +285,17 @@ function bool IsFedByClientSideEventRecursive(SequenceOp TargetOp, array<Sequenc
 simulated function NotifyLogout(Controller Exiting)
 {
     local ACDummyActor DummyActor;
+    local int i;
+
+    for (i = SpectatorInfos.Length - 1; i >= 0; i--)
+    {
+        if (SpectatorInfos[i] == None || SpectatorInfos[i].Owner == Exiting)
+        {
+            if (SpectatorInfos[i] != None)
+                SpectatorInfos[i].Destroy();
+            SpectatorInfos.Remove(i, 1);
+        }
+    }
 
     // Find and destroy the dummy actor associated with the exiting player
     foreach DummyActors(DummyActor)
@@ -535,10 +591,12 @@ function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd, 
 		ROBot.SetTeam(ROBot.PlayerReplicationInfo.Team.TeamIndex);
 
 		// Have the bot choose its role
+		// No role for this bot: stop. (A 'continue' here never counts the bot, so with bOverflow - which skips the
+		// role availability checks above - this looped forever, spawning and destroying bots.)
 		if( !ROBot.ChooseRole() )
 		{
 			ROBot.Destroy();
-			continue;
+			return;
 		}
         
         // Force rifleman role for specific class indices
@@ -579,11 +637,18 @@ function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd, 
 function RemoveBots()
 {
     local ROAIController ROB;
+
+    // Same as the game's own KillBots: without this the game keeps topping the server up to DesiredPlayerCount
+    ROGameInfo(WorldInfo.Game).DesiredPlayerCount = 0;
+
     // Iterate through all AI controllers and destroy them
     foreach allactors(class'ROAIController', ROB)
     {
-        ROB.Pawn.ShutDown();
-        ROB.Pawn.Destroy();
+        if (ROB.Pawn != None)
+        {
+            ROB.Pawn.ShutDown();
+            ROB.Pawn.Destroy();
+        }
         ROB.ShutDown();
         ROB.Destroy();
     }
