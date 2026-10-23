@@ -13,7 +13,10 @@ Enable role systems and faction switching in WebAdmin > Mutator Settings:
 | `bUseDefaultFactions` | When disabled, allows custom faction selection for each team |
 | `MyNorthForce` | Select Northern faction: PAVN (0) or NLF (1) |
 | `MySouthForce` | Select Southern faction: USA (0), USMC (1), AUS (2), or ARVN (3) |
-| `bEnableAmbientSoundFix` | Automatically triggers the map's ambient sound for players who join after it fires, if the level's Kismet doesn't already handle this client-side |
+| `bEnableAmbientSoundFix` | Automatically triggers the map's ambient sound for players who join after it fires, if the level's Kismet doesn't already handle this client-side. The trigger is delayed, fires once and stops the ambience first so maps like Sapa don't play it twice |
+| `bAllowIntroVO` | Set true to keep the round-start commander speech (muted by default). Also on the mutator settings page |
+
+Other fixes: the "resupplied" element on the weapon HUD (ammo resupply info) no longer stays stuck on screen after resupplying a machine gun. This fix lives in `ACPlayerController`, so it only applies when MutExtras supplies the player controller (vanilla maps). Light ARVN uses the 29th's `ACWeap_XM177E1_Carbine_Late`, which keeps the 30 round XM177E1 but with 7 magazines like the other 29th loadouts.
 
 Both role systems can be enabled simultaneously. Roles appear in role selection menu when enabled.
 
