@@ -27,6 +27,145 @@ var ROHUDWidgetComponent OverflowSLLabels[`MAX_SQUADS];
 // Slightly smaller than native's real squad leader icon (TransportSize) so overflow squad
 // leaders stay visually distinct from a "real" one, while still standing out from regular icons
 const OVERFLOW_SL_SIZE = 2.5;
+var bool bCMenuPresenceChecked;
+var bool bCMenuActive;
+
+function bool IsCMenuActive()
+{
+	local Mutator CurrentMutator;
+
+	if (bCMenuPresenceChecked)
+	{
+		return bCMenuActive;
+	}
+
+	bCMenuPresenceChecked = true;
+	bCMenuActive = false;
+	for (CurrentMutator = ROGameInfo(WorldInfo.Game).BaseMutator; CurrentMutator != none; CurrentMutator = CurrentMutator.NextMutator)
+	{
+		if (InStr(string(CurrentMutator.Name), "MutCMenu",, true) != -1)
+		{
+			bCMenuActive = true;
+			break;
+		}
+	}
+
+	return bCMenuActive;
+}
+
+function byte GetObjectiveBorderCode(Vector2D Point)
+{
+	local byte Code;
+
+	Code = 0;
+	if (Point.X < MinVisibleWorldX) Code += 1;
+	if (Point.X > MaxVisibleWorldX) Code += 2;
+	if (Point.Y < MinVisibleWorldY) Code += 4;
+	if (Point.Y > MaxVisibleWorldY) Code += 8;
+	return Code;
+}
+
+function DrawObjectiveBorderSegment(Canvas HUDCanvas, Vector2D StartPoint, Vector2D EndPoint, color LineColor)
+{
+	local byte StartCode, EndCode, OutsideCode;
+	local float T, MapWidth, MapHeight;
+	local Vector2D ClippedPoint;
+
+	StartCode = GetObjectiveBorderCode(StartPoint);
+	EndCode = GetObjectiveBorderCode(EndPoint);
+
+	while (true)
+	{
+		if ((StartCode | EndCode) == 0)
+		{
+			MapWidth = HUDComponents[ROOMT_Map].CurWidth / (MaxVisibleWorldY - MinVisibleWorldY);
+			MapHeight = HUDComponents[ROOMT_Map].CurHeight / (MaxVisibleWorldX - MinVisibleWorldX);
+			HUDCanvas.Draw2DLine(
+				HUDComponents[ROOMT_Map].CurX + ((StartPoint.Y - MinVisibleWorldY) * MapWidth),
+				HUDComponents[ROOMT_Map].CurY + HUDComponents[ROOMT_Map].CurHeight - ((StartPoint.X - MinVisibleWorldX) * MapHeight),
+				HUDComponents[ROOMT_Map].CurX + ((EndPoint.Y - MinVisibleWorldY) * MapWidth),
+				HUDComponents[ROOMT_Map].CurY + HUDComponents[ROOMT_Map].CurHeight - ((EndPoint.X - MinVisibleWorldX) * MapHeight),
+				LineColor);
+			return;
+		}
+
+		if ((StartCode & EndCode) != 0)
+		{
+			return;
+		}
+
+		OutsideCode = StartCode != 0 ? StartCode : EndCode;
+		if ((OutsideCode & 8) != 0)
+		{
+			T = (MaxVisibleWorldY - StartPoint.Y) / (EndPoint.Y - StartPoint.Y);
+		}
+		else if ((OutsideCode & 4) != 0)
+		{
+			T = (MinVisibleWorldY - StartPoint.Y) / (EndPoint.Y - StartPoint.Y);
+		}
+		else if ((OutsideCode & 2) != 0)
+		{
+			T = (MaxVisibleWorldX - StartPoint.X) / (EndPoint.X - StartPoint.X);
+		}
+		else
+		{
+			T = (MinVisibleWorldX - StartPoint.X) / (EndPoint.X - StartPoint.X);
+		}
+
+		ClippedPoint.X = StartPoint.X + T * (EndPoint.X - StartPoint.X);
+		ClippedPoint.Y = StartPoint.Y + T * (EndPoint.Y - StartPoint.Y);
+		if (OutsideCode == StartCode)
+		{
+			StartPoint = ClippedPoint;
+			StartCode = GetObjectiveBorderCode(StartPoint);
+		}
+		else
+		{
+			EndPoint = ClippedPoint;
+			EndCode = GetObjectiveBorderCode(EndPoint);
+		}
+	}
+}
+
+function RenderCMenuObjectiveBorders(Canvas HUDCanvas)
+{
+	local CMAObjective Objective;
+	local int ObjectiveIndex, I, NextPoint;
+	local color LineColor;
+
+	if (!IsCMenuActive() || WorldInfo.GRI == none)
+	{
+		return;
+	}
+
+	foreach AllActors(class'CMAObjective', Objective)
+	{
+		ObjectiveIndex = Objective.ObjIndex;
+		if (Objective.Corners.Length < 2 || !Objective.bObjectiveReady || !ROGameReplicationInfo(WorldInfo.GRI).GetObjectiveEnabled(ObjectiveIndex))
+		{
+			continue;
+		}
+
+		if (ROGameReplicationInfo(WorldInfo.GRI).GetObjectiveOwner(ObjectiveIndex) == `AXIS_TEAM_INDEX)
+		{
+			LineColor = MakeColor(255, 80, 80, 255);
+		}
+		else if (ROGameReplicationInfo(WorldInfo.GRI).GetObjectiveOwner(ObjectiveIndex) == `ALLIES_TEAM_INDEX)
+		{
+			LineColor = MakeColor(80, 160, 255, 255);
+		}
+		else
+		{
+			LineColor = MakeColor(255, 255, 255, 220);
+		}
+
+		for (I = 0; I < Objective.Corners.Length; I++)
+		{
+			NextPoint = (I + 1) % Objective.Corners.Length;
+			DrawObjectiveBorderSegment(HUDCanvas, Objective.Corners[I], Objective.Corners[NextPoint], LineColor);
+		}
+	}
+}
 
 // Interpolation disabled (looked weird in practice) - icons now snap straight to their target
 // position each update instead. Left commented out rather than removed in case it's revisited.
@@ -394,6 +533,10 @@ function RenderWidget(Canvas HUDCanvas)
 	local int i;
 
 	super.RenderWidget(HUDCanvas);
+	if (!bHiddenTemporarily && IsVisible())
+	{
+		RenderCMenuObjectiveBorders(HUDCanvas);
+	}
 
 	if ( bHiddenTemporarily || !IsVisible() )
 		return;
