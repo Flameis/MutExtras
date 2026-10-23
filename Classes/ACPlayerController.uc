@@ -8,6 +8,45 @@ var	array<class<RORoleInfo> > ACSouthernRoles;
 
 var bool bAIT, bMACVSOG;
 
+// Vanilla ROHUDWidgetWeapon.ReceiveResupplyInfoViaWeapon (the path used for magazine resupplies, MGs included) never clears
+// bFadedOut on the slot it fills, unlike ReceiveResupplyInfoSingle. The widget only fades out slots that are not flagged as
+// faded out, so the "resupplied" element stayed on screen forever.
+unreliable client function ClientReceiveResupplyInfoSingleViaWeapon(ROWeapon ROW, int ResupplyWeaponIndex, optional bool bIsMagazine = false)
+{
+    local ROHUDWidgetWeapon WeaponWidget;
+    local float PrevChanges[`MAX_RESUPPLY_INFOS];
+    local int i, FirstSlotIndex;
+
+    if (MyROHUD != None)
+        WeaponWidget = MyROHUD.WeaponWidget;
+
+    if (WeaponWidget != None)
+    {
+        for (i = 0; i < `MAX_RESUPPLY_INFOS; i++)
+            PrevChanges[i] = WeaponWidget.LastResupplyInfoChanges[i];
+    }
+
+    super.ClientReceiveResupplyInfoSingleViaWeapon(ROW, ResupplyWeaponIndex, bIsMagazine);
+
+    if (WeaponWidget == None)
+        return;
+
+    // The resupply slots (icon, text pairs) are the last components the widget adds, so they can be found from the end
+    FirstSlotIndex = WeaponWidget.HUDComponents.Length - (`MAX_RESUPPLY_INFOS * 2);
+    if (FirstSlotIndex < 0)
+        return;
+
+    for (i = 0; i < `MAX_RESUPPLY_INFOS; i++)
+    {
+        // The slot the base function just filled is the one whose fade tracking changed
+        if (WeaponWidget.LastResupplyInfoChanges[i] != PrevChanges[i])
+        {
+            WeaponWidget.HUDComponents[FirstSlotIndex + (i * 2)].bFadedOut = false;
+            WeaponWidget.HUDComponents[FirstSlotIndex + (i * 2) + 1].bFadedOut = false;
+        }
+    }
+}
+
 simulated function PreBeginPlay()
 {
     super.PreBeginPlay();
