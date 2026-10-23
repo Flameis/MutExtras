@@ -1,5 +1,7 @@
 class ACDummyActor extends Actor;
 
+var bool bAmbientTriggered; // client-side: the ambient fallback only fires once
+
 simulated function PostBeginPlay()
 {
     super.PostBeginPlay();
@@ -39,11 +41,16 @@ reliable client function ClientFactionSetup(ENorthernForces MyNorthForce, ESouth
 
 // Forces the level's AkStartAmbientSound Kismet node(s) to fire their "Start All" input locally.
 // Used as a fallback for players whose client never received the map's own client-side trigger.
+// "Stop All" goes first so a map that already started its ambience (e.g. Sapa) doesn't end up playing it twice.
 simulated function TriggerAmbientSound()
 {
     local Sequence GameSeq;
     local array<SequenceObject> Nodes;
     local int i;
+
+    if (bAmbientTriggered)
+        return;
+    bAmbientTriggered = true;
 
     GameSeq = WorldInfo.GetGameSequence();
     if (GameSeq == None)
@@ -52,13 +59,30 @@ simulated function TriggerAmbientSound()
     GameSeq.FindSeqObjectsByClass(class'SeqAct_AkStartAmbientSound', true, Nodes);
     for (i = 0; i < Nodes.Length; i++)
     {
+        SequenceOp(Nodes[i]).ForceActivateInput(1); // "Stop All"
         SequenceOp(Nodes[i]).ForceActivateInput(0); // "Start All"
     }
 }
 
+// Delayed so the map's own client-side trigger has a chance to run first
 reliable client function ClientTriggerAmbientSound()
 {
-    TriggerAmbientSound();
+    SetTimer(5.0, false, 'TriggerAmbientSound');
+}
+
+// The intro/commander speech is played locally by ROPlayerController.CheckCommanderSpeech, so it has to be stopped on the client
+reliable client function ClientMuteIntroVoice()
+{
+    SetTimer(0.2, true, 'MuteIntroVoice');
+}
+
+simulated function MuteIntroVoice()
+{
+    local PlayerController PC;
+
+    PC = PlayerController(Owner);
+    if (PC != None && PC.IsTimerActive('CheckCommanderSpeech'))
+        PC.ClearTimer('CheckCommanderSpeech');
 }
 
 simulated function ReplaceRoles(bool WW2, bool WW, bool GOM)
