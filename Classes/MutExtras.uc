@@ -28,6 +28,7 @@ var config bool             bSmokeForEveryone;
 var config bool             bLightGetGrenade;
 var config bool             bAllAITWeapons;
 var config bool             bEnableAmbientSoundFix;
+var config bool             bAllowIntroVO; // Set true to keep the round-start commander speech (muted by default)
 
 // ====================================================
 // Initialization
@@ -118,6 +119,9 @@ simulated function NotifyLogin(Controller NewPlayer)
             DummyActor.ClientTriggerAmbientSound();
         }
     }
+
+    if (!bAllowIntroVO)
+        DummyActor.ClientMuteIntroVoice();
 
     //SetTimer(10, false, 'CheckLoaded');
 

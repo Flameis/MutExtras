@@ -35,6 +35,9 @@ function InitMutSettings()
 
 	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), int(class'MutExtras'.default.bMACVSOGRoles));}
 	else{self.SetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), int(MutExtras(self.myMut).bMACVSOGRoles));};
+
+	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), int(class'MutExtras'.default.bAllowIntroVO));}
+	else{self.SetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), int(MutExtras(self.myMut).bAllowIntroVO));};
 }
 
 /**
@@ -95,6 +98,9 @@ function SaveMutSettings()
 	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), tempValue); class'MutExtras'.default.bMACVSOGRoles = (self.tempValue != 0);}
 	else {self.GetIntPropertyByName(name(Repl("bMACVSOGRoles", ".", "_")), tempValue); MutExtras(self.myMut).bMACVSOGRoles  = (self.tempValue != 0);}
 
+	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), tempValue); class'MutExtras'.default.bAllowIntroVO = (self.tempValue != 0);}
+	else {self.GetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), tempValue); MutExtras(self.myMut).bAllowIntroVO  = (self.tempValue != 0);}
+
 	if (self.myMut != None)
 		self.myMut.SaveConfig();
 	else
@@ -123,6 +129,9 @@ defaultproperties
 
 	Properties.Add((PropertyId=1008,Data=(Type=SDT_Int32,Value1=0)))
 	PropertyMappings.Add((Id=1008,Name="bMACVSOGRoles"))
+
+	Properties.Add((PropertyId=1009,Data=(Type=SDT_Int32,Value1=0)))
+	PropertyMappings.Add((Id=1009,Name="bAllowIntroVO"))
 
 	// Properties.Add((PropertyId=1004,Data=(Type=SDT_Int32,Value1=0)))
 	// PropertyMappings.Add((Id=1004,Name="bSmokeForEveryone"))
