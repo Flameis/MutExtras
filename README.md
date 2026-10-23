@@ -81,8 +81,8 @@ Spectators normally only see players near them. With MutExtras, spectators get:
 
 - **Everyone on the overhead map:** a marker for every living player, using the game's own player and vehicle icons (tank, truck, each helicopter) in the team colour. Squad and team leaders get the leader icon.
 - **Triangles over players:** a small triangle in the team colour sitting just above the head of every player in view.
-- **Names when you look at someone:** the player nearest the middle of your screen shows their **name in their team colour** instead of the triangle. When that player is close (within about 40 meters), the **role icon they picked** is shown under the name, like the base game does for friendlies.
-- **The game's own name display is turned off** while you spectate, so the two do not double up. Your own setting is put back when you stop spectating, and your saved setting is never changed. (If the game ignores this, you may still see its names as well.)
+- **Names when you look at someone:** the player nearest the middle of your screen shows their **name in their team colour** instead of the triangle. When that player is close (within about 40 meters), the **role icon they picked** is shown under the name in the team colour, like the base game does for friendlies. The triangle and the name sit right on top of the head.
+- **The game's own name display is turned off** while you spectate, so the two do not double up. It is turned off in every place the game might read the setting from, and put back when you stop spectating. Your saved setting is never changed. (If the game still shows its own names as well, tell us.)
 - **A clean map:** while the map is open, the names and triangles are hidden.
 
 It does not replace any part of the game's screen, so it also works with WW2, Winter War and GOM (Gameplay Overhaul Mutator). Turn it off with `bDisableEnhancedSpectator`.

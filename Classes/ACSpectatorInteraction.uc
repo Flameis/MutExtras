@@ -12,6 +12,8 @@ var ACSpectatorInfo Info;
 
 var bool bNamesHidden;   // the game's own player name display is switched off
 var byte SavedNames;     // the player's own setting for it, put back afterwards
+var byte SavedClassNames; // the same for the HUD class's default, which the game may read instead
+var byte SavedServerNames; // and the server's setting as this client was told it
 
 const NAME_SCALE = 1.4;
 const ROLE_ICON_DIST = 2000.0; // how close (unreal units, 40 meters) a looked at player must be to get their role icon
@@ -33,22 +35,43 @@ function color TeamColour(ROHUD H, byte Team)
 }
 
 // The game's own name display (distance setting 0 = none) is turned off while the overlay is on and put back afterwards.
-// This changes the setting on the running HUD only, not the player's saved one.
+// Where the game reads the setting is not known, so all three places are set: the running HUD, its class default and the
+// server's setting as this client was told it. None of them is saved to the player's settings.
 function SetDefaultNames(ROHUD H, bool bHide)
 {
+    local ROGameReplicationInfo ROGRI;
+
     if (H == None)
         return;
+
+    ROGRI = ROGameReplicationInfo(H.WorldInfo.GRI);
 
     if (bHide && !bNamesHidden)
     {
         SavedNames = H.MyFriendlyPlayerNames;
+        SavedClassNames = H.Class.default.MyFriendlyPlayerNames;
         H.MyFriendlyPlayerNames = 0;
+        H.Class.default.MyFriendlyPlayerNames = 0;
+        if (ROGRI != None)
+        {
+            SavedServerNames = ROGRI.FriendlyPlayerNames;
+            ROGRI.FriendlyPlayerNames = 0;
+        }
         bNamesHidden = true;
     }
     else if (!bHide && bNamesHidden)
     {
         H.MyFriendlyPlayerNames = SavedNames;
+        H.Class.default.MyFriendlyPlayerNames = SavedClassNames;
+        if (ROGRI != None)
+            ROGRI.FriendlyPlayerNames = SavedServerNames;
         bNamesHidden = false;
+    }
+    else if (bHide && bNamesHidden && ROGRI != None && ROGRI.FriendlyPlayerNames != 0)
+    {
+        // The server sent its setting again
+        SavedServerNames = ROGRI.FriendlyPlayerNames;
+        ROGRI.FriendlyPlayerNames = 0;
     }
 }
 
@@ -172,9 +195,9 @@ function Pawn FindPawn(PlayerController PC, ROPlayerReplicationInfo PRI)
 function vector HeadLocation(Pawn P, vector Fallback)
 {
     if (P == None)
-        return Fallback + vect(0, 0, 55);
+        return Fallback + vect(0, 0, 40);
 
-    return P.Location + vect(0, 0, 1) * (P.CylinderComponent.CollisionHeight + 6);
+    return P.Location + vect(0, 0, 1) * (P.CylinderComponent.CollisionHeight - 4);
 }
 
 function DrawWorld(Canvas C, PlayerController PC, ROHUD H)
@@ -238,7 +261,7 @@ function DrawWorld(Canvas C, PlayerController PC, ROHUD H)
                 RoleIcon = Info.SpecPRI[i].RoleInfo.ClassIcon;
 
             IconSize = (RoleIcon != None) ? 40.0 * Scale : 0.0;
-            IconBottom = Screen.Y - 3 * Scale;
+            IconBottom = Screen.Y - 1 * Scale;
 
             PlayerName = Info.SpecPRI[i].PlayerName;
             C.Font = class'Engine'.static.GetMediumFont();
@@ -257,7 +280,7 @@ function DrawWorld(Canvas C, PlayerController PC, ROHUD H)
 
             if (RoleIcon != None)
             {
-                C.SetDrawColor(255, 255, 255, 255);
+                C.SetDrawColor(Col.R, Col.G, Col.B, 255);
                 C.SetPos(Screen.X - IconSize * 0.5, IconBottom - IconSize);
                 C.DrawTile(RoleIcon, IconSize, IconSize, 0, 0, RoleIcon.SizeX, RoleIcon.SizeY);
             }
@@ -266,7 +289,7 @@ function DrawWorld(Canvas C, PlayerController PC, ROHUD H)
         {
             // Smaller the further away, down to a minimum that can still be seen, sitting just above their head
             Size = FClamp(22000.0 / FMax(Dist, 1.0), 12.0, 26.0) * Scale;
-            DrawTriangle(C, Screen.X, Screen.Y - 2 * Scale, Size, Col);
+            DrawTriangle(C, Screen.X, Screen.Y, Size, Col);
         }
     }
 }
