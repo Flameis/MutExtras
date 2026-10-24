@@ -53,7 +53,7 @@ MutExtras adds the **29th's custom roles, weapons and equipment** to the game, l
 - **Satchel charge:** a heavier satchel (500 damage, large radius, 7 second fuse).
 - **Other weapons:** MACV-SOG variants of the AK, M1A1, M2 Carbine, M3A1, M40, M60, RPD and XM21, Type 56 AK variants, and a few experimental weapons (CIWS, RPPG).
 - **Helicopters:** the Cobra, Loach, Huey and Bushranger used by the Builder menu are the 29th's versions. They work with the pilot roles, and the Loach's enemy spotting works with them.
-- **Capture the Flag flag** *(in development)*: a flag item either team can pick up, that drops when its carrier dies, never disappears, and shows a beam above whoever carries it.
+- **Capture the Flag flags** are now part of MutCMenu (see its README), because they depend on its `bLoadWW2` and `bLoadWW` settings and its admin list.
 
 ## 4. Factions
 
