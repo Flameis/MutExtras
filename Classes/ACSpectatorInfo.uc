@@ -42,12 +42,16 @@ simulated function PostBeginPlay()
         SetTimer(0.5, true, 'InstallOverlay');
 }
 
-// The owner arrives with the first replication, so keep trying until it is the local player
+// Installs the overlay for the local player. On a server's player the owner is never sent over (this is an Info, which
+// doesn't replicate its actor properties), but the info only goes to its owner, so there it is the local player. Keep
+// trying until that player exists.
 simulated function InstallOverlay()
 {
     local PlayerController PC;
 
     PC = PlayerController(Owner);
+    if (PC == None && Role < ROLE_Authority)
+        PC = GetALocalPlayerController();
     if (PC == None)
         return;
 

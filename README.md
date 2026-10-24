@@ -85,7 +85,7 @@ Spectators normally only see players near them. With MutExtras, spectators get:
 - **The game's own name display is turned off** while you spectate, so the two do not double up. It is turned off in every place the game might read the setting from, and put back when you stop spectating. Your saved setting is never changed. (If the game still shows its own names as well, tell us.)
 - **A clean map:** while the map is open, the names and triangles are hidden.
 
-It does not replace any part of the game's screen, so it also works with WW2, Winter War and GOM (Gameplay Overhaul Mutator). Turn it off with `bDisableEnhancedSpectator`.
+It works on a server as well as in single player. It does not replace any part of the game's screen, so it also works with WW2, Winter War and GOM (Gameplay Overhaul Mutator). Turn it off with `bDisableEnhancedSpectator`.
 
 ## 7. Fixes and small improvements
 
