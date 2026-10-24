@@ -1,6 +1,6 @@
 # MutExtras
 
-MutExtras adds the **29th's custom roles, weapons and equipment** to the game, lets you **change which factions fight each other**, puts **rank and unit patches on helmets**, and improves **spectating**. It also carries a handful of small fixes (sounds, HUD, map icons).
+MutExtras adds the **29th's custom roles, weapons and equipment** to the game, lets you **change which factions fight each other**, and puts **rank and unit patches on helmets**. It also carries a handful of small fixes (sounds, HUD, ammo areas). The spectator view, map drawing and the map fixes for big teams are in MutCMenu.
 
 ## Contents
 
@@ -9,11 +9,10 @@ MutExtras adds the **29th's custom roles, weapons and equipment** to the game, l
 3. Weapons and equipment
 4. Factions
 5. Helmet patches
-6. Spectator mode
-7. Fixes and small improvements
-8. Commands
-9. Settings
-10. Works with other mods
+6. Fixes and small improvements
+7. Commands
+8. Settings
+9. Works with other mods
 
 ---
 
@@ -27,7 +26,6 @@ MutExtras adds the **29th's custom roles, weapons and equipment** to the game, l
 | Faction switching | Put any Southern force against any Northern force |
 | Helmet patches | Rank and unit patches that everyone can see |
 | Salute and lineup role | A salute animation and a role for formations |
-| Better spectating | See every player, with team colours, on the map and in the world |
 | Quality-of-life fixes | Sound, HUD, map icon and vehicle fixes |
 
 ## 2. Roles and loadouts
@@ -75,31 +73,17 @@ Players can wear a **rank patch** and a **unit patch** on their helmet, and ever
 - The server saves each player's patches against their Steam ID and puts them back every time they join. The patches are never stored on the player's own computer.
 - *(In development)* New squad patches for 29th ID units.
 
-## 6. Spectator mode
-
-Spectators normally only see players near them. With MutExtras, spectators get:
-
-- **Everyone on the overhead map:** a marker for every living player, using the game's own player and vehicle icons (tank, truck, each helicopter) in the team colour. Squad and team leaders get the leader icon.
-- **Triangles over players:** a small triangle in the team colour sitting just above the head of every player in view.
-- **Names when you look at someone:** the player nearest the middle of your screen shows their **name in their team colour** instead of the triangle. When that player is close (within about 40 meters), the **role icon they picked** is shown under the name in the team colour, like the base game does for friendlies. The triangle and the name sit right on top of the head.
-- **The game's own name display is turned off** while you spectate, so the two do not double up. It is turned off in every place the game might read the setting from, and put back when you stop spectating. Your saved setting is never changed. (If the game still shows its own names as well, tell us.)
-- **A clean map:** while the map is open, the names and triangles are hidden.
-
-It works on a server as well as in single player. It does not replace any part of the game's screen, so it also works with WW2, Winter War and GOM (Gameplay Overhaul Mutator). Turn it off with `bDisableEnhancedSpectator`.
-
-## 7. Fixes and small improvements
+## 6. Fixes and small improvements
 
 - **Round-start voice lines muted:** the commander speech and the spawn-in chatter at the start of a round are muted. Set `bAllowIntroVO` to keep them.
 - **Ambient sound fix** (`bEnableAmbientSoundFix`): players who join after a map's ambient sound started now hear it, once and not doubled (fixes Sapa playing it twice).
 - **Resupply HUD fix:** the "resupplied" icon no longer stays stuck on the weapon display after resupplying a machine gun.
-- **More than 32 per team:** teammates beyond 32 on a team are now shown on the overhead map (the game normally drops them).
-- **Custom objectives on the map:** objectives built with CMenu get their borders drawn on the overhead map.
 - **Ammo areas for both teams:** ammo resupply areas work for either team.
 - **Vehicles follow their driver:** a vehicle takes the team of whoever drives it, so either team can use it.
 - **Team switching any time:** players are not made to wait before switching teams.
 - **Bot commands that work:** `addbots` no longer gets stuck when a team has no free roles, and `removebots` really removes them.
 
-## 8. Commands
+## 7. Commands
 
 Type these in the console as `mutate <command>`.
 
@@ -116,7 +100,7 @@ Type these in the console as `mutate <command>`.
 
 Testing console commands (type them directly, no `mutate`): `mcamera <1st, 3rd, free, fixed>`, `mfly`, `mwalk` and `mghost`.
 
-## 9. Settings
+## 8. Settings
 
 Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server.ini`.
 
@@ -129,12 +113,11 @@ Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server
 | `MySouthForce` | The Southern force: USA (0), USMC (1), Australia (2) or ARVN (3) |
 | `bEnableAmbientSoundFix` | Fix the ambient sound for late joiners |
 | `bAllowIntroVO` | Keep the round-start voice lines (muted when off) |
-| `bDisableEnhancedSpectator` | Turn the spectator overlay off (it is on by default) |
 
-## 10. Works with other mods
+## 9. Works with other mods
 
-- On a normal map, MutExtras replaces the roles, pawns and HUD map as described above.
-- With **WW2 (Black Orchestra)**, **Winter War** or **GOM (Gameplay Overhaul Mutator)** loaded, MutExtras only adds tank crew roles (Wehrmacht, Commonwealth, Soviet, US and IJA tankers for WW2; Finnish and Soviet for Winter War; the 29th's crews for GOM) and fixes the tank crews' pilot flag. The spectator overlay works in all cases.
+- On a normal map, MutExtras replaces the roles and pawns as described above. It does not replace the HUD, so other mods can.
+- With **WW2 (Black Orchestra)**, **Winter War** or **GOM (Gameplay Overhaul Mutator)** loaded, MutExtras only adds tank crew roles (Wehrmacht, Commonwealth, Soviet, US and IJA tankers for WW2; Finnish and Soviet for Winter War; the 29th's crews for GOM) and fixes the tank crews' pilot flag.
 
 ---
 

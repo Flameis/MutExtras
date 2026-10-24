@@ -11,7 +11,6 @@ class MutExtras extends ROMutator
 var RORoleInfoClasses       RORICSouth;
 var RORoleInfoClasses       RORICNorth;
 var array<ACDummyActor>     DummyActors;
-var array<ACSpectatorInfo>  SpectatorInfos; // Server-side, one per player: feeds the spectator overlay
 var ACPatchChanger          MyPatchChanger; // Server-side, player-ID-keyed cache for helmet rank/unit patches
 
 var bool                    bisVanilla;
@@ -30,7 +29,6 @@ var config bool             bLightGetGrenade;
 var config bool             bAllAITWeapons;
 var config bool             bEnableAmbientSoundFix;
 var config bool             bAllowIntroVO; // Set true to keep the round-start voice lines (muted by default)
-var config bool             bDisableEnhancedSpectator; // Set true to turn off the spectator overlay (every player on the map, coloured names, head triangles). Negative so it is on by default: a missing ini entry loads as false
 
 // ====================================================
 // Initialization
@@ -62,7 +60,6 @@ simulated function PreBeginPlay()
         ROGameInfo(WorldInfo.Game).PlayerControllerClass        = class'ACPlayerController';
         ROGameInfo(WorldInfo.Game).PlayerReplicationInfoClass   = class'ACPlayerReplicationInfo';
         ROGameInfo(WorldInfo.Game).PawnHandlerClass             = class'ACPawnHandler';
-        ROGameInfo(WorldInfo.Game).HUDType                      = class'ACHUD';
 
         ROGameInfo(WorldInfo.Game).SouthRoleContentClasses = RORICSouth;
         ROGameInfo(WorldInfo.Game).NorthRoleContentClasses = RORICNorth;
@@ -78,24 +75,7 @@ simulated function PreBeginPlay()
     if (!bAllowIntroVO)
         SetTimer(0.25, true, 'RemoveSpawnChatter');
 
-    if (!bDisableEnhancedSpectator)
-        SetTimer(0.25, true, 'RefreshSpectatorInfos');
-
     super.PreBeginPlay();
-}
-
-// Pushes the current player positions to every spectator's overlay (ACSpectatorInfo), which ignores non-spectators
-function RefreshSpectatorInfos()
-{
-    local int i;
-
-    for (i = SpectatorInfos.Length - 1; i >= 0; i--)
-    {
-        if (SpectatorInfos[i] == None || SpectatorInfos[i].bDeleteMe)
-            SpectatorInfos.Remove(i, 1);
-        else
-            SpectatorInfos[i].Refresh();
-    }
 }
 
 // Drops queued spawn-in voice lines (SpawnAttacking/Defending/FireFight/Neutral) before they are broadcast
@@ -149,8 +129,6 @@ simulated function NotifyLogin(Controller NewPlayer)
     DummyActor = Spawn(class'ACDummyActor', NewPlayer);
     DummyActors.AddItem(DummyActor);
 
-    if (!bDisableEnhancedSpectator && PlayerController(NewPlayer) != None)
-        SpectatorInfos.AddItem(Spawn(class'ACSpectatorInfo', NewPlayer));
     //`log ("[MutExtras LogIn] Spawning "$DummyActor);
 
     if (bEnableAmbientSoundFix)
@@ -285,17 +263,6 @@ function bool IsFedByClientSideEventRecursive(SequenceOp TargetOp, array<Sequenc
 simulated function NotifyLogout(Controller Exiting)
 {
     local ACDummyActor DummyActor;
-    local int i;
-
-    for (i = SpectatorInfos.Length - 1; i >= 0; i--)
-    {
-        if (SpectatorInfos[i] == None || SpectatorInfos[i].Owner == Exiting)
-        {
-            if (SpectatorInfos[i] != None)
-                SpectatorInfos[i].Destroy();
-            SpectatorInfos.Remove(i, 1);
-        }
-    }
 
     // Find and destroy the dummy actor associated with the exiting player
     foreach DummyActors(DummyActor)
@@ -332,79 +299,6 @@ auto state StartUp
     //SetTimer(10, false, 'CheckLoaded');
     SetTimer(10, true, 'timer2'); // Periodically check vehicle teams
     // SetTimer(1, false, 'timer'); // Periodically modify volumes
-    SetTimer(0.25, true, 'UpdateOverflowMapLocations'); // Track positions for players who didn't get a native TeamPRIArray slot
-}
-
-// ====================================================
-// Overflow Map Locations
-// ====================================================
-// ROTeamInfo.TeamPRIArray/TeamLocationArray are fixed to MAX_PLAYERS_PER_TEAM (32) slots. Once a
-// team is full, AddToTeam() can't find a free slot, so the 33rd+ player never gets a replicated map
-// position and is invisible on the overhead map. This periodically republishes their location via
-// ACPlayerReplicationInfo.OverflowMapLocation so ACHUDWidgetOverheadMap can draw them separately.
-function UpdateOverflowMapLocations()
-{
-    local Controller C;
-    local ROPlayerReplicationInfo ROPRI;
-    local ACPlayerReplicationInfo ACPRI;
-    local ROTeamInfo ROTI;
-
-    foreach WorldInfo.AllControllers(class'Controller', C)
-    {
-        if (C.PlayerReplicationInfo == None || C.Pawn == None)
-            continue;
-
-        ROPRI = ROPlayerReplicationInfo(C.PlayerReplicationInfo);
-        if (ROPRI == None || ROPRI.bOnlySpectator)
-            continue;
-
-        ROTI = ROTeamInfo(ROPRI.Team);
-        if (ROTI == None)
-            continue;
-
-        // TeamPRIArrayIndex defaults to 0 (not 255) when never assigned a slot, so it can't be
-        // trusted alone - only skip if that slot in the team's roster actually points back to us
-        if ((ROPRI.TeamPRIArrayIndex < ArrayCount(ROTI.TeamPRIArray)) && (ROTI.TeamPRIArray[ROPRI.TeamPRIArrayIndex] == ROPRI))
-            continue;
-
-        ACPRI = ACPlayerReplicationInfo(ROPRI);
-        if (ACPRI != None)
-        {
-            ACPRI.OverflowMapLocation = C.Pawn.Location;
-            ACPRI.OverflowIconType = GetOverflowIconType(C.Pawn, ROTI);
-        }
-    }
-}
-
-// Classifies a player's current Pawn for overhead map icon selection.
-// Values: 0=Infantry, 1=Tank, 2=Transport, 3=Huey, 4=Cobra, 5=Loach, 6=Gunship
-function byte GetOverflowIconType(Pawn P, ROTeamInfo ROTI)
-{
-    local ROVehicleHelicopter Heli;
-
-    if (ROVehicleTank(P) != None)
-        return 1;
-
-    if (ROVehicleTransport(P) != None)
-        return 2;
-
-    Heli = ROVehicleHelicopter(P);
-    if (Heli != None)
-    {
-        switch (ROTI.GetHeliType(Heli))
-        {
-            case VNHT_Huey:
-                return 3;
-            case VNHT_Cobra:
-                return 4;
-            case VNHT_Loach:
-                return 5;
-            case VNHT_Gunship:
-                return 6;
-        }
-    }
-
-    return 0;
 }
 
 // ====================================================
@@ -498,6 +392,7 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
             `log("[MutExtras Debug] Infinite Ammo");
             WorldInfo.Game.Broadcast(self, "[MutExtras] "$PlayerName$" toggled AllAmmo");
             break;
+
     }
     super.Mutate(MutateString, PC);
 }
