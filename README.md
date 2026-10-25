@@ -102,7 +102,7 @@ Testing console commands (type them directly, no `mutate`): `mcamera <1st, 3rd, 
 
 ## 8. Settings
 
-Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server.ini`.
+Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server.ini`. The page has a tab for each group of settings. Each setting has a plain label, on/off settings are **On** and **Off** buttons, and settings with a few fixed values (such as the number of Canberra planes) offer just those. The labels and button names come from the mod's text file in `Localization\INT` (`MutExtras.int`), which a server needs next to the mod; without it the page shows the setting names below and the buttons have no text. The tabs are **Roles**, **Factions** (the two forces are choices: PAVN or NLF, and a drop-down of US Army, USMC, Australian Army and ARVN) and **Sound and fixes**.
 
 | Setting | What it does |
 | :--- | :--- |

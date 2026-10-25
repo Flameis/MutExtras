@@ -11,11 +11,11 @@ function InitMutSettings()
 	else{self.SetIntPropertyByName(name(Repl("bUseDefaultFactions", ".", "_")), int(MutExtras(self.myMut).bUseDefaultFactions));};
 
 	//Enum
-	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("MySouthForce (USA = 0, USMC = 1, AUS = 2, ARVN = 3)", ".", "_")), int(class'MutExtras'.default.MySouthForce));}
-	else{self.SetIntPropertyByName(name(Repl("MySouthForce (USA = 0, USMC = 1, AUS = 2, ARVN = 3)", ".", "_")), int(MutExtras(self.myMut).MySouthForce));};
+	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("MySouthForce", ".", "_")), int(class'MutExtras'.default.MySouthForce));}
+	else{self.SetIntPropertyByName(name(Repl("MySouthForce", ".", "_")), int(MutExtras(self.myMut).MySouthForce));};
 
-	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("MyNorthForce (PAVN = 0, NLF = 1)", ".", "_")), int(class'MutExtras'.default.MyNorthForce));}
-	else{self.SetIntPropertyByName(name(Repl("MyNorthForce (PAVN = 0, NLF = 1)", ".", "_")), int(MutExtras(self.myMut).MyNorthForce));};
+	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("MyNorthForce", ".", "_")), int(class'MutExtras'.default.MyNorthForce));}
+	else{self.SetIntPropertyByName(name(Repl("MyNorthForce", ".", "_")), int(MutExtras(self.myMut).MyNorthForce));};
 
 	//Bool
 	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bAITRoles", ".", "_")), int(class'MutExtras'.default.bAITRoles));}
@@ -54,26 +54,26 @@ function SaveMutSettings()
 	else {self.GetIntPropertyByName(name(Repl("bUseDefaultFactions", ".", "_")), tempValue); MutExtras(self.myMut).bUseDefaultFactions  = (self.tempValue != 0);}
 
 	//Enum
-	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("MyNorthForce (PAVN = 0, NLF = 1)", ".", "_")), tempValue);
+	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("MyNorthForce", ".", "_")), tempValue);
 		if (self.tempValue == 0)
 			MyNorthForce = NFOR_NVA;
 		else
 			MyNorthForce = NFOR_NLF;
 		class'MutExtras'.default.MyNorthForce = MyNorthForce;}
-	else {self.GetIntPropertyByName(name(Repl("MyNorthForce (PAVN = 0, NLF = 1)", ".", "_")), tempValue);
+	else {self.GetIntPropertyByName(name(Repl("MyNorthForce", ".", "_")), tempValue);
 		if (self.tempValue == 0)
 			MyNorthForce = NFOR_NVA;
 		else
 			MyNorthForce = NFOR_NLF;
 		MutExtras(myMut).MyNorthForce = MyNorthForce;}
 
-	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("MySouthForce (USA = 0, USMC = 1, AUS = 2, ARVN = 3)", ".", "_")), tempValue);
+	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("MySouthForce", ".", "_")), tempValue);
 		if (self.tempValue < 4)
 			MySouthForce = ESouthernForces(tempValue);
 		else
 			MySouthForce = SFOR_USarmy;
 		class'MutExtras'.default.MySouthForce = MySouthForce;}
-	else {self.GetIntPropertyByName(name(Repl("MySouthForce (USA = 0, USMC = 1, AUS = 2, ARVN = 3)", ".", "_")), tempValue); 
+	else {self.GetIntPropertyByName(name(Repl("MySouthForce", ".", "_")), tempValue); 
 		if (self.tempValue < 4)
 			MySouthForce = ESouthernForces(tempValue);
 		else
@@ -108,37 +108,33 @@ function SaveMutSettings()
 		class'MutExtras'.static.StaticSaveConfig();
 }
 
+// The WebAdmin page: one tab per group, a plain label for each setting, and every on/off setting as On / Off
+// buttons (a value mapping of 0 and 1). Settings with a few fixed values get them as choices; four or more show
+// as a drop-down list. The group names, labels and choice names are localized, so they are in the .int file
+// (Localization\INT, section [<this class>]), in the same order as below.
 defaultproperties
 {
-    SettingsGroups(0)=(GroupID="Settings",pMin=1000,pMax=1100,lMin=0,lMax=0)
+    SettingsGroups.Add((GroupID="Roles",pMin=1000,pMax=1010,lMin=0,lMax=0))
+    SettingsGroups.Add((GroupID="Factions",pMin=1010,pMax=1020,lMin=0,lMax=0))
+    SettingsGroups.Add((GroupID="Fixes",pMin=1020,pMax=1030,lMin=0,lMax=0))
 
-	Properties.Add((PropertyId=1000,Data=(Type=SDT_Int32,Value1=0)))
-	PropertyMappings.Add((Id=1000,Name="bUseDefaultFactions"))
+    // Roles
+    Properties.Add((PropertyId=1000,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1000,Name="bAITRoles",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+    Properties.Add((PropertyId=1001,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1001,Name="bMACVSOGRoles",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
 
-	Properties.Add((PropertyId=1001,Data=(Type=SDT_Int32,Value1=0)))
-	PropertyMappings.Add((Id=1001,Name="MyNorthForce (PAVN = 0, NLF = 1)"))
-	
-	Properties.Add((PropertyId=1002,Data=(Type=SDT_Int32,Value1=0)))
-	PropertyMappings.Add((Id=1002,Name="MySouthForce (USA = 0, USMC = 1, AUS = 2, ARVN = 3)"))
+    // Factions
+    Properties.Add((PropertyId=1010,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1010,Name="bUseDefaultFactions",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+    Properties.Add((PropertyId=1011,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1011,Name="MyNorthForce",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+    Properties.Add((PropertyId=1012,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1012,Name="MySouthForce",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1),(Id=2),(Id=3))))
 
-	Properties.Add((PropertyId=1003,Data=(Type=SDT_Int32,Value1=0)))
-	PropertyMappings.Add((Id=1003,Name="bAITRoles"))
-
-	Properties.Add((PropertyId=1007,Data=(Type=SDT_Int32,Value1=0)))
-	PropertyMappings.Add((Id=1007,Name="bEnableAmbientSoundFix"))
-
-	Properties.Add((PropertyId=1008,Data=(Type=SDT_Int32,Value1=0)))
-	PropertyMappings.Add((Id=1008,Name="bMACVSOGRoles"))
-
-	Properties.Add((PropertyId=1009,Data=(Type=SDT_Int32,Value1=0)))
-	PropertyMappings.Add((Id=1009,Name="bAllowIntroVO"))
-
-	// Properties.Add((PropertyId=1004,Data=(Type=SDT_Int32,Value1=0)))
-	// PropertyMappings.Add((Id=1004,Name="bSmokeForEveryone"))
-
-	// Properties.Add((PropertyId=1005,Data=(Type=SDT_Int32,Value1=0)))
-	// PropertyMappings.Add((Id=1005,Name="bLightGetGrenade"))
-
-	// Properties.Add((PropertyId=1006,Data=(Type=SDT_Int32,Value1=0)))
-	// PropertyMappings.Add((Id=1006,Name="bAllAITWeapons"))
+    // Sound and fixes
+    Properties.Add((PropertyId=1020,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1020,Name="bAllowIntroVO",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+    Properties.Add((PropertyId=1021,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1021,Name="bEnableAmbientSoundFix",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
 }
