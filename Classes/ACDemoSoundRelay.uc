@@ -5,11 +5,15 @@
 // sound that was sent to it is lost: a played-back demo has the players and their shots, but no gunshots.
 //
 // MutExtras spawns one of these while a demo records, owned by the demo camera, so only the demo gets it (players
-// on the server never do). It watches every pawn's shots and writes each shot's sound into a short replicated list,
-// which the demo records like any other replicated value. When the demo is played back this actor comes back with
-// it, and plays each new sound in the list where it was fired, the way the game plays a gunshot for a player.
-// Covered: every single shot, and the tail sound when a burst of automatic fire ends. The looping sound of
-// automatic fire is already in demos (it is part of the pawn).
+// on the server never do), and it comes back when the demo is played back. (MutDemoRec's DRDemoLink does the same.)
+// - Gunfire (bGunfire): it watches every pawn's shots and writes each shot's sound into a short replicated list,
+//   which the demo records like any other replicated value. On playback it plays each new sound in the list where it
+//   was fired, the way the game plays a gunshot for a player. Covered: every single shot, and the tail sound when a
+//   burst of automatic fire ends. The looping sound of automatic fire is already in demos (it is part of the pawn).
+// - The viewer (bViewer): on playback the local player gets an ACDemoViewer, a spectator camera like the game's own.
+//   The playback's own player has no proper camera controller, so without it the sounds the playback makes itself
+//   (explosions, artillery, impacts) aren't heard either.
+// - Ambient sound (bAmbient): on playback the map's ambient sound is started, as the late-join ambient sound fix does.
 class ACDemoSoundRelay extends Actor;
 
 struct DemoSound
@@ -22,11 +26,14 @@ struct DemoSound
 
 // The newest sounds, in turn. A slot is only reused 16 sounds later, by then long sent.
 var repnotify DemoSound Sounds[16];
+var bool    bGunfire, bViewer, bAmbient;
 
 replication
 {
     if (bNetDirty)
         Sounds;
+    if (bNetInitial)
+        bGunfire, bViewer, bAmbient;
 }
 
 // ---- Server
@@ -44,13 +51,21 @@ var int                 SoundsAdded;    // Sounds put into the demo by this rela
 
 // ---- Playback
 var byte                PlayedSeq[16];
+var bool                bViewerDone, bAmbientDone;
+
+simulated event PostBeginPlay()
+{
+    super.PostBeginPlay();
+    if (WorldInfo.IsPlayingDemo())
+        SetTimer(0.5, true, 'SetUpPlayback');
+}
 
 event Tick(float DeltaTime)
 {
     local Pawn P;
     local int i;
 
-    if (Role < ROLE_Authority)
+    if (Role < ROLE_Authority || !bGunfire)
         return;
 
     for (i = Watched.Length - 1; i >= 0; i--)
@@ -218,6 +233,44 @@ simulated function SetReverb(AkEvent Sound, vector Where)
     Sound.CustomSwitches.Insert(0, 1);
     Sound.CustomSwitches[0].SwitchGroupName = 'Environment_Reverb';
     Sound.CustomSwitches[0].SwitchName = EnvironmentName;
+}
+
+// ---- Playback: the viewer and the ambient sound
+
+simulated function SetUpPlayback()
+{
+    if (bViewer && !bViewerDone)
+        bViewerDone = class'ACDemoViewer'.static.TakeOverLocalPlayer(self);
+
+    // A moment in, so the map's own start (if it has one that works on playback) goes first
+    if (bAmbient && !bAmbientDone && WorldInfo.TimeSeconds - CreationTime > 2.0)
+    {
+        bAmbientDone = true;
+        StartAmbientSound();
+    }
+
+    if ((!bViewer || bViewerDone) && (!bAmbient || bAmbientDone))
+        ClearTimer('SetUpPlayback');
+}
+
+// Fires the "Start All" input of the map's AkStartAmbientSound Kismet node(s), "Stop All" first so a map that did start
+// its ambience doesn't play it twice (as the ambient sound fix does for players who join late)
+simulated function StartAmbientSound()
+{
+    local Sequence GameSeq;
+    local array<SequenceObject> Nodes;
+    local int i;
+
+    GameSeq = WorldInfo.GetGameSequence();
+    if (GameSeq == None)
+        return;
+    GameSeq.FindSeqObjectsByClass(class'SeqAct_AkStartAmbientSound', true, Nodes);
+    for (i = 0; i < Nodes.Length; i++)
+    {
+        SequenceOp(Nodes[i]).ForceActivateInput(1); // "Stop All"
+        SequenceOp(Nodes[i]).ForceActivateInput(0); // "Start All"
+    }
+    `log("[MutExtras] demo playback: started the map's ambient sound ("$Nodes.Length$" node(s))");
 }
 
 defaultproperties

@@ -31,6 +31,8 @@ var config bool             bAllAITWeapons;
 var config bool             bEnableAmbientSoundFix;
 var config bool             bAllowIntroVO; // Set true to keep the round-start voice lines (muted by default)
 var config bool             bDisableDemoGunfire; // Leave the gunfire out of server demos (stored as the negative: on by default)
+var config bool             bDisableDemoViewer;  // No spectator camera when a server demo is played back (on by default)
+var config bool             bDisableDemoAmbient; // Don't start the map's ambient sound when a demo is played back (on by default)
 
 // ====================================================
 // Initialization
@@ -83,13 +85,15 @@ simulated function PreBeginPlay()
     super.PreBeginPlay();
 }
 
-// While a server demo records (Realism Match's, an admin's demorec, or any other), keeps a gunfire relay owned by its
-// demo camera, so only the demo gets it. A new recording has a new demo camera, so it gets a new relay.
+// While a server demo records (Realism Match's, an admin's demorec, or any other), keeps a relay owned by its demo
+// camera, so only the demo gets it: the gunfire, and on playback the spectator camera and the ambient sound (see
+// ACDemoSoundRelay). A new recording has a new demo camera, so it gets a new relay.
 function CheckDemoRecording()
 {
     local PlayerController PC, DemoCam;
 
-    if (bDisableDemoGunfire || !WorldInfo.IsRecordingDemo())
+    // MutDemoRec does all of this when it is on the server
+    if ((bDisableDemoGunfire && bDisableDemoViewer && bDisableDemoAmbient) || !WorldInfo.IsRecordingDemo() || IsMutThere("MutDemoRec"))
     {
         if (DemoRelay != None)
         {
@@ -111,6 +115,12 @@ function CheckDemoRecording()
     if (DemoRelay != None)
         DemoRelay.Destroy();
     DemoRelay = Spawn(class'ACDemoSoundRelay', DemoCam);
+    if (DemoRelay != None)
+    {
+        DemoRelay.bGunfire = !bDisableDemoGunfire;
+        DemoRelay.bViewer = !bDisableDemoViewer;
+        DemoRelay.bAmbient = !bDisableDemoAmbient;
+    }
     `log("[MutExtras] demo recording: gunfire relay "$DemoRelay$" for "$DemoCam);
 }
 
