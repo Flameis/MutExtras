@@ -77,12 +77,6 @@ Players can wear a **rank patch** and a **unit patch** on their helmet, and ever
 
 - **Round-start voice lines muted:** the commander speech and the spawn-in chatter at the start of a round are muted. Set `bAllowIntroVO` to keep them.
 - **Ambient sound fix** (`bEnableAmbientSoundFix`): players who join after a map's ambient sound started now hear it, once and not doubled (fixes Sapa playing it twice).
-- **Better server demos** (for the RypelCam): when the server records a demo (Realism Match's `bRecordDemos`, an admin's `demorec`, or any other way), a small link goes into it. Only the demo gets it, so it adds nothing to what players on the server receive. When the demo is played back:
-  - **Gunfire** (`bDisableDemoGunfire` turns it off): every gunshot is heard where it was fired, and the sound at the end of a burst of automatic fire. Without this a played-back demo has no gunshots at all: the game sends them to a hidden camera the demo is recorded from, and doesn't bring that camera back when the demo plays.
-  - **Spectator camera** (`bDisableDemoViewer` turns it off): you watch through a camera that works like the game's spectator. Fire and alt fire go to the next and previous player, iron sights changes the camera mode (free camera, third person, first person, the map's cameras, free roam), quick grenade is free roam, and the mouse wheel sets the free roam speed. It starts on the first player, in third person. With it, explosions, artillery, bullet impacts and the other sounds the game plays on your own computer are heard; without it they aren't, because the game gives a demo's viewer no proper player controller. With MutCMenu on the server, its spectator view comes with it.
-  - **Ambient sound** (`bDisableDemoAmbient` turns it off): the map's background sound is started a moment into the demo.
-
-  The standalone MutDemoRec does all of this too (and records demos); with it on the server, MutExtras leaves this to it. Checked by recording demos on a listen server and playing them back: each shot heard once, the spectator camera in use, a sound played the way explosions are played heard, and CMenu's view on. *Not yet checked by someone watching, or with a demo from a dedicated server:* demos from the test dedicated server didn't play back properly on the test PC at all (a separate problem).
 - **Resupply HUD fix:** the "resupplied" icon no longer stays stuck on the weapon display after resupplying a machine gun.
 - **Ammo areas for both teams:** ammo resupply areas work for either team.
 - **Vehicles follow their driver:** a vehicle takes the team of whoever drives it, so either team can use it.
@@ -119,9 +113,6 @@ Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server
 | `MySouthForce` | The Southern force: USA (0), USMC (1), Australia (2) or ARVN (3) |
 | `bEnableAmbientSoundFix` | Fix the ambient sound for late joiners |
 | `bAllowIntroVO` | Keep the round-start voice lines (muted when off) |
-| `bDisableDemoGunfire` | Leave the gunfire out of server demos. On the page this is "Put the gunfire into server demos (for the RypelCam)", which is On unless this is set |
-| `bDisableDemoViewer` | No spectator camera when a server demo is played back. On the page: "Spectator camera when a server demo is played back", On unless this is set |
-| `bDisableDemoAmbient` | Don't start the map's ambient sound when a demo is played back. On the page: "Start the map's ambient sound...", On unless this is set |
 
 ## 9. Works with other mods
 
