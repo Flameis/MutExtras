@@ -12,6 +12,7 @@ var RORoleInfoClasses       RORICSouth;
 var RORoleInfoClasses       RORICNorth;
 var array<ACDummyActor>     DummyActors;
 var ACPatchChanger          MyPatchChanger; // Server-side, player-ID-keyed cache for helmet rank/unit patches
+var ACDemoSoundRelay        DemoRelay;      // While a server demo records: puts the gunfire into it
 
 var bool                    bisVanilla;
 var array<Byte> 		    HitNum;
@@ -29,6 +30,7 @@ var config bool             bLightGetGrenade;
 var config bool             bAllAITWeapons;
 var config bool             bEnableAmbientSoundFix;
 var config bool             bAllowIntroVO; // Set true to keep the round-start voice lines (muted by default)
+var config bool             bDisableDemoGunfire; // Leave the gunfire out of server demos (stored as the negative: on by default)
 
 // ====================================================
 // Initialization
@@ -75,7 +77,41 @@ simulated function PreBeginPlay()
     if (!bAllowIntroVO)
         SetTimer(0.25, true, 'RemoveSpawnChatter');
 
+    // Gunfire in server demos: a relay for each recording (see ACDemoSoundRelay)
+    SetTimer(0.25, true, 'CheckDemoRecording');
+
     super.PreBeginPlay();
+}
+
+// While a server demo records (Realism Match's, an admin's demorec, or any other), keeps a gunfire relay owned by its
+// demo camera, so only the demo gets it. A new recording has a new demo camera, so it gets a new relay.
+function CheckDemoRecording()
+{
+    local PlayerController PC, DemoCam;
+
+    if (bDisableDemoGunfire || !WorldInfo.IsRecordingDemo())
+    {
+        if (DemoRelay != None)
+        {
+            DemoRelay.Destroy();
+            DemoRelay = None;
+        }
+        return;
+    }
+    if (DemoRelay != None && !DemoRelay.bDeleteMe && DemoRelay.Owner != None && !DemoRelay.Owner.bDeleteMe)
+        return;
+
+    foreach WorldInfo.AllControllers(class'PlayerController', PC)
+    {
+        if (DemoRecSpectator(PC) != None || PC.bDemoOwner)
+            DemoCam = PC;
+    }
+    if (DemoCam == None)
+        return;
+    if (DemoRelay != None)
+        DemoRelay.Destroy();
+    DemoRelay = Spawn(class'ACDemoSoundRelay', DemoCam);
+    `log("[MutExtras] demo recording: gunfire relay "$DemoRelay$" for "$DemoCam);
 }
 
 // Drops queued spawn-in voice lines (SpawnAttacking/Defending/FireFight/Neutral) before they are broadcast

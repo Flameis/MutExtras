@@ -77,6 +77,7 @@ Players can wear a **rank patch** and a **unit patch** on their helmet, and ever
 
 - **Round-start voice lines muted:** the commander speech and the spawn-in chatter at the start of a round are muted. Set `bAllowIntroVO` to keep them.
 - **Ambient sound fix** (`bEnableAmbientSoundFix`): players who join after a map's ambient sound started now hear it, once and not doubled (fixes Sapa playing it twice).
+- **Gunfire in server demos** (for the RypelCam): when the server records a demo (Realism Match's `bRecordDemos`, an admin's `demorec`, or any other way), the gunshots are put into it, so they are heard when the demo is played back. Without this a played-back demo has no gunshots at all: the game sends them to a hidden camera the demo is recorded from, and the game doesn't bring that camera back when the demo plays. Every single shot is put in, and the sound at the end of a burst of automatic fire; the sound of automatic fire itself was already in demos. Only the demo gets this, so it adds nothing to what players on the server receive. Checked by playing back demos recorded on a listen server (each shot heard once, with or without the hidden camera nearby). *Not yet checked with a demo from a dedicated server:* demos from the test dedicated server didn't play back properly on the test PC at all (a separate problem). `bDisableDemoGunfire` turns it off.
 - **Resupply HUD fix:** the "resupplied" icon no longer stays stuck on the weapon display after resupplying a machine gun.
 - **Ammo areas for both teams:** ammo resupply areas work for either team.
 - **Vehicles follow their driver:** a vehicle takes the team of whoever drives it, so either team can use it.
@@ -113,6 +114,7 @@ Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server
 | `MySouthForce` | The Southern force: USA (0), USMC (1), Australia (2) or ARVN (3) |
 | `bEnableAmbientSoundFix` | Fix the ambient sound for late joiners |
 | `bAllowIntroVO` | Keep the round-start voice lines (muted when off) |
+| `bDisableDemoGunfire` | Leave the gunfire out of server demos. On the page this is "Put the gunfire into server demos (for the RypelCam)", which is On unless this is set |
 
 ## 9. Works with other mods
 

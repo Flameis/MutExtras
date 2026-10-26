@@ -39,6 +39,10 @@ function InitMutSettings()
 	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), int(class'MutExtras'.default.bAllowIntroVO));}
 	else{self.SetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), int(MutExtras(self.myMut).bAllowIntroVO));};
 
+	// Shown as "put the gunfire into demos" (on), stored as bDisableDemoGunfire (off), so a missing line means on
+	if (self.myMut == None){self.SetIntPropertyByName('bDemoGunfire', int(!class'MutExtras'.default.bDisableDemoGunfire));}
+	else{self.SetIntPropertyByName('bDemoGunfire', int(!MutExtras(self.myMut).bDisableDemoGunfire));};
+
 }
 
 /**
@@ -102,6 +106,9 @@ function SaveMutSettings()
 	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), tempValue); class'MutExtras'.default.bAllowIntroVO = (self.tempValue != 0);}
 	else {self.GetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), tempValue); MutExtras(self.myMut).bAllowIntroVO  = (self.tempValue != 0);}
 
+	if (self.myMut == None) {self.GetIntPropertyByName('bDemoGunfire', tempValue); class'MutExtras'.default.bDisableDemoGunfire = (self.tempValue == 0);}
+	else {self.GetIntPropertyByName('bDemoGunfire', tempValue); MutExtras(self.myMut).bDisableDemoGunfire = (self.tempValue == 0);}
+
 	if (self.myMut != None)
 		self.myMut.SaveConfig();
 	else
@@ -137,4 +144,6 @@ defaultproperties
     PropertyMappings.Add((Id=1020,Name="bAllowIntroVO",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
     Properties.Add((PropertyId=1021,Data=(Type=SDT_Int32,Value1=0)))
     PropertyMappings.Add((Id=1021,Name="bEnableAmbientSoundFix",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+    Properties.Add((PropertyId=1022,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1022,Name="bDemoGunfire",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
 }
