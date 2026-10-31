@@ -39,6 +39,16 @@ function InitMutSettings()
 	if (self.myMut == None){self.SetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), int(class'MutExtras'.default.bAllowIntroVO));}
 	else{self.SetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), int(MutExtras(self.myMut).bAllowIntroVO));};
 
+	// Wind: bDisableAddedWind is shown the other way round, as "add wind" On / Off
+	if (self.myMut == None){self.SetIntPropertyByName('bDisableAddedWind', int(!class'MutExtras'.default.bDisableAddedWind));}
+	else{self.SetIntPropertyByName('bDisableAddedWind', int(!MutExtras(self.myMut).bDisableAddedWind));};
+
+	if (self.myMut == None){self.SetIntPropertyByName('WindDirection', Min(class'MutExtras'.default.WindDirection, 8));}
+	else{self.SetIntPropertyByName('WindDirection', Min(MutExtras(self.myMut).WindDirection, 8));};
+
+	if (self.myMut == None){self.SetIntPropertyByName('bOverrideMapWind', int(class'MutExtras'.default.bOverrideMapWind));}
+	else{self.SetIntPropertyByName('bOverrideMapWind', int(MutExtras(self.myMut).bOverrideMapWind));};
+
 }
 
 /**
@@ -102,6 +112,18 @@ function SaveMutSettings()
 	if (self.myMut == None) {self.GetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), tempValue); class'MutExtras'.default.bAllowIntroVO = (self.tempValue != 0);}
 	else {self.GetIntPropertyByName(name(Repl("bAllowIntroVO", ".", "_")), tempValue); MutExtras(self.myMut).bAllowIntroVO  = (self.tempValue != 0);}
 
+	self.GetIntPropertyByName('bDisableAddedWind', tempValue);
+	if (self.myMut == None) {class'MutExtras'.default.bDisableAddedWind = (self.tempValue == 0);}
+	else {MutExtras(self.myMut).bDisableAddedWind = (self.tempValue == 0);}
+
+	self.GetIntPropertyByName('WindDirection', tempValue);
+	if (self.myMut == None) {class'MutExtras'.default.WindDirection = Clamp(self.tempValue, 0, 8);}
+	else {MutExtras(self.myMut).WindDirection = Clamp(self.tempValue, 0, 8);}
+
+	self.GetIntPropertyByName('bOverrideMapWind', tempValue);
+	if (self.myMut == None) {class'MutExtras'.default.bOverrideMapWind = (self.tempValue != 0);}
+	else {MutExtras(self.myMut).bOverrideMapWind = (self.tempValue != 0);}
+
 	if (self.myMut != None)
 		self.myMut.SaveConfig();
 	else
@@ -117,6 +139,7 @@ defaultproperties
     SettingsGroups.Add((GroupID="Roles",pMin=1000,pMax=1010,lMin=0,lMax=0))
     SettingsGroups.Add((GroupID="Factions",pMin=1010,pMax=1020,lMin=0,lMax=0))
     SettingsGroups.Add((GroupID="Fixes",pMin=1020,pMax=1030,lMin=0,lMax=0))
+    SettingsGroups.Add((GroupID="Wind",pMin=1030,pMax=1040,lMin=0,lMax=0))
 
     // Roles
     Properties.Add((PropertyId=1000,Data=(Type=SDT_Int32,Value1=0)))
@@ -137,4 +160,12 @@ defaultproperties
     PropertyMappings.Add((Id=1020,Name="bAllowIntroVO",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
     Properties.Add((PropertyId=1021,Data=(Type=SDT_Int32,Value1=0)))
     PropertyMappings.Add((Id=1021,Name="bEnableAmbientSoundFix",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+
+    // Wind for smoke (from the next map)
+    Properties.Add((PropertyId=1030,Data=(Type=SDT_Int32,Value1=1)))
+    PropertyMappings.Add((Id=1030,Name="bDisableAddedWind",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+    Properties.Add((PropertyId=1031,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1031,Name="WindDirection",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1),(Id=2),(Id=3),(Id=4),(Id=5),(Id=6),(Id=7),(Id=8))))
+    Properties.Add((PropertyId=1032,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1032,Name="bOverrideMapWind",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
 }

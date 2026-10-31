@@ -29,6 +29,12 @@ var config bool             bLightGetGrenade;
 var config bool             bAllAITWeapons;
 var config bool             bEnableAmbientSoundFix;
 var config bool             bAllowIntroVO; // Set true to keep the round-start voice lines (muted by default)
+// Wind for smoke: a map without a wind direction gets one (unless bDisableAddedWind), facing WindDirection (0 random,
+// 1 to 8 north, north-east, east and round to north-west: the way smoke drifts). bOverrideMapWind turns the map's own
+// wind to it too.
+var config bool             bDisableAddedWind;
+var config byte             WindDirection;
+var config bool             bOverrideMapWind;
 
 // ====================================================
 // Initialization
@@ -66,6 +72,7 @@ simulated function PreBeginPlay()
     }
 
     ModifyVolumes();
+    SetUpWind();
 
     // Server-side patch cache: values live here, never on the client, keyed by player ID
     MyPatchChanger = Spawn(class'ACPatchChanger', self);
@@ -76,6 +83,44 @@ simulated function PreBeginPlay()
         SetTimer(0.25, true, 'RemoveSpawnChatter');
 
     super.PreBeginPlay();
+}
+
+// Smoke drifts with the wind, and a map without a wind direction gives it none: one is added, facing WindDirection or a
+// random way (a different one each time the map loads). With bOverrideMapWind the map's own wind is turned that way too.
+function SetUpWind()
+{
+    local WindDirectionalSource Wind;
+    local ACWindSource Added;
+    local rotator Direction;
+    local bool bMapHasWind;
+
+    foreach AllActors(class'WindDirectionalSource', Wind)
+    {
+        bMapHasWind = true;
+        break;
+    }
+    if (bMapHasWind ? !bOverrideMapWind : bDisableAddedWind)
+        return;
+
+    Direction.Yaw = WindYaw(WindDirection);
+    Added = Spawn(class'ACWindSource',,, vect(0, 0, 0), Direction);
+    if (Added == None)
+        return;
+    if (bMapHasWind)
+    {
+        Added.ReplaceMapWind();
+        `log("[MutExtras] Turned the map's wind to face yaw "$Direction.Yaw);
+    }
+    else
+        `log("[MutExtras] The map has no wind direction; added one facing yaw "$Direction.Yaw);
+}
+
+// The yaw for a WindDirection choice: north is +X (yaw 0), east +Y; 0 or anything unknown is a random direction
+static function int WindYaw(byte Choice)
+{
+    if (Choice >= 1 && Choice <= 8)
+        return (Choice - 1) * 8192;
+    return Rand(65536);
 }
 
 // Drops queued spawn-in voice lines (SpawnAttacking/Defending/FireFight/Neutral) before they are broadcast

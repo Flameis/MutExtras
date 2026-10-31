@@ -81,6 +81,7 @@ Players can wear a **rank patch** and a **unit patch** on their helmet, and ever
 - **Ammo areas for both teams:** ammo resupply areas work for either team.
 - **Vehicles follow their driver:** a vehicle takes the team of whoever drives it, so either team can use it.
 - **Team switching any time:** players are not made to wait before switching teams.
+- **Wind for smoke:** smoke drifts on the wind, and a map without a wind direction gives it none. MutExtras gives such a map a wind direction, facing a random way each time the map loads, or the way picked with `WindDirection`. With `bOverrideMapWind` the map's own wind is turned that way too (it keeps its strength). Turn the added wind off with `bDisableAddedWind`. Changes take effect from the next map. (How the smoke looks can only be checked by playing.)
 - **Bot commands that work:** `addbots` no longer gets stuck when a team has no free roles, and `removebots` really removes them.
 
 ## 7. Commands
@@ -102,7 +103,7 @@ Testing console commands (type them directly, no `mutate`): `mcamera <1st, 3rd, 
 
 ## 8. Settings
 
-Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server.ini`. The page has a tab for each group of settings. Each setting has a plain label, on/off settings are **On** and **Off** buttons, and settings with a few fixed values (such as the number of Canberra planes) offer just those. The labels and button names come from the mod's text file in `Localization\INT` (`MutExtras.int`), which a server needs next to the mod; without it the page shows the setting names below and the buttons have no text. The tabs are **Roles**, **Factions** (the two forces are choices: PAVN or NLF, and a drop-down of US Army, USMC, Australian Army and ARVN) and **Sound and fixes**.
+Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server.ini`. The page has a tab for each group of settings. Each setting has a plain label, on/off settings are **On** and **Off** buttons, and settings with a few fixed values (such as the number of Canberra planes) offer just those. The labels and button names come from the mod's text file in `Localization\INT` (`MutExtras.int`), which a server needs next to the mod; without it the page shows the setting names below and the buttons have no text. The tabs are **Roles**, **Factions** (the two forces are choices: PAVN or NLF, and a drop-down of US Army, USMC, Australian Army and ARVN) **Sound and fixes** and **Wind**.
 
 | Setting | What it does |
 | :--- | :--- |
@@ -113,6 +114,9 @@ Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server
 | `MySouthForce` | The Southern force: USA (0), USMC (1), Australia (2) or ARVN (3) |
 | `bEnableAmbientSoundFix` | Fix the ambient sound for late joiners |
 | `bAllowIntroVO` | Keep the round-start voice lines (muted when off) |
+| `bDisableAddedWind` | Don't give maps without wind a wind direction (shown on the page as "Give maps with no wind a wind direction", On by default) |
+| `WindDirection` | Which way the wind blows smoke: 0 random each map (the default), 1 north, 2 north-east, 3 east, 4 south-east, 5 south, 6 south-west, 7 west, 8 north-west |
+| `bOverrideMapWind` | Also turn the map's own wind to that direction (or a random one) |
 
 ## 9. Works with other mods
 
