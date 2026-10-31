@@ -78,11 +78,18 @@ simulated function PreBeginPlay()
     MyPatchChanger = Spawn(class'ACPatchChanger', self);
 
     // Voice lines at the start of the round: the commander speech is muted per player (NotifyLogin) and the queued
-    // spawn-in chatter is dropped here.
-    if (!bAllowIntroVO)
-        SetTimer(0.25, true, 'RemoveSpawnChatter');
+    // spawn-in chatter is dropped in Tick.
 
     super.PreBeginPlay();
+}
+
+// The game queues a voice line only 0.05 to 0.25 seconds before it is played, so the queue is checked every frame (a
+// check every quarter second let many spawn-in lines through). With nothing queued it costs one check.
+event Tick(float DeltaTime)
+{
+    if (!bAllowIntroVO)
+        RemoveSpawnChatter();
+    super.Tick(DeltaTime);
 }
 
 // Smoke drifts with the wind, and a map without a wind direction gives it none: one is added, facing WindDirection or a
@@ -130,7 +137,7 @@ function RemoveSpawnChatter()
     local int i, Index;
 
     ROGI = ROGameInfo(WorldInfo.Game);
-    if (ROGI == None)
+    if (ROGI == None || ROGI.DelayedBattleChatterEvents.Length == 0)
         return;
 
     for (i = ROGI.DelayedBattleChatterEvents.Length - 1; i >= 0; i--)
