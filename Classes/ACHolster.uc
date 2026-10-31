@@ -6,8 +6,6 @@ simulated function PreBeginPlay()
 {
 	ROPawn(Instigator).ArmsMesh.AnimSets.AddItem(AnimSet'MutExtrasTBPkg.Anims.Salute1st');
 
-	SetTimer(1, true, 'CheckIdle');
-
 	super.PreBeginPlay();
 }
 
@@ -28,6 +26,19 @@ simulated function BeginFire(Byte FireModeNum)
 
 simulated state Active
 {
+	// The arms idle check (CheckIdle) only runs while the holster is out
+	simulated function BeginState(Name PreviousStateName)
+	{
+		super.BeginState(PreviousStateName);
+		SetTimer(1, true, 'CheckIdle');
+	}
+
+	simulated function EndState(Name NextStateName)
+	{
+		ClearTimer('CheckIdle');
+		super.EndState(NextStateName);
+	}
+
 	// Overridden so nothing happens
 	simulated exec function IronSights()
 	{

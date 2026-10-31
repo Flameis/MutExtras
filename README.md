@@ -36,7 +36,7 @@ MutExtras adds the **29th's custom roles, weapons and equipment** to the game, l
 - **Unlimited slots:** every role has no limit, except the commander (9).
 - **Tank crew roles:** a tank crew role is added for both teams.
 - **Pilot roles:** the pilot and transport pilot roles are added for the Southern team on maps that have pilots.
-- **Lineup role:** a role for formations. It carries an M1 Garand and a "holster" item that plays a salute and a standing-at-attention pose.
+- **Lineup role:** a role for formations. It carries an M1 Garand and a "holster" item that plays a salute and a standing-at-attention pose. The pose stops when you move, crouch, go prone or change weapon, and it never cuts off the game's own moves (it used to stop other full-body animations, such as stance changes and bayonet stabs, five times a second).
 - **Light ARVN** carries the game's own 30-round XM177E1 with 4 magazines. The 7-magazine XM177E1 is for the MACV-SOG roles only.
 - **Role loadout list:** every role's weapon options are listed in `old docs/roleinfo_loadouts.csv`.
 - **Two primaries:** a role whose secondary weapon is really a primary weapon (for example the Australian Combat Engineer's setup) can carry two primaries.

@@ -108,16 +108,30 @@ function CheckInvSizeOverride(ROPlayerReplicationInfo ROPRI)
 	}
 }
 
+// The attention pose: while a soldier stands still with the holster out (not crouched or prone), SetIdle plays it every
+// 3.5 s. Once they move, crouch, go prone or change weapon it is stopped, but only if it (or a full-body salute) is what
+// is playing, so the game's own full-body moves (stance changes, bayonet stabs) are never cut off. Other players' pawns
+// on a client can't play or stop it, so they skip the check.
 simulated function CheckIdle()
 {
-	if (Weapon.IsA('ACHolster') && IsZero(Velocity) && !bIsCrouched && !bIsProning)
+	if (Role == ROLE_SimulatedProxy)
+		return;
+
+	if (HoldingHolsterStill())
 	{
-    	bNeedsIdle = true;
+		bNeedsIdle = true;
 	}
-	else if (!bUBSalute)
+	else
 	{
-		StopIdleAnim();
+		bNeedsIdle = false;
+		if (!bUBSalute)
+			StopIdleAnim();
 	}
+}
+
+simulated function bool HoldingHolsterStill()
+{
+	return ACHolster(Weapon) != None && IsZero(Velocity) && !bIsCrouched && !bIsProning;
 }
 
 function SetIdle()
@@ -132,7 +146,7 @@ function PostSalute()
 {
 	bSaluting = false;
 	bUBSalute = false;
-	if (Weapon.IsA('ACHolster') && IsZero(Velocity) && !bIsCrouched && !bIsProning)
+	if (HoldingHolsterStill())
 	{
     	PlayIdleAnim();
 	}
@@ -142,11 +156,11 @@ function Salute()
 {
 	PlayerController(Controller).ServerSay("*Salute*");
 
-	if (IsZero(Velocity) && !bIsCrouched && !bIsProning && Weapon.IsInState('Active'))
+	if (Weapon != None && IsZero(Velocity) && !bIsCrouched && !bIsProning && Weapon.IsInState('Active'))
 	{
 		PlayFullBodyAnimation('SaluteAnimV2', 0.5f, false, 0.8, 0);
 	}
-	else if (!bIsProning && Weapon.IsInState('Active'))
+	else if (Weapon != None && !bIsProning && Weapon.IsInState('Active'))
 	{
 		PlayUpperBodyAnimation('SaluteAnimV2',, 0.8);
 		bUBSalute = true;
@@ -158,12 +172,14 @@ function Salute()
 
 function PlayIdleAnim()
 {
-	ACPawn(Instigator).PlayFullBodyAnimation('AttentionIdleAnimV2', 0.5f, false, 1, 0);
+	PlayFullBodyAnimation('AttentionIdleAnimV2', 0.5f, false, 1, 0);
 }
 
+// Stops the attention pose or a full-body salute, and nothing else
 function StopIdleAnim()
 {
-	ACPawn(Instigator).CleanupActiveAnimation();
+	if (ActiveAnimationName == 'AttentionIdleAnimV2' || (ActiveAnimationName == 'SaluteAnimV2' && ActiveAnimationType == ROANIM_FULLBODY))
+		CleanupActiveAnimation();
 }
 
 reliable server function ResetSBool()
