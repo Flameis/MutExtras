@@ -75,7 +75,7 @@ Players can wear a **rank patch** and a **unit patch** on their helmet, and ever
 
 ## 6. Fixes and small improvements
 
-- **Round-start voice lines muted:** the commander speech and the spawn-in chatter at the start of a round are muted. Set `bAllowIntroVO` to keep them.
+- **Round-start voice lines muted:** the commander speech and the spawn-in chatter at the start of a round are muted. Set `bAllowIntroVO` to keep them. The game queues these lines only a split second before they play, so they are checked for every frame (a slower check let some through).
 - **Ambient sound fix** (`bEnableAmbientSoundFix`): players who join after a map's ambient sound started now hear it, once and not doubled (fixes Sapa playing it twice).
 - **Resupply HUD fix:** the "resupplied" icon no longer stays stuck on the weapon display after resupplying a machine gun.
 - **Ammo areas for both teams:** ammo resupply areas work for either team.
