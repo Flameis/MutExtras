@@ -44,7 +44,7 @@ MutExtras adds the **29th's custom roles, weapons and equipment** to the game, l
 
 ## 3. Weapons and equipment
 
-- **Ammo crates:** Radioman/Support roles can place a **resupply crate** (a US crate for the South, a VC crate for the North). You can place one at a time, at least 30 meters from any other crate, and nearby teammates are resupplied from it.
+- **Ammo crates:** Radioman/Support roles can place a **resupply crate** (a US crate for the South, a VC crate for the North). You can place one at a time, at least 30 meters from any other crate, and nearby teammates are resupplied from it. **Any explosive can destroy a crate:** grenades, rockets, satchels, mines, artillery, tank shells and other mods' explosives all damage it from any side or angle, and one going off within about 2 meters destroys it. Napalm destroys it at once. Bullets, fire and gas don't hurt it.
 - **Bigger loads:** four claymores, four tripwire traps, four fougasse mines, three molotovs, four smoke grenades for the MACV-SOG roles, an M60 with extra magazines, and 200-round MG34 and RPD belts.
 - **Special M79:** a grenade launcher variant whose alternate fire shoots a white phosphorus grenade.
 - **RPG-7 against vehicles:** the RPG rocket is changed so a tank is **destroyed after a few hits** (a light tank 3, a T-26 4, a T-28 5, a 53-K 1, and so on). The ACAV, helicopters and skis are not affected.
