@@ -41,8 +41,8 @@ function AttachNewHeadgear(SkeletalMesh NewHeadgearMesh)
 	// `log ("[MutExtras Debug] NewHeadgearMesh.name "$NewHeadgearMesh.name);
 	if (NewHeadgearMesh.name == '29thHelmet')
 	{
-		HeadgearTemplateMIC2 = MaterialInstanceConstant(DynamicLoadObject("MutExtrasTBPkg.Materials." $ ACPlayerReplicationInfo(ROPC.PlayerReplicationInfo).PlayerRank, class'MaterialInstanceConstant', true));
-		HeadgearTemplateMIC3 = MaterialInstanceConstant(DynamicLoadObject("MutExtrasTBPkg.Materials." $ ACPlayerReplicationInfo(ROPC.PlayerReplicationInfo).PlayerUnit, class'MaterialInstanceConstant', true));
+		HeadgearTemplateMIC2 = MaterialInstanceConstant(DynamicLoadObject("MutExtrasContent.Materials." $ ACPlayerReplicationInfo(ROPC.PlayerReplicationInfo).PlayerRank, class'MaterialInstanceConstant', true));
+		HeadgearTemplateMIC3 = MaterialInstanceConstant(DynamicLoadObject("MutExtrasContent.Materials." $ ACPlayerReplicationInfo(ROPC.PlayerReplicationInfo).PlayerUnit, class'MaterialInstanceConstant', true));
 
 		// `log ("[MutExtras Debug] GetRankTexture "$ACPlayerReplicationInfo(ROPC.PlayerReplicationInfo).PlayerRank);
 		// `log ("[MutExtras Debug] GetUnitTexture "$ACPlayerReplicationInfo(ROPC.PlayerReplicationInfo).PlayerUnit);
@@ -79,7 +79,7 @@ defaultproperties
 	Begin Object Class=DecalComponent Name=Decal
 		bIgnoreOwnerHidden=TRUE
 		bProjectOnBackfaces=TRUE
-		DecalMaterial=MaterialInstanceConstant'MutExtrasTBPkg.Materials.TestMat'
+		DecalMaterial=MaterialInstanceConstant'MutExtrasContent.Materials.TestMat'
 	End Object
 	Components.Add(Decal)
 	MyDecal=Decal

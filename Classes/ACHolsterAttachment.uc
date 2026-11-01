@@ -3,7 +3,7 @@ class ACHolsterAttachment extends ROItemAttach_BinocularsUS;
 defaultproperties
 {
     WeaponClass=class'ACHolster'
-    CHR_AnimSet=AnimSet'MutExtrasTBPkg.Anims.Salute'
+    CHR_AnimSet=AnimSet'MutExtrasContent.Anims.Salute'
 
 	ThirdPersonHandsAnim=AttentionIdleAnimV2
 	ThirdPersonHandsIronAnim=AttentionIdleAnimV2

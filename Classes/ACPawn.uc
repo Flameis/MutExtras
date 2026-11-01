@@ -32,7 +32,7 @@ simulated event PreBeginPlay()
 /* simulated event PostBeginPlay()
 {
 	MyLDecal = PlayerWoundDecalManager.SpawnDecal(
-					MaterialInstanceConstant'MutExtrasTBPkg.Materials.TestMat',			// Decal material
+					MaterialInstanceConstant'MutExtrasContent.Materials.TestMat',			// Decal material
 					Location,  // Decal location
 					Rotation,	// Decal orientation
 					10,				// Decal width
@@ -55,7 +55,7 @@ simulated event PreBeginPlay()
 	mesh.AttachComponent( MyLDecal, 'CHR_LArmshoulder');
 
 	MyRDecal = PlayerWoundDecalManager.SpawnDecal(
-					MaterialInstanceConstant'MutExtrasTBPkg.Materials.TestMat',			// Decal material
+					MaterialInstanceConstant'MutExtrasContent.Materials.TestMat',			// Decal material
 					Location,  // Decal location
 					Rotation,	// Decal orientation
 					10 * 20.0f,				// Decal width
@@ -272,8 +272,8 @@ simulated function AttachNewHeadgear(SkeletalMesh NewHeadgearMesh)
 	// `log ("[MutExtras Debug] NewHeadgearMesh.name "$NewHeadgearMesh.name);
 	if(NewHeadgearMesh.name == '29thHelmet')
 	{
-		HeadgearTemplateMIC2 = MaterialInstanceConstant(DynamicLoadObject("MutExtrasTBPkg.Materials." $PlayerRank,class'MaterialInstanceConstant',true));
-		HeadgearTemplateMIC3 = MaterialInstanceConstant(DynamicLoadObject("MutExtrasTBPkg.Materials." $PlayerUnit,class'MaterialInstanceConstant',true));
+		HeadgearTemplateMIC2 = MaterialInstanceConstant(DynamicLoadObject("MutExtrasContent.Materials." $PlayerRank,class'MaterialInstanceConstant',true));
+		HeadgearTemplateMIC3 = MaterialInstanceConstant(DynamicLoadObject("MutExtrasContent.Materials." $PlayerUnit,class'MaterialInstanceConstant',true));
 
 		// `log (PlayerRank);
 		// `log (PlayerUnit);
@@ -322,7 +322,7 @@ defaultproperties
 	Begin Object Class=DecalComponent Name=Decal
 		bIgnoreOwnerHidden=TRUE
 		bProjectOnBackfaces=TRUE
-		DecalMaterial=MaterialInstanceConstant'MutExtrasTBPkg.Materials.TestMat'
+		DecalMaterial=MaterialInstanceConstant'MutExtrasContent.Materials.TestMat'
 	End Object
 	Components.Add(Decal)
 	// MyDecal=Decal

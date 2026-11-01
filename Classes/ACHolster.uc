@@ -4,7 +4,7 @@ var bool bSaluting;
 
 simulated function PreBeginPlay()
 {
-	ROPawn(Instigator).ArmsMesh.AnimSets.AddItem(AnimSet'MutExtrasTBPkg.Anims.Salute1st');
+	ROPawn(Instigator).ArmsMesh.AnimSets.AddItem(AnimSet'MutExtrasContent.Anims.Salute1st');
 
 	super.PreBeginPlay();
 }
@@ -99,11 +99,11 @@ defaultproperties
 		AnimSets(0)=AnimSet'WP_VN_USA_Binoculars.Anim.WP_US_BinocsHands'
 		SkeletalMesh=none
 		PhysicsAsset=None
-		// AnimSets(1)=AnimSet'MutExtrasTBPkg.Anims.Salute1st'
+		// AnimSets(1)=AnimSet'MutExtrasContent.Anims.Salute1st'
 		//SkeletalMesh=SkeletalMesh'CHR_VN_1stP_Hands_Master.Mesh.VN_1stP_US_Long_Mesh'
 		//SkeletalMesh=SkeletalMesh'WP_VN_USA_Binoculars.Mesh.US_Binocs'
-		// AnimTreeTemplate=AnimTree'MutExtrasTBPkg.Anims.SaluteTree1st'
-		//AnimTreeTemplate=AnimSet'MutExtrasTBPkg.Anims.SaluteTree'
+		// AnimTreeTemplate=AnimTree'MutExtrasContent.Anims.SaluteTree1st'
+		//AnimTreeTemplate=AnimSet'MutExtrasContent.Anims.SaluteTree'
 		Scale=1.0
 		FOV=70
 	End Object
@@ -124,7 +124,7 @@ defaultproperties
     InventoryGroup=29
     AttachmentClass=Class'ACHolsterAttachment'
 
-	//ArmsAnimSet=AnimSet'MutExtrasTBPkg.Anims.Salute1st'
+	//ArmsAnimSet=AnimSet'MutExtrasContent.Anims.Salute1st'
 	WeaponIdleAnims(0)=Idle
 	WeaponIdleAnims(1)=Idle
     //WeaponFireAnim(0)=29thArms1st

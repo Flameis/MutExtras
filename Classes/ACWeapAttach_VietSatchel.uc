@@ -16,8 +16,8 @@ DefaultProperties
 
 	// Weapon SkeletalMesh
 	Begin Object Name=SkeletalMeshComponent0
-		SkeletalMesh=SkeletalMesh'MutExtrasTBPkg.Satchel.Rus_Satchel_3rd_Master'
-		PhysicsAsset=PhysicsAsset'MutExtrasTBPkg.Satchel.Sov_Satchel_Physics'
+		SkeletalMesh=SkeletalMesh'MutExtrasContent.Satchel.Rus_Satchel_3rd_Master'
+		PhysicsAsset=PhysicsAsset'MutExtrasContent.Satchel.Sov_Satchel_Physics'
 		CullDistance=5000
 	End Object
 

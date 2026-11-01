@@ -505,17 +505,17 @@ defaultproperties
 	ARVNFieldgearByRole(`ACCI_CombatPilot)=(FieldgearByTunicType=(SkeletalMesh'CHR_VN_US_Army.GearMesh.US_Gear_Pilot'))
 	ARVNFieldgearByRole(`ACCI_TransportPilot)=(FieldgearByTunicType=(SkeletalMesh'CHR_VN_US_Army.GearMesh.US_Gear_Pilot'))
 
-	USArmyTattoos(13)=(TattooTex=Texture2D'MutExtrasTBPkg.Tattoos.US_CamoV3',ThumbnailImage=Texture2D'VN_UI_Textures_Character_Two.Tattoos.Tattoo_US_Camo2')
-	USArmyTattoos(14)=(TattooTex=Texture2D'MutExtrasTBPkg.Tattoos.US_CamoV4',ThumbnailImage=Texture2D'VN_UI_Textures_Character_Two.Tattoos.Tattoo_US_Camo2')
-	USArmyTattoos(15)=(TattooTex=Texture2D'MutExtrasTBPkg.Tattoos.Joker',ThumbnailImage=Texture2D'CHR_VN_DLC_PCGamer.Tattoos.AUS_CoconutMonkey')
+	USArmyTattoos(13)=(TattooTex=Texture2D'MutExtrasContent.Tattoos.US_CamoV3',ThumbnailImage=Texture2D'VN_UI_Textures_Character_Two.Tattoos.Tattoo_US_Camo2')
+	USArmyTattoos(14)=(TattooTex=Texture2D'MutExtrasContent.Tattoos.US_CamoV4',ThumbnailImage=Texture2D'VN_UI_Textures_Character_Two.Tattoos.Tattoo_US_Camo2')
+	USArmyTattoos(15)=(TattooTex=Texture2D'MutExtrasContent.Tattoos.Joker',ThumbnailImage=Texture2D'CHR_VN_DLC_PCGamer.Tattoos.AUS_CoconutMonkey')
 
-	USMCTattoos(13)=(TattooTex=Texture2D'MutExtrasTBPkg.Tattoos.US_CamoV3',ThumbnailImage=Texture2D'VN_UI_Textures_Character_Two.Tattoos.Tattoo_US_Camo2')
-	USMCTattoos(14)=(TattooTex=Texture2D'MutExtrasTBPkg.Tattoos.US_CamoV4',ThumbnailImage=Texture2D'VN_UI_Textures_Character_Two.Tattoos.Tattoo_US_Camo2')
-	USMCTattoos(15)=(TattooTex=Texture2D'MutExtrasTBPkg.Tattoos.Joker',ThumbnailImage=Texture2D'CHR_VN_DLC_PCGamer.Tattoos.AUS_CoconutMonkey')
+	USMCTattoos(13)=(TattooTex=Texture2D'MutExtrasContent.Tattoos.US_CamoV3',ThumbnailImage=Texture2D'VN_UI_Textures_Character_Two.Tattoos.Tattoo_US_Camo2')
+	USMCTattoos(14)=(TattooTex=Texture2D'MutExtrasContent.Tattoos.US_CamoV4',ThumbnailImage=Texture2D'VN_UI_Textures_Character_Two.Tattoos.Tattoo_US_Camo2')
+	USMCTattoos(15)=(TattooTex=Texture2D'MutExtrasContent.Tattoos.Joker',ThumbnailImage=Texture2D'CHR_VN_DLC_PCGamer.Tattoos.AUS_CoconutMonkey')
 
-	USAHeadgear(38)=(HeadgearMeshes=(SkeletalMesh'MutExtrasTBPkg.Mesh.29thHelmet'),HeadgearMICs=(20),HeadgearSocket=helmet,bIsHelmet=1,ThumbnailImage=Texture2D'MutExtrasTBPkg.Textures.29th')
-	AusArmyHeadgear(20)=(HeadgearMeshes=(SkeletalMesh'MutExtrasTBPkg.Mesh.29thHelmet'),HeadgearMICs=(14),HeadgearSocket=helmet,bIsHelmet=1,ThumbnailImage=Texture2D'MutExtrasTBPkg.Textures.29th')
-	ARVNHeadgear(26)=(HeadgearMeshes=(SkeletalMesh'MutExtrasTBPkg.Mesh.29thHelmet'),HeadgearSocket=helmet,bIsHelmet=1,ThumbnailImage=Texture2D'MutExtrasTBPkg.Textures.29th')
+	USAHeadgear(38)=(HeadgearMeshes=(SkeletalMesh'MutExtrasContent.Mesh.29thHelmet'),HeadgearMICs=(20),HeadgearSocket=helmet,bIsHelmet=1,ThumbnailImage=Texture2D'MutExtrasContent.Textures.29th')
+	AusArmyHeadgear(20)=(HeadgearMeshes=(SkeletalMesh'MutExtrasContent.Mesh.29thHelmet'),HeadgearMICs=(14),HeadgearSocket=helmet,bIsHelmet=1,ThumbnailImage=Texture2D'MutExtrasContent.Textures.29th')
+	ARVNHeadgear(26)=(HeadgearMeshes=(SkeletalMesh'MutExtrasContent.Mesh.29thHelmet'),HeadgearSocket=helmet,bIsHelmet=1,ThumbnailImage=Texture2D'MutExtrasContent.Textures.29th')
 
 	USAHeadgearMICs(20)=(HeadgearMICTemplate=MaterialInstanceConstant'CHR_VN_ARVN_Headgear.Materials.M_ARVN_Headgear_M1Bare_INST')
 	AusHeadgearMICs(14)=(HeadgearMICTemplate=MaterialInstanceConstant'CHR_VN_ARVN_Headgear.Materials.M_ARVN_Headgear_M1Bare_INST')

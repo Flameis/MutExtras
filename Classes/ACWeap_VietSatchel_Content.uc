@@ -13,17 +13,17 @@ DefaultProperties
 {
 	Begin Object Name=FirstPersonMesh
 		DepthPriorityGroup=SDPG_Foreground
-		SkeletalMesh=SkeletalMesh'MutExtrasTBPkg.Satchel.Sov_Satchel'
-		PhysicsAsset=PhysicsAsset'MutExtrasTBPkg.Satchel.Sov_Satchel_Physics'
-		AnimSets(0)=AnimSet'MutExtrasTBPkg.Satchel.WP_SatchelHands'
-		AnimTreeTemplate=AnimTree'MutExtrasTBPkg.Satchel.Sov_Satchel_Tree'
+		SkeletalMesh=SkeletalMesh'MutExtrasContent.Satchel.Sov_Satchel'
+		PhysicsAsset=PhysicsAsset'MutExtrasContent.Satchel.Sov_Satchel_Physics'
+		AnimSets(0)=AnimSet'MutExtrasContent.Satchel.WP_SatchelHands'
+		AnimTreeTemplate=AnimTree'MutExtrasContent.Satchel.Sov_Satchel_Tree'
 		Scale=1.0
 		FOV=70
 	End Object
 
 	Begin Object Name=PickupMesh
-		SkeletalMesh=SkeletalMesh'MutExtrasTBPkg.Satchel.Rus_Satchel_3rd_Master'
-		PhysicsAsset=PhysicsAsset'MutExtrasTBPkg.Satchel.Rus_Satchel_3rd_Master_Physics'
+		SkeletalMesh=SkeletalMesh'MutExtrasContent.Satchel.Rus_Satchel_3rd_Master'
+		PhysicsAsset=PhysicsAsset'MutExtrasContent.Satchel.Rus_Satchel_3rd_Master_Physics'
 		CollideActors=true
 		BlockActors=true
 		BlockZeroExtent=true
@@ -40,5 +40,5 @@ DefaultProperties
 
 	AttachmentClass=class'MutExtras.ACWeapAttach_VietSatchel'
 
-	ArmsAnimSet=AnimSet'MutExtrasTBPkg.Satchel.WP_SatchelHands'
+	ArmsAnimSet=AnimSet'MutExtrasContent.Satchel.WP_SatchelHands'
 }
