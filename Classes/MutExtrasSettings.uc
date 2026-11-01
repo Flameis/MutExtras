@@ -136,10 +136,13 @@ function SaveMutSettings()
 // (Localization\INT, section [<this class>]), in the same order as below.
 defaultproperties
 {
-    SettingsGroups.Add((GroupID="Roles",pMin=1000,pMax=1010,lMin=0,lMax=0))
-    SettingsGroups.Add((GroupID="Factions",pMin=1010,pMax=1020,lMin=0,lMax=0))
-    SettingsGroups.Add((GroupID="Fixes",pMin=1020,pMax=1030,lMin=0,lMax=0))
-    SettingsGroups.Add((GroupID="Wind",pMin=1030,pMax=1040,lMin=0,lMax=0))
+    // Tab ids are numbers: the game's WebAdmin checks a named tab against the admin's rights with a broken address on
+    // the Mutators page, so with multi-admin logins (the 29th's servers) every named tab was hidden. The titles come
+    // from the .int file.
+    SettingsGroups.Add((GroupID="0",pMin=1000,pMax=1010,lMin=0,lMax=0))
+    SettingsGroups.Add((GroupID="1",pMin=1010,pMax=1020,lMin=0,lMax=0))
+    SettingsGroups.Add((GroupID="2",pMin=1020,pMax=1030,lMin=0,lMax=0))
+    SettingsGroups.Add((GroupID="3",pMin=1030,pMax=1040,lMin=0,lMax=0))
 
     // Roles
     Properties.Add((PropertyId=1000,Data=(Type=SDT_Int32,Value1=0)))
