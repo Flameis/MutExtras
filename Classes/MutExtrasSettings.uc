@@ -49,6 +49,10 @@ function InitMutSettings()
 	if (self.myMut == None){self.SetIntPropertyByName('bOverrideMapWind', int(class'MutExtras'.default.bOverrideMapWind));}
 	else{self.SetIntPropertyByName('bOverrideMapWind', int(MutExtras(self.myMut).bOverrideMapWind));};
 
+	// Free look: bDisableFreeLook is shown the other way round, as "free look" On / Off
+	if (self.myMut == None){self.SetIntPropertyByName('bDisableFreeLook', int(!class'MutExtras'.default.bDisableFreeLook));}
+	else{self.SetIntPropertyByName('bDisableFreeLook', int(!MutExtras(self.myMut).bDisableFreeLook));};
+
 }
 
 /**
@@ -124,6 +128,10 @@ function SaveMutSettings()
 	if (self.myMut == None) {class'MutExtras'.default.bOverrideMapWind = (self.tempValue != 0);}
 	else {MutExtras(self.myMut).bOverrideMapWind = (self.tempValue != 0);}
 
+	self.GetIntPropertyByName('bDisableFreeLook', tempValue);
+	if (self.myMut == None) {class'MutExtras'.default.bDisableFreeLook = (self.tempValue == 0);}
+	else {MutExtras(self.myMut).bDisableFreeLook = (self.tempValue == 0);}
+
 	if (self.myMut != None)
 		self.myMut.SaveConfig();
 	else
@@ -143,6 +151,7 @@ defaultproperties
     SettingsGroups.Add((GroupID="1",pMin=1010,pMax=1020,lMin=0,lMax=0))
     SettingsGroups.Add((GroupID="2",pMin=1020,pMax=1030,lMin=0,lMax=0))
     SettingsGroups.Add((GroupID="3",pMin=1030,pMax=1040,lMin=0,lMax=0))
+    SettingsGroups.Add((GroupID="4",pMin=1040,pMax=1050,lMin=0,lMax=0))
 
     // Roles
     Properties.Add((PropertyId=1000,Data=(Type=SDT_Int32,Value1=0)))
@@ -171,4 +180,8 @@ defaultproperties
     PropertyMappings.Add((Id=1031,Name="WindDirection",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1),(Id=2),(Id=3),(Id=4),(Id=5),(Id=6),(Id=7),(Id=8))))
     Properties.Add((PropertyId=1032,Data=(Type=SDT_Int32,Value1=0)))
     PropertyMappings.Add((Id=1032,Name="bOverrideMapWind",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+
+    // Free look (players who join after the change get it)
+    Properties.Add((PropertyId=1040,Data=(Type=SDT_Int32,Value1=1)))
+    PropertyMappings.Add((Id=1040,Name="bDisableFreeLook",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
 }

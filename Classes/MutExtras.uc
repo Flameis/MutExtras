@@ -35,6 +35,8 @@ var config bool             bAllowIntroVO; // Set true to keep the round-start v
 var config bool             bDisableAddedWind;
 var config byte             WindDirection;
 var config bool             bOverrideMapWind;
+var config bool             bDisableFreeLook;  // Free look (ACFreeLook) is on unless this is set
+var array<ACFreeLook>       FreeLooks;         // one per player: its owner's free look, and their head for everyone else
 
 // ====================================================
 // Initialization
@@ -181,6 +183,10 @@ simulated function NotifyLogin(Controller NewPlayer)
     DummyActor = Spawn(class'ACDummyActor', NewPlayer);
     DummyActors.AddItem(DummyActor);
 
+    // Free look, made for every player whatever the server allows, so the fpbody command always has it to talk to
+    if (PlayerController(NewPlayer) != None)
+        AddFreeLook(PlayerController(NewPlayer));
+
     //`log ("[MutExtras LogIn] Spawning "$DummyActor);
 
     if (bEnableAmbientSoundFix)
@@ -312,9 +318,41 @@ function bool IsFedByClientSideEventRecursive(SequenceOp TargetOp, array<Sequenc
     return False;
 }
 
+function AddFreeLook(PlayerController PC)
+{
+    local ACFreeLook Look;
+
+    Look = Spawn(class'ACFreeLook', PC);
+    if (Look == None)
+        return;
+    Look.bAllowed = !bDisableFreeLook;
+    Look.OwnerPRI = PC.PlayerReplicationInfo;
+    FreeLooks.AddItem(Look);
+}
+
+function ACFreeLook FindFreeLook(PlayerController PC)
+{
+    local ACFreeLook Look;
+
+    foreach FreeLooks(Look)
+    {
+        if (Look != None && Look.Owner == PC)
+            return Look;
+    }
+    return None;
+}
+
 simulated function NotifyLogout(Controller Exiting)
 {
     local ACDummyActor DummyActor;
+    local ACFreeLook Look;
+
+    Look = FindFreeLook(PlayerController(Exiting));
+    if (Look != None)
+    {
+        FreeLooks.RemoveItem(Look);
+        Look.Destroy();
+    }
 
     // Find and destroy the dummy actor associated with the exiting player
     foreach DummyActors(DummyActor)
@@ -436,6 +474,12 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
             {
                 WorldInfo.Game.Broadcast(self, "[MutExtras] "$PlayerName$" set their speed to "$Args[1]);
             }
+            break;
+
+        // The player's own body in first person: always, or only while free looking (kept in their MutExtras_Client.ini)
+        case "FPBODY":
+            if (FindFreeLook(PC) != None)
+                FindFreeLook(PC).ClientSetBodyMode(Args.Length > 1 ? Args[1] : "");
             break;
 
         case "ALLAMMO":
