@@ -37,6 +37,9 @@ const HEAD_LOOK_DIST = 1000.0;    // the point the head is pointed at, this far 
 // little ahead, prone a long way), so the body is moved to the camera every frame rather than by a fixed amount.
 const BODY_HEAD_BACK = 14.0;
 const BODY_HEAD_DOWN = 6.0;
+// A soldier mesh's translation turns with the mesh's own built-in turn (measured by the harness: +100 on its X moves it
+// 100 to the soldier's right), so a move in the soldier's frame is turned back by this before it goes in
+const BODY_TRANSLATION_YAW = -16384;
 
 var bool bAllowed; // the server has free look on (bDisableFreeLook off)
 var PlayerReplicationInfo OwnerPRI; // whose it is, so every game can find that player's soldier
@@ -415,8 +418,17 @@ simulated function PlaceBody(ROPawn P)
     Facing.Yaw = P.Rotation.Yaw;
     Want = Eye - vector(Facing) * BODY_HEAD_BACK - vect(0, 0, 1) * BODY_HEAD_DOWN;
     Shift = Want - P.Mesh.GetBoneLocation('CHR_Head');
-    // The move is in the world; the body's translation is in the soldier's own frame
-    Body.SetTranslation(P.Mesh.Translation + (Shift << P.Rotation));
+    // The move is in the world: into the soldier's frame, then into the mesh's own turned frame
+    Body.SetTranslation(P.Mesh.Translation + BodyMove(Shift << P.Rotation));
+}
+
+// A move in the soldier's frame as the body's translation takes it
+static function vector BodyMove(vector InSoldierFrame)
+{
+    local rotator Turn;
+
+    Turn.Yaw = BODY_TRANSLATION_YAW;
+    return InSoldierFrame << Turn;
 }
 
 simulated function RemoveBody()
