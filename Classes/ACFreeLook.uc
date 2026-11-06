@@ -32,10 +32,11 @@ const HEAD_FOLLOW = 10.0;         // how quickly a watched head follows the sent
 const HEAD_BLEND = 6.0;           // how quickly the look-at comes in and goes again
 const HEAD_LOOK_DIST = 1000.0;    // the point the head is pointed at, this far out along the look
 
-// How far behind the camera the body stands (unreal units), so the camera isn't inside the chest
-const BODY_BACK_STAND = 10.0;
-const BODY_BACK_CROUCH = 14.0;
-const BODY_BACK_PRONE = 24.0;
+// Where the body's head is put, from the camera (unreal units): behind and below it, so the camera is never inside the
+// chest or the pack. The game's third person model doesn't line up with the first person camera (standing it is a
+// little ahead, prone a long way), so the body is moved to the camera every frame rather than by a fixed amount.
+const BODY_HEAD_BACK = 14.0;
+const BODY_HEAD_DOWN = 6.0;
 
 var bool bAllowed; // the server has free look on (bDisableFreeLook off)
 var PlayerReplicationInfo OwnerPRI; // whose it is, so every game can find that player's soldier
@@ -367,19 +368,17 @@ simulated function bool WantsBody(ROPawn P)
         && (LookInput.bFirstPersonBodyAlways || bLooking || OffYaw != 0 || OffPitch != 0);
 }
 
+// Taken off the soldier whenever it isn't shown (dying, a vehicle, not free looking), not just hidden: a hidden copy
+// would go on following the soldier's mesh through death and the gore that comes with it
 simulated function UpdateBody()
 {
     local ROPawn P;
 
     P = ROPawn(LocalPC.Pawn);
-    if (BodyPawn != None && (BodyPawn != P || BodyPawn.bDeleteMe))
+    if (BodyPawn != None && (BodyPawn != P || BodyPawn.bDeleteMe || !WantsBody(P)))
         RemoveBody();
     if (!WantsBody(P))
-    {
-        if (Body != None)
-            Body.SetHidden(true);
         return;
-    }
 
     if (Body == None)
     {
@@ -396,8 +395,28 @@ simulated function UpdateBody()
     }
 
     Body.SetHidden(false);
+    PlaceBody(P);
+}
+
+// Moves the body so its head is BODY_HEAD_BACK behind and BODY_HEAD_DOWN below the camera, facing the soldier's way.
+// The body takes its pose from the soldier's own mesh, so its head is where that mesh's head is, plus the move.
+simulated function PlaceBody(ROPawn P)
+{
+    local vector Eye, Want, Shift;
+    local rotator Facing;
+
     Body.SetRotation(P.Mesh.Rotation);
-    Body.SetTranslation(P.Mesh.Translation + vect(-1, 0, 0) * (P.bIsProning ? BODY_BACK_PRONE : (P.bIsCrouched ? BODY_BACK_CROUCH : BODY_BACK_STAND)));
+    if (P.Mesh.MatchRefBone('CHR_Head') == INDEX_NONE || LocalPC.PlayerCamera == None)
+    {
+        Body.SetTranslation(P.Mesh.Translation);
+        return;
+    }
+    Eye = LocalPC.PlayerCamera.CameraCache.POV.Location;
+    Facing.Yaw = P.Rotation.Yaw;
+    Want = Eye - vector(Facing) * BODY_HEAD_BACK - vect(0, 0, 1) * BODY_HEAD_DOWN;
+    Shift = Want - P.Mesh.GetBoneLocation('CHR_Head');
+    // The move is in the world; the body's translation is in the soldier's own frame
+    Body.SetTranslation(P.Mesh.Translation + (Shift << P.Rotation));
 }
 
 simulated function RemoveBody()
