@@ -14,6 +14,7 @@ MutExtras adds the **29th's custom roles, weapons and equipment** to the game, l
 8. Commands
 9. Settings
 10. Works with other mods
+11. Engineer fortifications
 
 ---
 
@@ -126,7 +127,7 @@ Testing console commands (type them directly, no `mutate`): `mcamera <1st, 3rd, 
 
 ## 9. Settings
 
-Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server.ini`. The page has a tab for each group of settings. Each setting has a plain label, on/off settings are **On** and **Off** buttons, and settings with a few fixed values (such as the number of Canberra planes) offer just those. The labels and button names come from the mod's text file in `Localization\INT` (`MutExtras.int`), which a server needs next to the mod; without it the page shows the setting names below and the buttons have no text. The tabs are **Roles**, **Factions** (the two forces are choices: PAVN or NLF, and a drop-down of US Army, USMC, Australian Army and ARVN) **Sound and fixes**, **Wind** and **Free look**.
+Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server.ini`. The page has a tab for each group of settings. Each setting has a plain label, on/off settings are **On** and **Off** buttons, and settings with a few fixed values (such as the number of Canberra planes) offer just those. The labels and button names come from the mod's text file in `Localization\INT` (`MutExtras.int`), which a server needs next to the mod; without it the page shows the setting names below and the buttons have no text. The tabs are **Roles**, **Factions** (the two forces are choices: PAVN or NLF, and a drop-down of US Army, USMC, Australian Army and ARVN) **Sound and fixes**, **Wind**, **Free look** and **Engineer fortifications**.
 
 | Setting | What it does |
 | :--- | :--- |
@@ -140,12 +141,33 @@ Set in WebAdmin under **Mutators > MutExtras Settings**, or in `MutExtras_Server
 | `bDisableAddedWind` | Don't give maps without wind a wind direction (shown on the page as "Give maps with no wind a wind direction", On by default) |
 | `WindDirection` | Which way the wind blows smoke: 0 random each map (the default), 1 north, 2 north-east, 3 east, 4 south-east, 5 south, 6 south-west, 7 west, 8 north-west |
 | `bOverrideMapWind` | Also turn the map's own wind to that direction (or a random one) |
+| `bEngineerFortifications` | Engineers spawn with a sandbag kit and a barbed wire kit (off by default). See section 11 |
+| `EngineerSandbagKits`, `EngineerWireKits` | Pieces in each kit (up to 20). 0 means the default: 3 sandbag walls, 2 stretches of wire |
 | `bDisableFreeLook` | Turn free look off for every player (shown on the page as "Players can free look", On by default). Players who join after the change get it |
 
 ## 10. Works with other mods
 
 - On a normal map, MutExtras replaces the roles and pawns as described above. It does not replace the HUD, so other mods can.
 - With **WW2 (Black Orchestra)**, **Winter War** or **GOM (Gameplay Overhaul Mutator)** loaded, MutExtras only adds tank crew roles (Wehrmacht, Commonwealth, Soviet, US and IJA tankers for WW2; Finnish and Soviet for Winter War; the 29th's crews for GOM) and fixes the tank crews' pilot flag.
+
+## 11. Engineer fortifications
+
+With **Engineers spawn with a sandbag kit and a barbed wire kit** on (`bEngineerFortifications`, off by default), every combat engineer spawns with two extra items:
+
+| Kit | What it places |
+| :--- | :--- |
+| **Sandbag Kit** | 3 sandbag walls (about 2.4 m long and 1.2 m high) |
+| **Barbed Wire Kit** | 2 stretches of barbed wire fence (about 2.5 m each) |
+
+Select a kit like any item: a see-through preview shows where the piece will go, green where it fits and red where it doesn't (too steep, no room, nothing to stand on). Click to place it. The piece goes across your view, centred where you aim, with the ammo crate's placing animation. You are told how many are left, and the kit is gone after its last piece.
+
+- **Solid:** soldiers can't walk through a piece, and bullets don't go through it.
+- **Destroyed by explosives only:** grenades, satchels, C4, rockets, tank shells, artillery and mines wear it down. A sandbag wall takes about one satchel, wire much less. Bullets do nothing to it.
+- **Never on a soldier:** a piece that would trap someone isn't placed, and you keep it.
+- **Every round starts clean:** pieces are removed when a new round starts.
+- The number of pieces in each kit can be set (`EngineerSandbagKits`, `EngineerWireKits`).
+
+*Tested by the harness: the kits and their numbers, where a piece goes and how it is turned, solid for soldiers and bullets, bullets doing nothing and a satchel destroying it, nothing placed on a soldier, the kit used up, and a new round clearing them. Not yet tried in a game: the arms and animation (they are the ammo crate's), how the preview and the kit's name in the weapon list look, and whether the game's placing hint still says it is an ammo crate.*
 
 ---
 

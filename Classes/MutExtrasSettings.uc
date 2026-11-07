@@ -53,6 +53,14 @@ function InitMutSettings()
 	if (self.myMut == None){self.SetIntPropertyByName('bDisableFreeLook', int(!class'MutExtras'.default.bDisableFreeLook));}
 	else{self.SetIntPropertyByName('bDisableFreeLook', int(!MutExtras(self.myMut).bDisableFreeLook));};
 
+	// Engineer fortifications
+	if (self.myMut == None){self.SetIntPropertyByName('bEngineerFortifications', int(class'MutExtras'.default.bEngineerFortifications));}
+	else{self.SetIntPropertyByName('bEngineerFortifications', int(MutExtras(self.myMut).bEngineerFortifications));};
+	if (self.myMut == None){self.SetIntPropertyByName('EngineerSandbagKits', class'MutExtras'.default.EngineerSandbagKits);}
+	else{self.SetIntPropertyByName('EngineerSandbagKits', MutExtras(self.myMut).EngineerSandbagKits);};
+	if (self.myMut == None){self.SetIntPropertyByName('EngineerWireKits', class'MutExtras'.default.EngineerWireKits);}
+	else{self.SetIntPropertyByName('EngineerWireKits', MutExtras(self.myMut).EngineerWireKits);};
+
 }
 
 /**
@@ -132,6 +140,16 @@ function SaveMutSettings()
 	if (self.myMut == None) {class'MutExtras'.default.bDisableFreeLook = (self.tempValue == 0);}
 	else {MutExtras(self.myMut).bDisableFreeLook = (self.tempValue == 0);}
 
+	self.GetIntPropertyByName('bEngineerFortifications', tempValue);
+	if (self.myMut == None) {class'MutExtras'.default.bEngineerFortifications = (self.tempValue != 0);}
+	else {MutExtras(self.myMut).bEngineerFortifications = (self.tempValue != 0);}
+	self.GetIntPropertyByName('EngineerSandbagKits', tempValue);
+	if (self.myMut == None) {class'MutExtras'.default.EngineerSandbagKits = Clamp(self.tempValue, 0, 20);}
+	else {MutExtras(self.myMut).EngineerSandbagKits = Clamp(self.tempValue, 0, 20);}
+	self.GetIntPropertyByName('EngineerWireKits', tempValue);
+	if (self.myMut == None) {class'MutExtras'.default.EngineerWireKits = Clamp(self.tempValue, 0, 20);}
+	else {MutExtras(self.myMut).EngineerWireKits = Clamp(self.tempValue, 0, 20);}
+
 	if (self.myMut != None)
 		self.myMut.SaveConfig();
 	else
@@ -152,6 +170,7 @@ defaultproperties
     SettingsGroups.Add((GroupID="2",pMin=1020,pMax=1030,lMin=0,lMax=0))
     SettingsGroups.Add((GroupID="3",pMin=1030,pMax=1040,lMin=0,lMax=0))
     SettingsGroups.Add((GroupID="4",pMin=1040,pMax=1050,lMin=0,lMax=0))
+    SettingsGroups.Add((GroupID="5",pMin=1050,pMax=1060,lMin=0,lMax=0))
 
     // Roles
     Properties.Add((PropertyId=1000,Data=(Type=SDT_Int32,Value1=0)))
@@ -184,4 +203,12 @@ defaultproperties
     // Free look (players who join after the change get it)
     Properties.Add((PropertyId=1040,Data=(Type=SDT_Int32,Value1=1)))
     PropertyMappings.Add((Id=1040,Name="bDisableFreeLook",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+
+    // Engineer fortifications
+    Properties.Add((PropertyId=1050,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1050,Name="bEngineerFortifications",MappingType=PVMT_IdMapped,ValueMappings=((Id=0),(Id=1))))
+    Properties.Add((PropertyId=1051,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1051,Name="EngineerSandbagKits"))
+    Properties.Add((PropertyId=1052,Data=(Type=SDT_Int32,Value1=0)))
+    PropertyMappings.Add((Id=1052,Name="EngineerWireKits"))
 }

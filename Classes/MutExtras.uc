@@ -36,6 +36,15 @@ var config bool             bDisableAddedWind;
 var config byte             WindDirection;
 var config bool             bOverrideMapWind;
 var config bool             bDisableFreeLook;  // Free look (ACFreeLook) is on unless this is set
+var config bool             bEngineerFortifications; // Engineers spawn with a sandbag kit and a barbed wire kit (off by default)
+var config int              EngineerSandbagKits, EngineerWireKits; // Pieces in each kit; 0 or missing: 3 sandbag walls, 2 stretches of wire
+
+struct PendingKit
+{
+    var Pawn P;
+    var float At;   // a moment after spawning, once the role's own kit is there
+};
+var array<PendingKit>       PendingKits;
 var array<ACFreeLook>       FreeLooks;         // one per player: its owner's free look, and their head for everyone else
 
 // ====================================================
@@ -161,14 +170,81 @@ function ModifyPlayer(Pawn Other)
     //Make sure the pawns on the server have the rank and unit for the 29th helmet
     // if (ACPRI != None && ACPawn(Other) != None)
     // {
-    ACPawn(Other).PlayerRank = ACPRI.PlayerRank;
-    ACPawn(Other).PlayerUnit = ACPRI.PlayerUnit;
+    if (ACPawn(Other) != None && ACPRI != None)
+    {
+        ACPawn(Other).PlayerRank = ACPRI.PlayerRank;
+        ACPawn(Other).PlayerUnit = ACPRI.PlayerUnit;
+    }
+
+    // Engineers' fortification kits, a moment after they spawn
+    if (bEngineerFortifications && IsEngineer(Other))
+        QueueKits(Other);
         
     //     // Force helmet update on the client
     //     ACPawn(Other).SetUnitAndRank();
     // }
 
     super.ModifyPlayer(Other);
+}
+
+// ====================================================
+// Engineer fortifications
+// ====================================================
+
+static function bool IsEngineer(Pawn P)
+{
+    local ROPlayerReplicationInfo ROPRI;
+
+    if (P == None)
+        return false;
+    ROPRI = ROPlayerReplicationInfo(P.PlayerReplicationInfo);
+    return ROPRI != None && ROPRI.RoleInfo != None && ROPRI.RoleInfo.RoleType == RORIT_Engineer;
+}
+
+function QueueKits(Pawn P)
+{
+    local PendingKit K;
+
+    K.P = P;
+    K.At = WorldInfo.TimeSeconds + 0.5;
+    PendingKits.AddItem(K);
+    if (!IsTimerActive('GivePendingKits'))
+        SetTimer(0.25, true, 'GivePendingKits');
+}
+
+function GivePendingKits()
+{
+    local int i;
+
+    for (i = PendingKits.Length - 1; i >= 0; i--)
+    {
+        if (PendingKits[i].P == None || PendingKits[i].P.bDeleteMe || PendingKits[i].P.Health <= 0)
+            PendingKits.Remove(i, 1);
+        else if (WorldInfo.TimeSeconds >= PendingKits[i].At)
+        {
+            GiveKits(PendingKits[i].P);
+            PendingKits.Remove(i, 1);
+        }
+    }
+    if (PendingKits.Length == 0)
+        ClearTimer('GivePendingKits');
+}
+
+// A sandbag kit and a barbed wire kit, with the server's number of pieces in each
+function GiveKits(Pawn P)
+{
+    local ROInventoryManager ROIM;
+    local ACItem_FortificationKit Kit;
+
+    ROIM = ROInventoryManager(P.InvManager);
+    if (ROIM == None)
+        return;
+    Kit = ACItem_FortificationKit(ROIM.LoadAndCreateInventory("MutExtras.ACItem_SandbagKit", true, true));
+    if (Kit != None && EngineerSandbagKits > 0)
+        Kit.KitsLeft = EngineerSandbagKits;
+    Kit = ACItem_FortificationKit(ROIM.LoadAndCreateInventory("MutExtras.ACItem_WireKit", true, true));
+    if (Kit != None && EngineerWireKits > 0)
+        Kit.KitsLeft = EngineerWireKits;
 }
 
 // ====================================================
