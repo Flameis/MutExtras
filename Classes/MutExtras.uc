@@ -497,6 +497,12 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
     local string                PlayerName;
 
     Args = SplitString(MutateString, " ", true);
+    // An empty command (a bare "mutate") has no first word: reading it crashed the server
+    if (Args.Length == 0)
+    {
+        super.Mutate(MutateString, PC);
+        return;
+    }
     command = Caps(Args[0]);
 
     PlayerName = PC.PlayerReplicationInfo.PlayerName;
