@@ -13,6 +13,8 @@
 [*][b]Faction switching:[/b] any Southern force against any Northern force.
 [*][b]Helmet patches:[/b] rank and unit patches everyone sees, saved by Steam ID.
 [*][b]The 29th's helicopters[/b] (Cobra, Loach, Huey, Bushranger), and wind for smoke on maps without it.
+[*][b]Free look:[/b] hold a key to look around without moving your aim.
+[*][b]Engineer kits[/b] (off unless the server turns them on): sandbag walls and barbed wire for combat engineers.
 [*][b]Fixes:[/b] round-start voice lines muted, ammo areas usable by both teams, working bot commands and more.
 [/list]No HUD is replaced, so other mods keep theirs. The WebAdmin settings page needs the 29th Infantry Division Realism Match Mutator item on the server.
 
