@@ -2,6 +2,7 @@
 {
 	"appid"			"418460"
 	"publishedfileid"	"2484484889"
+	"visibility"		"3"
 	"contentfolder"		""
 	"title"			"29th Extras"
 	"description"		"[h1]29th Extras[/h1]The 29th Infantry Division's roles, weapons and equipment.
