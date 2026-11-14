@@ -1,0 +1,20 @@
+"workshopitem"
+{
+	"appid"			"418460"
+	"publishedfileid"	"2484484889"
+	"contentfolder"		""
+	"title"			"29th Extras"
+	"description"		"[h1]29th Extras[/h1]The 29th Infantry Division's roles, weapons and equipment.
+
+[h2]What it does[/h2][list]
+[*][b]Roles:[/b] AIT roles matching the 29th's structure for PAVN, NLF, US Army, USMC, Australia and ARVN, MACV-SOG roles, tank crew and pilot roles, and a lineup role for formations.
+[*][b]Weapons and kit:[/b] claymores, tripwires and fougasse mines, molotovs, ammo crates any explosive can destroy, longer MG belts, a white phosphorus M79 and more.
+[*][b]Faction switching:[/b] any Southern force against any Northern force.
+[*][b]Helmet patches:[/b] rank and unit patches everyone sees, saved by Steam ID.
+[*][b]The 29th's helicopters[/b] (Cobra, Loach, Huey, Bushranger), and wind for smoke on maps without it.
+[*][b]Fixes:[/b] round-start voice lines muted, ammo areas usable by both teams, working bot commands and more.
+[/list]No HUD is replaced, so other mods keep theirs. The WebAdmin settings page needs the 29th Infantry Division Realism Match Mutator item on the server.
+
+Made by the 29th Infantry Division Engineer Corps."
+	"changenote"		""
+}
