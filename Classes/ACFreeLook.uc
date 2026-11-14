@@ -475,10 +475,9 @@ reliable client function ClientSetLookKey(string KeyName)
     else
         LookInput.FreeLookKey = name(KeyName);
     LookInput.SaveConfig();
-    LookInput.RefreshKeys();
 
     if (LocalPC != None)
-        LocalPC.ClientMessage("[Extras] Free look key: "$(LookInput.FreeLookKey == '' ? "none (set one with mutate freelookkey V, or setbind V FreeLook)"
+        LocalPC.ClientMessage("[Extras] Free look key: "$(LookInput.FreeLookKey == '' ? "none (set one with mutate freelookkey V)"
             : string(LookInput.FreeLookKey)));
 }
 

@@ -91,7 +91,7 @@ Players can wear a **rank patch** and a **unit patch** on their helmet, and ever
 
 Hold your free look key and the mouse turns your head instead of your aim, like in Arma or Squad. Your weapon stays pointed where it was, and a shot still goes there. Let go and the view springs back to your aim with a little bounce, like the helicopter pilot's free look.
 
-**Setting it up:** no key is bound to free look until you choose one, so it never clashes with your other keys. Type `mutate freelookkey V` in the console to use V (any key name works); `mutate freelookkey none` unbinds it again. Your choice is saved in your own `MutExtras_Client.ini`. Or bind any key to `FreeLook` in the console, for example `setbind V FreeLook` (or `setbind MiddleMouseButton FreeLook`). A key bound only to `FreeLook` is used for nothing else. You can also add it to a key that already does something, for example `setbind LeftAlt "INF_Prone_Toggle | FreeLook"`, and that key does both. To get there without a binding, set `FreeLookKey=V` under `[MutExtras.ACFreeLookInput]` in `MutExtras_Client.ini`.
+**Setting it up:** no key is bound to free look until you choose one, so it never clashes with your other keys. Type `mutate freelookkey V` in the console to use V (any key name works); `mutate freelookkey none` unbinds it again. The key is saved in your own `MutExtras_Client.ini` (`FreeLookKey` under `[MutExtras.ACFreeLookInput]`) and nothing is written to the game's input settings. The key is used for free look only, whatever else it is bound to.
 
 | What | How it works |
 | :--- | :--- |
