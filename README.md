@@ -91,7 +91,7 @@ Players can wear a **rank patch** and a **unit patch** on their helmet, and ever
 
 Hold your free look key and the mouse turns your head instead of your aim, like in Arma or Squad. Your weapon stays pointed where it was, and a shot still goes there. Let go and the view springs back to your aim with a little bounce, like the helicopter pilot's free look.
 
-**Setting it up:** bind any key to `FreeLook` in the console, for example `setbind V FreeLook` (or `setbind MiddleMouseButton FreeLook`). A key bound only to `FreeLook` is used for nothing else. You can also add it to a key that already does something, for example `setbind LeftAlt "INF_Prone_Toggle | FreeLook"`, and that key does both. To get there without a binding, set `FreeLookKey=V` under `[MutExtras.ACFreeLookInput]` in `MutExtras_Client.ini`.
+**Setting it up:** no key is bound to free look until you choose one, so it never clashes with your other keys. Type `mutate freelookkey V` in the console to use V (any key name works); `mutate freelookkey none` unbinds it again. Your choice is saved in your own `MutExtras_Client.ini`. Or bind any key to `FreeLook` in the console, for example `setbind V FreeLook` (or `setbind MiddleMouseButton FreeLook`). A key bound only to `FreeLook` is used for nothing else. You can also add it to a key that already does something, for example `setbind LeftAlt "INF_Prone_Toggle | FreeLook"`, and that key does both. To get there without a binding, set `FreeLookKey=V` under `[MutExtras.ACFreeLookInput]` in `MutExtras_Client.ini`.
 
 | What | How it works |
 | :--- | :--- |
@@ -121,6 +121,7 @@ Type these in the console as `mutate <command>`.
 | `mutate setspeed <speed> [all]` | Changes movement speed for you, or for everyone with `all` (for example `mutate setspeed 1.5 all`) |
 | `mutate allammo` | Toggles infinite ammo for you |
 | `mutate resetmesh` | Resets your character model if it looks wrong |
+| `mutate freelookkey <key>` / `none` | Sets the key that free looks (none until you set one), or unbinds it (see Free look) |
 | `mutate fpbody always` / `freelook` | Shows your own body in first person all the time, or only while free looking (see Free look). On its own it switches between the two |
 
 Testing console commands (type them directly, no `mutate`): `mcamera <1st, 3rd, free, fixed>`, `mfly`, `mwalk` and `mghost`.

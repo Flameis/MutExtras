@@ -461,6 +461,27 @@ reliable client function ClientSetBodyMode(string Mode)
             $". (mutate fpbody always / freelook)");
 }
 
+// The mutator command (mutate freelookkey): the key that free looks. There is none until the player picks one, so it never
+// clashes with another key; "none" (or no key given) unbinds it again. Kept in the player's MutExtras_Client.ini.
+reliable client function ClientSetLookKey(string KeyName)
+{
+    if (LookInput == None)
+        InstallInput();
+    if (LookInput == None)
+        return;
+
+    if (KeyName == "" || KeyName ~= "none" || KeyName ~= "off")
+        LookInput.FreeLookKey = '';
+    else
+        LookInput.FreeLookKey = name(KeyName);
+    LookInput.SaveConfig();
+    LookInput.RefreshKeys();
+
+    if (LocalPC != None)
+        LocalPC.ClientMessage("[Extras] Free look key: "$(LookInput.FreeLookKey == '' ? "none (set one with mutate freelookkey V, or setbind V FreeLook)"
+            : string(LookInput.FreeLookKey)));
+}
+
 simulated event Destroyed()
 {
     RemoveBody();

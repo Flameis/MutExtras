@@ -558,6 +558,12 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
                 FindFreeLook(PC).ClientSetBodyMode(Args.Length > 1 ? Args[1] : "");
             break;
 
+        // The free look key (none until the player sets one): mutate freelookkey V / none
+        case "FREELOOKKEY":
+            if (FindFreeLook(PC) != None)
+                FindFreeLook(PC).ClientSetLookKey(Args.Length > 1 ? Args[1] : "");
+            break;
+
         case "ALLAMMO":
             // Toggle infinite ammo
             AllAmmo(PC);
